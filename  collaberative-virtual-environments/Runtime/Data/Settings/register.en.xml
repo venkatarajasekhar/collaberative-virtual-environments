@@ -1,0 +1,6 @@
+<window align="center" width="225" height="135" name="Register" title="Register">
+	<input text="Username: " />
+	<input text="Password: " />
+	<button text="Submit" />
+	<button text="Back" />
+</window>

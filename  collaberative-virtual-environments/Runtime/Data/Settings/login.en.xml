@@ -1,0 +1,8 @@
+<window align="center" width="225" height="200" name="Login" title="Login">
+	<input text="Username: " />
+	<input text="Password: " />
+	<input text="Save username for next time" />
+	<button text="Submit" />
+	<button text="Register" />
+	<button text="Options" />
+</window>

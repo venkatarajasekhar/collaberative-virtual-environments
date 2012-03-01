@@ -1,0 +1,8 @@
+﻿<window align="center" width="225" height="200" name="Login" title="Login">
+	<input text="Utilizador: "></input>
+	<input text="Palavra-passe: "></input>
+	<input text="Guardar nome do utilizador"></input>
+	<button text="Iniciar Sessão" />
+	<button text="Regista-se" />
+	<button text="Definições" />
+</window>

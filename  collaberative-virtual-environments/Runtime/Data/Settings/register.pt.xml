@@ -1,0 +1,6 @@
+﻿<window align="center" width="225" height="135" name="Register" title="Regista-se">
+	<input text="Nome de Utilizador: " />
+	<input text="Palavra-passe: " />
+	<button text="Ok" />
+	<button text="Cancelar" />
+</window>

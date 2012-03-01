@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\graphics">
+      <UniqueIdentifier>{0197acb7-9fde-4b8e-961e-815201f8f7dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{0a97dc97-72a6-40f7-9c8c-fe5bb95a8172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utilities">
+      <UniqueIdentifier>{cff562b7-8112-4d9d-b76c-0ac346fd152f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utilities">
+      <UniqueIdentifier>{f2bdcad6-2ffd-4892-a932-87344961a4be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\irc">
+      <UniqueIdentifier>{99eab0f9-e330-48eb-bff6-1115096827f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\irc\cppirclib">
+      <UniqueIdentifier>{8cdcc6bc-59bd-421d-a933-d3377852edca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\irc">
+      <UniqueIdentifier>{76b5a52a-e139-46eb-9254-730afc0884c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\irc\cppirclib">
+      <UniqueIdentifier>{d01d3873-4112-4935-bbd2-25a87193f2d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\states">
+      <UniqueIdentifier>{18276fd0-31ea-4332-ace8-7e2f37a41f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\states">
+      <UniqueIdentifier>{a5a67888-823f-46c2-a21c-a3bebcd42a1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\interface">
+      <UniqueIdentifier>{1819bc34-7d6c-473d-acf3-d37a4049085d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interface">
+      <UniqueIdentifier>{f885620e-8e6c-4c0a-ba1b-e99b744c369c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\utilities\xml.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\utilities\input.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\states\connectstate.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\states\languagestate.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\states\loginstate.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\states\scenestate.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\interface\interfacemanager.cpp">
+      <Filter>Source Files\interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\graphics.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\irc\ircmessage.cpp">
+      <Filter>Source Files\irc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\irc\ircserver.cpp">
+      <Filter>Source Files\irc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\cppirclib\ircparser.cpp">
+      <Filter>Source Files\irc\cppirclib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\cppirclib\cppirclib.cpp">
+      <Filter>Source Files\irc\cppirclib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\xml.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\input.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\types.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\singleton.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\states\scenestate.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\states\connectstate.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\states\gamestate.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\states\languagestate.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\states\loginstate.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\interface\interfacemanager.h">
+      <Filter>Header Files\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\graphics.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\irc\ircserver.h">
+      <Filter>Header Files\irc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\irc\ircmessage.h">
+      <Filter>Header Files\irc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\cppirclib\cppirclib.h">
+      <Filter>Header Files\irc\cppirclib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\cppirclib\ircparser.h">
+      <Filter>Header Files\irc\cppirclib</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

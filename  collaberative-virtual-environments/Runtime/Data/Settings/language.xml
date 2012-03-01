@@ -1,0 +1,6 @@
+﻿<window align="center" width="225" height="135" name="Language" title="Select Language">
+	<button text="English" value="en" icon="english.png" />
+	<button text="Portugues" value="pt" icon="portuguese.png" />
+	<button text="Español" value="es" icon="spanish.png" />
+</window>
+

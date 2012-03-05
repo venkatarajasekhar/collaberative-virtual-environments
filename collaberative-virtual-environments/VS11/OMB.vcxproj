@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Source\OMB.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\graphics\Frustum.cpp" />
+    <ClCompile Include="..\Source\graphics\SingleCamera.cpp" />
+    <ClCompile Include="..\Source\graphics\texture\ImageTools.cpp" />
+    <ClCompile Include="..\Source\graphics\texture\texture.cpp" />
+    <ClCompile Include="..\Source\graphics\texture\texture2d.cpp" />
+    <ClCompile Include="..\Source\graphics\texture\TextureCubemap.cpp" />
+    <ClCompile Include="..\Source\kernel\Kernel.cpp" />
+    <ClCompile Include="..\Source\main.cpp" />
+    <ClCompile Include="..\Source\scenes\SceneBase.cpp" />
+    <ClCompile Include="..\Source\scenes\SceneManager.cpp" />
+    <ClCompile Include="..\Source\scenes\SceneSimple.cpp" />
+    <ClCompile Include="..\Source\scenes\Script.cpp" />
+    <ClCompile Include="..\Source\scenes\Spline3D\Interpol.cpp" />
+    <ClCompile Include="..\Source\scenes\Spline3D\Interpol3D.cpp" />
+    <ClCompile Include="..\Source\scenes\Spline3D\InterpolNonFonct.cpp" />
+    <ClCompile Include="..\Source\scenes\Spline3D\InterpolSpline.cpp" />
+    <ClCompile Include="..\Source\scenes\Spline3D\SplineGL.cpp" />
+    <ClCompile Include="..\Source\tasks\GlobalTimer.cpp" />
+    <ClCompile Include="..\Source\tasks\InputTask.cpp" />
+    <ClCompile Include="..\Source\tasks\Pong.cpp" />
+    <ClCompile Include="..\Source\tasks\VideoUpdate.cpp" />
+    <ClCompile Include="..\Source\utilities\ResourceManager.cpp" />
+    <ClCompile Include="..\Source\utilities\VarManager.cpp" />
+    <ClCompile Include="..\Source\utilities\xml.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\game.h" />
+    <ClInclude Include="..\Source\graphics\BoundingBox.h" />
+    <ClInclude Include="..\Source\graphics\Frustum.h" />
+    <ClInclude Include="..\Source\graphics\SingleCamera.h" />
+    <ClInclude Include="..\Source\graphics\texture\ImageTools.h" />
+    <ClInclude Include="..\Source\graphics\texture\texture.h" />
+    <ClInclude Include="..\Source\graphics\texture\texture2d.h" />
+    <ClInclude Include="..\Source\graphics\texture\TextureCubemap.h" />
+    <ClInclude Include="..\Source\kernel\Kernel.h" />
+    <ClInclude Include="..\Source\scenes\SceneBase.h" />
+    <ClInclude Include="..\Source\scenes\SceneManager.h" />
+    <ClInclude Include="..\Source\scenes\SceneSimple.h" />
+    <ClInclude Include="..\Source\scenes\Script.h" />
+    <ClInclude Include="..\Source\scenes\Spline3D\Interpol.h" />
+    <ClInclude Include="..\Source\scenes\Spline3D\Interpol3D.h" />
+    <ClInclude Include="..\Source\scenes\Spline3D\InterpolNonFonct.h" />
+    <ClInclude Include="..\Source\scenes\Spline3D\InterpolSpline.h" />
+    <ClInclude Include="..\Source\scenes\Spline3D\SplineGL.h" />
+    <ClInclude Include="..\Source\tasks\GlobalTimer.h" />
+    <ClInclude Include="..\Source\tasks\InputTask.h" />
+    <ClInclude Include="..\Source\tasks\Pong.h" />
+    <ClInclude Include="..\Source\tasks\VideoUpdate.h" />
+    <ClInclude Include="..\Source\utilities\math.h" />
+    <ClInclude Include="..\Source\utilities\ResourceManager.h" />
+    <ClInclude Include="..\Source\utilities\singleton.h" />
+    <ClInclude Include="..\Source\utilities\types.h" />
+    <ClInclude Include="..\Source\utilities\VarManager.h" />
+    <ClInclude Include="..\Source\utilities\xml.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Runtime\Data\omb.ico" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath11)</VCTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{52AA14EF-2660-4682-BE67-EC13F14AEAE3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>OMB</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v100</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\Runtime\</OutDir>
+    <IncludePath>$(PeojectDir)..\include;$(PeojectDir)..\include\SDL;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

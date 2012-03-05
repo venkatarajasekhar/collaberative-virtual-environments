@@ -1,1 +1,0 @@
-#undef QUAD_PRECISION

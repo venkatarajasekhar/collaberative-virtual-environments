@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\graphics">
+      <UniqueIdentifier>{0197acb7-9fde-4b8e-961e-815201f8f7dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{0a97dc97-72a6-40f7-9c8c-fe5bb95a8172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utilities">
+      <UniqueIdentifier>{cff562b7-8112-4d9d-b76c-0ac346fd152f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utilities">
+      <UniqueIdentifier>{f2bdcad6-2ffd-4892-a932-87344961a4be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\texture">
+      <UniqueIdentifier>{5bb3f9ee-2c67-4edf-8548-a1ca942e4e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\texture">
+      <UniqueIdentifier>{c8d3bc8d-830f-4f8d-b289-6ef4032566d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scenes">
+      <UniqueIdentifier>{49902924-52de-4753-ad85-e43761a87a10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scenes">
+      <UniqueIdentifier>{96a62d24-b023-40f7-980f-f41c41c8ef88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scenes\Spline3D">
+      <UniqueIdentifier>{488a0abd-9540-42e6-8038-3724b44c49cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scenes\Spline3D">
+      <UniqueIdentifier>{e7781733-943e-4c37-a35f-bcc5ae954033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\kernel">
+      <UniqueIdentifier>{52a9d19f-6377-4c74-b409-cfc3879cf57d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\kernel">
+      <UniqueIdentifier>{86a6d72e-a1cf-4468-945a-c1d566f59aff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tasks">
+      <UniqueIdentifier>{59931645-9d16-49ae-94a3-16fcd02893f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tasks">
+      <UniqueIdentifier>{87a2b44e-0405-4244-8f81-3ba7f43e957b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\utilities\xml.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\Frustum.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\SingleCamera.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\texture\ImageTools.cpp">
+      <Filter>Source Files\graphics\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\texture\texture.cpp">
+      <Filter>Source Files\graphics\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\texture\texture2d.cpp">
+      <Filter>Source Files\graphics\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\texture\TextureCubemap.cpp">
+      <Filter>Source Files\graphics\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\Script.cpp">
+      <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\SceneBase.cpp">
+      <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\SceneManager.cpp">
+      <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\SceneSimple.cpp">
+      <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\Spline3D\Interpol.cpp">
+      <Filter>Source Files\scenes\Spline3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\Spline3D\Interpol3D.cpp">
+      <Filter>Source Files\scenes\Spline3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\Spline3D\InterpolNonFonct.cpp">
+      <Filter>Source Files\scenes\Spline3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\Spline3D\InterpolSpline.cpp">
+      <Filter>Source Files\scenes\Spline3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\Spline3D\SplineGL.cpp">
+      <Filter>Source Files\scenes\Spline3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\utilities\VarManager.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\utilities\ResourceManager.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\tasks\VideoUpdate.cpp">
+      <Filter>Source Files\tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\tasks\GlobalTimer.cpp">
+      <Filter>Source Files\tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\tasks\InputTask.cpp">
+      <Filter>Source Files\tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\tasks\Pong.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\kernel\Kernel.cpp">
+      <Filter>Source Files\kernel</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\xml.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\types.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\singleton.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\SingleCamera.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\BoundingBox.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\Frustum.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\texture\ImageTools.h">
+      <Filter>Header Files\graphics\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\texture\texture2d.h">
+      <Filter>Header Files\graphics\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\texture\TextureCubemap.h">
+      <Filter>Header Files\graphics\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\texture\texture.h">
+      <Filter>Header Files\graphics\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\SceneBase.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\SceneManager.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\SceneSimple.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\Script.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\Spline3D\SplineGL.h">
+      <Filter>Header Files\scenes\Spline3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\Spline3D\Interpol.h">
+      <Filter>Header Files\scenes\Spline3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\Spline3D\Interpol3D.h">
+      <Filter>Header Files\scenes\Spline3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\Spline3D\InterpolNonFonct.h">
+      <Filter>Header Files\scenes\Spline3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\Spline3D\InterpolSpline.h">
+      <Filter>Header Files\scenes\Spline3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\ResourceManager.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\VarManager.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\utilities\math.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\tasks\VideoUpdate.h">
+      <Filter>Header Files\tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\tasks\GlobalTimer.h">
+      <Filter>Header Files\tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\tasks\InputTask.h">
+      <Filter>Header Files\tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\tasks\Pong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\kernel\Kernel.h">
+      <Filter>Header Files\kernel</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

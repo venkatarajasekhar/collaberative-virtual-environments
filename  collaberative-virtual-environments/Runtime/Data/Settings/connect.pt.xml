@@ -1,5 +1,0 @@
-﻿<window align="center" width="225" height="135" name="Connection" title="Conecte ao Servidor">
-	<input text="Server: ">cngames.co.uk</input>
-	<input text="Port: ">6969</input>
-	<button text="Ok" />
-</window>

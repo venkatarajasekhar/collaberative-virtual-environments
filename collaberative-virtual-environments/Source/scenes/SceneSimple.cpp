@@ -6,7 +6,7 @@
 
 void SceneSimple::Init()
 {
-	ResourceManager& res = ResourceManager::GetSingleton();
+	SINGLETON_GET(ResourceManager, res);
 
 	m_pMyTex = (CTexture2D*)res.LoadResource(ResourceManager::TEXTURE2D, "rocks_diffuse.jpg");
 
@@ -16,13 +16,11 @@ void SceneSimple::Init()
 	m_pCamEyeTraj->AddPoint(vec3(0.0f, 0.0f, 0.0f));
 	m_pCamEyeTraj->AddPoint(vec3(5.0f, 5.0f, 0.0f));
 	m_pCamEyeTraj->AddPoint(vec3(5.0f, 0.0f, 5.0f));
-//	m_pCamEyeTraj->Close();
 	m_pCamEyeTraj->BuildSplines(true);
 
 	m_pCamLookAtTraj->AddPoint(vec3(0.0f, 0.0f, 0.0f));
 	m_pCamLookAtTraj->AddPoint(vec3(-5.0f, -5.0f, 0.0f));
 	m_pCamLookAtTraj->AddPoint(vec3(-5.0f, 0.0f, -5.0f));
-//	m_pCamLookAtTraj->Close();
 	m_pCamLookAtTraj->BuildSplines(true);
 }
 
@@ -50,13 +48,13 @@ void SceneSimple::Reset()
 
 void SceneSimple::Render()
 {
-	ResourceManager& res = ResourceManager::GetSingleton();
-	VarManager& var = VarManager::GetSingleton();
+	SINGLETON_GET(ResourceManager, res);
+	SINGLETON_GET(VarManager, var);
 
 	DrawAxes();
-	
+
 	glColor3f(1.0f, 0.0f, 0.0f);
-//	DrawTraj();
+	//DrawTraj();
 
 	glPushMatrix();
 	glRotatef(m_fAngle, 0.0f, 1.0f, 0.0f);
@@ -71,17 +69,17 @@ void SceneSimple::Render()
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, white);
 
-	// Here we will activate our texture
-	// We could access our texture via:
-	CTexture2D* pTex = res.getTexture2D("rocks_diffuse.jpg");
-	// and this would avoid having a class variable to access the resource
+	/* FYI. Here we will activate our texture
+	 * We could access our texture via:
+		 Texture2D* pTex = res.getTexture2D("rocks_diffuse.jpg");
+	 * and this would avoid having a member class variable to access the resource.
+	 */
 
 	// Bind the texture slot 0
 	m_pMyTex->Bind(0);
 
 	// Draw an object
 	glColor3f(1.0f, 0.0f, 0.0f);
-	//mySolidSphere( 5, 10, 10 );
 	mySolidTeapot( 5 );
 
 	// Unbind the texture
@@ -90,7 +88,7 @@ void SceneSimple::Render()
 	glPopMatrix();
 }
 
-//// ----------------------------- TEAPOT! -----------------------------{
+//// ----------------------------- TEAPOT! -------IGNORE!---GLUT!-------{
 void SceneSimple::myTeapot( GLint grid, GLdouble scale, GLenum type )
 {
 #if TARGET_HOST_WINCE

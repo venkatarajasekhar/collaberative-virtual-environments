@@ -1,6 +1,4 @@
 #ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <WinSock2.h> // Has to go here to prevent windows.h conflicts.
 	#include <Windows.h>
 #endif
 
@@ -12,7 +10,7 @@
 #include "SceneBase.h"
 #include "../utilities/VarManager.h"
 #include "../graphics/SingleCamera.h"
-//#include "../../Engine/InputTask.h"
+#include "../tasks/InputTask.h"
 
 ISceneBase::ISceneBase() 
 {

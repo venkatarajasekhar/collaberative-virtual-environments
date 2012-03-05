@@ -9,8 +9,7 @@
 #include "tasks\VideoUpdate.h"
 #include "tasks\GlobalTimer.h"
 #include "tasks\InputTask.h"
-
-#include "tasks\Pong.h"
+#include "tasks\SceneTask.h"
 
  
 /**
@@ -23,7 +22,7 @@ public:
 	GlobalTimer*	globalTimer;// Updates the game timer and is globally accessable
 	InputTask*		inputTask;	// Handles the inputs from mouse and keyboard
 
-	CPongTask*		pongTask;	// Used as a test, deleteme
+	SceneTask*		sceneTask;	// This task control the scene manager
 
 	/**
 	 * Initializes variables

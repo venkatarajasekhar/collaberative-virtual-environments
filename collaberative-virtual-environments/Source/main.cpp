@@ -27,9 +27,9 @@ void Game::Run(int argc, char *argv[])
 	globalTimer->priority=10;
 	kernel.AddTask((ITask*)(globalTimer));
 
-	pongTask = new CPongTask();
-	pongTask->priority = 100;
-	kernel.AddTask((ITask*)(pongTask));
+	sceneTask = new SceneTask();
+	sceneTask->priority = 100;
+	kernel.AddTask((ITask*)(sceneTask));
 	
 	// Main game loop
 	Kernel::GetSingleton().Execute();
@@ -72,6 +72,7 @@ void Game::initVars()
 
 	var.set("mouse_sensivity", 0.005f);
 	var.set("mouseEnabled", true);
+	var.set("enable_move_control", true);
 
 	var.set("cam_znear", 0.1f);
 	var.set("cam_zfar", 6400.0f);

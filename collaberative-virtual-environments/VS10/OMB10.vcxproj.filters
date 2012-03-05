@@ -123,11 +123,11 @@
     <ClCompile Include="..\Source\tasks\InputTask.cpp">
       <Filter>Source Files\tasks</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\tasks\Pong.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\kernel\Kernel.cpp">
       <Filter>Source Files\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\tasks\SceneTask.cpp">
+      <Filter>Source Files\tasks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,11 +209,11 @@
     <ClInclude Include="..\Source\tasks\InputTask.h">
       <Filter>Header Files\tasks</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\tasks\Pong.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\kernel\Kernel.h">
       <Filter>Header Files\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\tasks\SceneTask.h">
+      <Filter>Header Files\tasks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

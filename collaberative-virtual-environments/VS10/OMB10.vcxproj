@@ -30,7 +30,7 @@
     <ClCompile Include="..\Source\scenes\Spline3D\SplineGL.cpp" />
     <ClCompile Include="..\Source\tasks\GlobalTimer.cpp" />
     <ClCompile Include="..\Source\tasks\InputTask.cpp" />
-    <ClCompile Include="..\Source\tasks\Pong.cpp" />
+    <ClCompile Include="..\Source\tasks\SceneTask.cpp" />
     <ClCompile Include="..\Source\tasks\VideoUpdate.cpp" />
     <ClCompile Include="..\Source\utilities\ResourceManager.cpp" />
     <ClCompile Include="..\Source\utilities\VarManager.cpp" />
@@ -57,7 +57,7 @@
     <ClInclude Include="..\Source\scenes\Spline3D\SplineGL.h" />
     <ClInclude Include="..\Source\tasks\GlobalTimer.h" />
     <ClInclude Include="..\Source\tasks\InputTask.h" />
-    <ClInclude Include="..\Source\tasks\Pong.h" />
+    <ClInclude Include="..\Source\tasks\SceneTask.h" />
     <ClInclude Include="..\Source\tasks\VideoUpdate.h" />
     <ClInclude Include="..\Source\utilities\math.h" />
     <ClInclude Include="..\Source\utilities\ResourceManager.h" />

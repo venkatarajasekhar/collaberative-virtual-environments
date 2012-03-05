@@ -1,5 +1,5 @@
-#ifndef ResourceManager_H
-#define ResourceManager_H
+#ifndef RESOURCEMANAGER_H
+#define RESOURCEMANAGER_H
 
 #include <map>
 #include <assert.h>
@@ -10,7 +10,7 @@
 //#include "../Engine/Shader.h"
 //#include "../Engine/Mesh.h"
 
-SINGLETON_BEGIN( ResourceManager )
+SINGLETON_BEGIN(ResourceManager)
 public:
 	enum RES_TYPE {TEXTURE2D, TEXTURECUBEMAP, MESH, SHADER};
 
@@ -29,6 +29,6 @@ public:
 
 private:
 	std::map<std::string, void*>	m_ResDB;
-};
+SINGLETON_END()
 
 #endif

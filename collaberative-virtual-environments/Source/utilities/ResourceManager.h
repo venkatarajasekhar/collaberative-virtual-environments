@@ -7,8 +7,8 @@
 #include "singleton.h"
 #include "../graphics/texture/texture2d.h"
 #include "../graphics/texture/TextureCubemap.h"
-//#include "../Engine/Shader.h"
-//#include "../Engine/Mesh.h"
+#include "../graphics/Shader.h"
+#include "../graphics/Mesh.h"
 
 SINGLETON_BEGIN(ResourceManager)
 public:
@@ -20,8 +20,8 @@ public:
 	inline void*			getResource(const std::string& name)		{assert(m_ResDB.find(name)!=m_ResDB.end()); return m_ResDB.find(name)->second;}
 	inline CTexture2D*		getTexture2D(const std::string& name)		{return (CTexture2D*)getResource(name);}
 	inline CTextureCubemap*	getTextureCubemap(const std::string& name)	{return (CTextureCubemap*)getResource(name);}
-	//inline Mesh*			getMesh(const std::string& name)			{return (Mesh*)getResource(name);}
-	//inline Shader*			getShader(const std::string& name)			{return (Shader*)getResource(name);}
+	inline Mesh*			getMesh(const std::string& name)			{return (Mesh*)getResource(name);}
+	inline Shader*			getShader(const std::string& name)			{return (Shader*)getResource(name);}
 
 	void Destroy();
 

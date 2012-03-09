@@ -86,7 +86,7 @@ void SplineGL::DrawGL()
 	{
 		glBegin(GL_LINE_STRIP);
 		for(float t=0.0f; t<1.0f; t+=step) {
-			//glVertex3fv( &(m_pSpline->getPoint(t).x) );
+			glVertex3f( (m_pSpline->getPoint(t).x), (m_pSpline->getPoint(t).y), (m_pSpline->getPoint(t).z) );
 		}
 		glEnd();
 

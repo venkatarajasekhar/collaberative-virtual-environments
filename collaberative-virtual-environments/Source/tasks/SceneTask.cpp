@@ -35,7 +35,7 @@ bool SceneTask::Start()
 
 	SceneManager::GetSingleton().Init();
 	Camera::GetSingleton().setEye(vec3(2.0f, 0.0f, 0.0f));
-	Camera::GetSingleton().setType(Camera::DRIVEN);
+	//Camera::GetSingleton().setType(Camera::DRIVEN);
 
 	if(!ResizeWindow())
 		return false;
@@ -68,8 +68,8 @@ void SceneTask::Idle()
 	if(var.getb("enable_move_control")) {
 		if( InputTask::mouseStillDown(SDL_BUTTON_LEFT) ) {
 			float sensivity = var.getf("mouse_sensivity");
-			Camera::GetSingleton().Rotate(	(float)(pos.x-ppos.x) * sensivity,
-											(float)(pos.y-ppos.y) * sensivity	);
+			cam.Rotate(	(float)(pos.x-ppos.x) * sensivity,
+						(float)(pos.y-ppos.y) * sensivity	);
 		}
 	}
 
@@ -80,16 +80,12 @@ void SceneTask::Idle()
 	SceneManager::GetSingleton().Idle(fElapsedTime);
 
 	// Handle movement inputs
-	if( InputTask::keyStillDown(SDLK_q) )	Camera::GetSingleton().PlayerMoveUp( -20.0f*fElapsedTime);
-	if( InputTask::keyStillDown(SDLK_e) )	Camera::GetSingleton().PlayerMoveUp( 20.0f*fElapsedTime);
-	if( InputTask::keyStillDown(SDLK_w) )	Camera::GetSingleton().PlayerMoveForward( 20.0f*fElapsedTime);
-	if( InputTask::keyStillDown(SDLK_s) )	Camera::GetSingleton().PlayerMoveForward(-20.0f*fElapsedTime);
-	if( InputTask::keyStillDown(SDLK_a) )	Camera::GetSingleton().PlayerMoveStrafe( 20.0f*fElapsedTime);
-	if( InputTask::keyStillDown(SDLK_d) )	Camera::GetSingleton().PlayerMoveStrafe(-20.0f*fElapsedTime);
-
-	// Limit camera Y
-	if( cam.getEye().y < 0.1f )
-		cam.setEye(vec3(cam.getEye().x, 0.1f, cam.getEye().z));
+	if( InputTask::keyStillDown(SDLK_q) )	cam.PlayerMoveUp( -20.0f*fElapsedTime);
+	if( InputTask::keyStillDown(SDLK_e) )	cam.PlayerMoveUp( 20.0f*fElapsedTime);
+	if( InputTask::keyStillDown(SDLK_w) )	cam.PlayerMoveForward( 20.0f*fElapsedTime);
+	if( InputTask::keyStillDown(SDLK_s) )	cam.PlayerMoveForward(-20.0f*fElapsedTime);
+	if( InputTask::keyStillDown(SDLK_a) )	cam.PlayerMoveStrafe( 20.0f*fElapsedTime);
+	if( InputTask::keyStillDown(SDLK_d) )	cam.PlayerMoveStrafe(-20.0f*fElapsedTime);
 
 	Keyboard();
 };
@@ -100,8 +96,6 @@ void SceneTask::Update()
 	if(VideoUpdate::scrResized)
 		ResizeWindow();
 
-	SINGLETON_GET(ResourceManager, res)
-	SINGLETON_GET(VarManager, var)
 	SINGLETON_GET(SceneManager, scenes)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -160,21 +154,16 @@ bool SceneTask::ResizeWindow(int newWidth, int newHeight)
 
 void SceneTask::Keyboard()
 {
-	VarManager& var = VarManager::GetSingleton();
-
-	// Right Mouse or Esc : Quit
-	if(InputTask::mouseDown(SDL_BUTTON_RIGHT) || InputTask::keyDown(SDLK_ESCAPE))Kernel::GetSingleton().KillAllTasks();
-	
-	// M : Show/Hide Mouse
-	if( InputTask::keyDown(SDLK_m) ) var.set("mouseEnabled", !var.getb("mouseEnabled")); 
+	SINGLETON_GET( VarManager, var )
+	SINGLETON_GET( Camera, cam )
 
 	// Space : Camera type
 	if( InputTask::keyDown(SDLK_SPACE) )
 	{
-		switch(Camera::GetSingleton().getType()) 
+		switch(cam.getType()) 
 		{
-			case Camera::FREE:		Camera::GetSingleton().setType(Camera::DRIVEN);	break;
-			case Camera::DRIVEN:	Camera::GetSingleton().setType(Camera::FREE);	break;
+			case Camera::FREE:		cam.setType(Camera::DRIVEN);	break;
+			case Camera::DRIVEN:	cam.setType(Camera::FREE);	break;
 		};
 	}
 
@@ -197,8 +186,15 @@ void SceneTask::Keyboard()
 	}
 
 	// Scene controller
-	if(Camera::GetSingleton().getType() == Camera::FREE) {
+	if(cam.getType() == Camera::FREE) {
 		if( InputTask::keyDown(SDLK_1) )
 			SceneManager::GetSingleton().setCurrent("simple");
 	}
+
+	// Right Mouse or Esc : Quit
+	if(InputTask::mouseDown(SDL_BUTTON_RIGHT) || InputTask::keyDown(SDLK_ESCAPE))Kernel::GetSingleton().KillAllTasks();
+	// M : Show/Hide Mouse
+	if( InputTask::keyDown(SDLK_m) )	var.set("mouseEnabled", !var.getb("mouseEnabled")); 
+	// P : Show/Hide splines
+	if( InputTask::keyDown(SDLK_p) )	var.set("show_camera_splines", !var.getb("show_camera_splines"));
 }

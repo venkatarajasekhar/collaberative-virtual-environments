@@ -129,6 +129,21 @@
     <ClCompile Include="..\Source\tasks\SceneTask.cpp">
       <Filter>Source Files\tasks</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\graphics\VertexBufferObject.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\FrameBufferObject.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\glInfo.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\Mesh.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\Shader.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\game.h">
@@ -215,5 +230,25 @@
     <ClInclude Include="..\Source\tasks\SceneTask.h">
       <Filter>Header Files\tasks</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\graphics\FrameBufferObject.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\glInfo.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\Mesh.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\Shader.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\VertexBufferObject.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Source\OMB.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

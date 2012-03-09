@@ -11,12 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\graphics\FrameBufferObject.cpp" />
     <ClCompile Include="..\Source\graphics\Frustum.cpp" />
+    <ClCompile Include="..\Source\graphics\glInfo.cpp" />
+    <ClCompile Include="..\Source\graphics\Mesh.cpp" />
+    <ClCompile Include="..\Source\graphics\Shader.cpp" />
     <ClCompile Include="..\Source\graphics\SingleCamera.cpp" />
     <ClCompile Include="..\Source\graphics\texture\ImageTools.cpp" />
     <ClCompile Include="..\Source\graphics\texture\texture.cpp" />
     <ClCompile Include="..\Source\graphics\texture\texture2d.cpp" />
     <ClCompile Include="..\Source\graphics\texture\TextureCubemap.cpp" />
+    <ClCompile Include="..\Source\graphics\VertexBufferObject.cpp" />
     <ClCompile Include="..\Source\kernel\Kernel.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\scenes\SceneBase.cpp" />
@@ -39,12 +44,17 @@
   <ItemGroup>
     <ClInclude Include="..\Source\game.h" />
     <ClInclude Include="..\Source\graphics\BoundingBox.h" />
+    <ClInclude Include="..\Source\graphics\FrameBufferObject.h" />
     <ClInclude Include="..\Source\graphics\Frustum.h" />
+    <ClInclude Include="..\Source\graphics\glInfo.h" />
+    <ClInclude Include="..\Source\graphics\Mesh.h" />
+    <ClInclude Include="..\Source\graphics\Shader.h" />
     <ClInclude Include="..\Source\graphics\SingleCamera.h" />
     <ClInclude Include="..\Source\graphics\texture\ImageTools.h" />
     <ClInclude Include="..\Source\graphics\texture\texture.h" />
     <ClInclude Include="..\Source\graphics\texture\texture2d.h" />
     <ClInclude Include="..\Source\graphics\texture\TextureCubemap.h" />
+    <ClInclude Include="..\Source\graphics\VertexBufferObject.h" />
     <ClInclude Include="..\Source\kernel\Kernel.h" />
     <ClInclude Include="..\Source\scenes\SceneBase.h" />
     <ClInclude Include="..\Source\scenes\SceneManager.h" />
@@ -65,6 +75,9 @@
     <ClInclude Include="..\Source\utilities\types.h" />
     <ClInclude Include="..\Source\utilities\VarManager.h" />
     <ClInclude Include="..\Source\utilities\xml.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Source\OMB.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B2C374C8-350A-465F-9FBF-56DC64BF5E12}</ProjectGuid>

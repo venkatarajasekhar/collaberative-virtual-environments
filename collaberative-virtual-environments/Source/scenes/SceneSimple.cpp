@@ -41,7 +41,7 @@ void SceneSimple::Idle(float fElapsedTime)
 void SceneSimple::Reset()
 {
 	// Reset the camera position
-	Camera& cam = Camera::GetSingleton();
+	SINGLETON_GET( Camera, cam )
 	cam.setEye(vec3(10.0f, 0.0f, 10.0f));
 	cam.setAngle(RADIANS(225.f), RADIANS(90.f));
 }
@@ -54,7 +54,6 @@ void SceneSimple::Render()
 	DrawAxes();
 
 	glColor3f(1.0f, 0.0f, 0.0f);
-	//DrawTraj();
 
 	glPushMatrix();
 	glRotatef(m_fAngle, 0.0f, 1.0f, 0.0f);

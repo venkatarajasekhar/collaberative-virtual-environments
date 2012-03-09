@@ -33,14 +33,14 @@ void* ResourceManager::LoadResource(RES_TYPE type, const std::string& name)
 		ptr = new CTextureCubemap();
 		((CTextureCubemap*)ptr)->Load(name);
 		break;}
-	//case SHADER: {
-	//	ptr = new Shader();
-	//	((Shader*)ptr)->Load(name);
-	//	break;}
-	//case MESH: {
-	//	ptr = new Mesh();
-	//	((Mesh*)ptr)->Load(name);
-	//	break;}
+	case SHADER: {
+		ptr = new Shader();
+		((Shader*)ptr)->Load(name);
+		break;}
+	case MESH: {
+		ptr = new Mesh();
+		((Mesh*)ptr)->Load(name);
+		break;}
 	}
 
 	if(!ptr) return NULL;

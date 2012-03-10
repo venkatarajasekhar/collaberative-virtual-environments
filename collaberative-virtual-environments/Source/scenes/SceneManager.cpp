@@ -6,16 +6,16 @@
 #include "../scenes/Script.h"
 #include "../utilities/VarManager.h"
 
-#include "../Scenes/SceneSimple.h"
-//#include "../Scenes/SceneTerrain.h"
+#include "SceneSimple.h"
+#include "SceneTerrain.h"
 
 SceneManager::SceneManager()
 {
 
-	//m_SceneDB["terrain"] = new SceneTerrain();
+	m_SceneDB["terrain"] = new SceneTerrain();
 	m_SceneDB["simple"] = new SceneSimple();
 
-	setCurrent("simple");
+	setCurrent("terrain");
 }
 
 bool SceneManager::setCurrent(const std::string& name)

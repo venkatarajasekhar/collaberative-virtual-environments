@@ -39,7 +39,7 @@ GLhandleARB Shader::loadShader(const std::string& filestr)
 #endif
   }
 
-	if(!vertexshader && !fragmentshader&& !geometryshader )
+	if(!vertexshader && !fragmentshader && !geometryshader )
 		return 0;
 
   std::ifstream file(filestr.c_str()); 

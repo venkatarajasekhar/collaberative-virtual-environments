@@ -8,7 +8,7 @@ void SceneSimple::Init()
 {
 	SINGLETON_GET(ResourceManager, res);
 
-	m_pMyTex = (CTexture2D*)res.LoadResource(ResourceManager::TEXTURE2D, "rocks_diffuse.jpg");
+	m_pMyTex = (Texture2D*)res.LoadResource(ResourceManager::TEXTURE2D, "rocks_diffuse.jpg");
 
 	m_fAngle = 0.0f;
 

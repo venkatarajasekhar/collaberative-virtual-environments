@@ -3,7 +3,7 @@
 
 #include "ImageTools.h"
 
-class CTexture
+class Texture
 {
 public:
 	virtual GLenum getTextureType() const = 0;
@@ -19,8 +19,8 @@ public:
 
 	static void EnableGenerateMipmaps(bool b) {s_bGenerateMipmaps=b;}
 
-	CTexture() {m_nHandle=0;}
-	~CTexture() {Destroy();}
+	Texture() {m_nHandle=0;}
+	~Texture() {Destroy();}
 
 protected:
 	void Bind() const;

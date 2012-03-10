@@ -30,12 +30,18 @@
     <ClCompile Include="..\Source\scenes\SceneBase.cpp" />
     <ClCompile Include="..\Source\scenes\SceneManager.cpp" />
     <ClCompile Include="..\Source\scenes\SceneSimple.cpp" />
+    <ClCompile Include="..\Source\scenes\SceneTerrain.cpp" />
     <ClCompile Include="..\Source\scenes\Script.cpp" />
     <ClCompile Include="..\Source\scenes\Spline3D\Interpol.cpp" />
     <ClCompile Include="..\Source\scenes\Spline3D\Interpol3D.cpp" />
     <ClCompile Include="..\Source\scenes\Spline3D\InterpolNonFonct.cpp" />
     <ClCompile Include="..\Source\scenes\Spline3D\InterpolSpline.cpp" />
     <ClCompile Include="..\Source\scenes\Spline3D\SplineGL.cpp" />
+    <ClCompile Include="..\Source\scenes\terrain\Quadtree.cpp" />
+    <ClCompile Include="..\Source\scenes\terrain\QuadtreeNode.cpp" />
+    <ClCompile Include="..\Source\scenes\terrain\Terrain.cpp" />
+    <ClCompile Include="..\Source\scenes\terrain\TerrainChunk.cpp" />
+    <ClCompile Include="..\Source\scenes\terrain\TerrainObject.cpp" />
     <ClCompile Include="..\Source\tasks\GlobalTimer.cpp" />
     <ClCompile Include="..\Source\tasks\InputTask.cpp" />
     <ClCompile Include="..\Source\tasks\SceneTask.cpp" />
@@ -62,12 +68,18 @@
     <ClInclude Include="..\Source\scenes\SceneBase.h" />
     <ClInclude Include="..\Source\scenes\SceneManager.h" />
     <ClInclude Include="..\Source\scenes\SceneSimple.h" />
+    <ClInclude Include="..\Source\scenes\SceneTerrain.h" />
     <ClInclude Include="..\Source\scenes\Script.h" />
     <ClInclude Include="..\Source\scenes\Spline3D\Interpol.h" />
     <ClInclude Include="..\Source\scenes\Spline3D\Interpol3D.h" />
     <ClInclude Include="..\Source\scenes\Spline3D\InterpolNonFonct.h" />
     <ClInclude Include="..\Source\scenes\Spline3D\InterpolSpline.h" />
     <ClInclude Include="..\Source\scenes\Spline3D\SplineGL.h" />
+    <ClInclude Include="..\Source\scenes\terrain\Quadtree.h" />
+    <ClInclude Include="..\Source\scenes\terrain\QuadtreeNode.h" />
+    <ClInclude Include="..\Source\scenes\terrain\Terrain.h" />
+    <ClInclude Include="..\Source\scenes\terrain\TerrainChunk.h" />
+    <ClInclude Include="..\Source\scenes\terrain\TerrainObject.h" />
     <ClInclude Include="..\Source\tasks\GlobalTimer.h" />
     <ClInclude Include="..\Source\tasks\InputTask.h" />
     <ClInclude Include="..\Source\tasks\SceneTask.h" />
@@ -81,6 +93,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Runtime\Data\omb.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Runtime\Data\Shaders\terrain_ground.frag" />
+    <None Include="..\Runtime\Data\Shaders\terrain_ground.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath11)</VCTargetsPath>

@@ -8,11 +8,9 @@
 
 #include "../utilities/math.h"
 
-
-
 /**
  * Shader
- * Vertex and Pixel
+ * Vertex and Pixel, and maybe geometry.
  */
 class Shader
 {

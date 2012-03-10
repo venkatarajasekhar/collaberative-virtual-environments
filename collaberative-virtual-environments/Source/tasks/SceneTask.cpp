@@ -12,6 +12,8 @@
 #include "../utilities/ResourceManager.h"
 #include "../utilities/VarManager.h"
 #include "../graphics/SingleCamera.h"
+#include "../graphics/Shader.h"
+#include "../graphics/glInfo.h"
 #include "../scenes/SceneManager.h"
 #include "videoupdate.h"
 #include "inputtask.h"
@@ -33,9 +35,12 @@ bool SceneTask::Start()
 	glDisable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
+	glInfo::GetSingleton().Init();
+	glInfo::GetSingleton().PrintInfo();
+	Shader::Init();
 	SceneManager::GetSingleton().Init();
-	Camera::GetSingleton().setEye(vec3(2.0f, 0.0f, 0.0f));
-	//Camera::GetSingleton().setType(Camera::DRIVEN);
+	Camera::GetSingleton().setEye(vec3(2.0f, 20.0f, 0.0f));
 
 	if(!ResizeWindow())
 		return false;
@@ -56,15 +61,12 @@ void SceneTask::Idle()
 	RECT r;
 	GetWindowRect(pInfo.window, &r);
 
-	POINT mousePos;						// Mouse Screen Co-ordinates
-
-	// Get Cursor Position
-	GetCursorPos(&mousePos);
+	POINT mousePos;					// Mouse Screen Co-ordinates
+	GetCursorPos(&mousePos);		// Get Cursor Position
 
 	// Get mouse position relative to game window and not window window.
 	ivec2 pos = ivec2(mousePos.x - r.left - 8, mousePos.y - r.top - 30);
 	static ivec2 ppos = pos;
-
 	if(var.getb("enable_move_control")) {
 		if( InputTask::mouseStillDown(SDL_BUTTON_LEFT) ) {
 			float sensivity = var.getf("mouse_sensivity");
@@ -72,11 +74,9 @@ void SceneTask::Idle()
 						(float)(pos.y-ppos.y) * sensivity	);
 		}
 	}
-
 	ppos = pos;
 
 	float fElapsedTime = var.getf("time_speed") * (GlobalTimer::dT);
-
 	SceneManager::GetSingleton().Idle(fElapsedTime);
 
 	// Handle movement inputs
@@ -125,7 +125,6 @@ void SceneTask::Stop()
 
 bool SceneTask::ResizeWindow(int newWidth, int newHeight)
 {
-	// RESIZE CODE	
 	SINGLETON_GET(VarManager, var)
 	if( newWidth  != NULL )	{ var.set("win_width", newWidth);   VideoUpdate::scrWidth  = newWidth; }
 	if( newHeight != NULL )	{ var.set("win_height", newHeight); VideoUpdate::scrHeight = newHeight; }
@@ -191,10 +190,8 @@ void SceneTask::Keyboard()
 			SceneManager::GetSingleton().setCurrent("simple");
 	}
 
-	// Right Mouse or Esc : Quit
-	if(InputTask::mouseDown(SDL_BUTTON_RIGHT) || InputTask::keyDown(SDLK_ESCAPE))Kernel::GetSingleton().KillAllTasks();
-	// M : Show/Hide Mouse
-	if( InputTask::keyDown(SDLK_m) )	var.set("mouseEnabled", !var.getb("mouseEnabled")); 
-	// P : Show/Hide splines
-	if( InputTask::keyDown(SDLK_p) )	var.set("show_camera_splines", !var.getb("show_camera_splines"));
+	
+	if(InputTask::mouseDown(SDL_BUTTON_RIGHT) || InputTask::keyDown(SDLK_ESCAPE))Kernel::GetSingleton().KillAllTasks();	// Right Mouse or Esc : Quit
+	if( InputTask::keyDown(SDLK_m) )	var.set("mouseEnabled", !var.getb("mouseEnabled"));								// M : Show/Hide Mouse
+	if( InputTask::keyDown(SDLK_p) )	var.set("show_camera_splines", !var.getb("show_camera_splines"));				// P : Show/Hide splines
 }

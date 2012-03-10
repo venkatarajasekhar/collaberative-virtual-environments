@@ -3,13 +3,13 @@
 
 #include "Texture.h"
 
-class CTextureCubemap : public CTexture
+class TextureCubemap : public Texture
 {
 public:
 	virtual GLenum getTextureType() const {return GL_TEXTURE_CUBE_MAP;}
 	bool Load(const std::string& name);
 
-	CTextureCubemap() : CTexture() {}
+	TextureCubemap() : Texture() {}
 
 protected:
 	

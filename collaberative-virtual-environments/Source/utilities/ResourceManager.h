@@ -18,8 +18,8 @@ public:
 	void* NewResource(void* data, const std::string& name);
 
 	inline void*			getResource(const std::string& name)		{assert(m_ResDB.find(name)!=m_ResDB.end()); return m_ResDB.find(name)->second;}
-	inline CTexture2D*		getTexture2D(const std::string& name)		{return (CTexture2D*)getResource(name);}
-	inline CTextureCubemap*	getTextureCubemap(const std::string& name)	{return (CTextureCubemap*)getResource(name);}
+	inline Texture2D*		getTexture2D(const std::string& name)		{return (Texture2D*)getResource(name);}
+	inline TextureCubemap*	getTextureCubemap(const std::string& name)	{return (TextureCubemap*)getResource(name);}
 	inline Mesh*			getMesh(const std::string& name)			{return (Mesh*)getResource(name);}
 	inline Shader*			getShader(const std::string& name)			{return (Shader*)getResource(name);}
 

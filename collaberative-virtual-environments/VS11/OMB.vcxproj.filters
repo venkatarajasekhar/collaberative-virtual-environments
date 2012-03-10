@@ -55,6 +55,15 @@
     <Filter Include="Source Files\tasks">
       <UniqueIdentifier>{a5feb666-5c77-4db6-99db-efb0f5f38349}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\scenes\terrain">
+      <UniqueIdentifier>{c39db86d-0f78-483a-bd82-3130c5157cbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scenes\terrain">
+      <UniqueIdentifier>{34ccffac-cd86-4f99-8dda-02b22d897d96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{342edd37-1952-4e7a-bb98-69ef2871b0d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Source\OMB.rc">
@@ -72,9 +81,6 @@
       <Filter>Source Files\utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\scenes\SceneManager.cpp">
-      <Filter>Source Files\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\scenes\SceneBase.cpp">
       <Filter>Source Files\scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\scenes\Spline3D\Interpol.cpp">
@@ -148,6 +154,27 @@
     </ClCompile>
     <ClCompile Include="..\Source\graphics\glInfo.cpp">
       <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\SceneBase.cpp">
+      <Filter>Source Files\scenes\Spline3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\TerrainObject.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\Quadtree.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\QuadtreeNode.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\Terrain.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\TerrainChunk.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\SceneTerrain.cpp">
+      <Filter>Source Files\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,10 +277,36 @@
     <ClInclude Include="..\Source\graphics\glInfo.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\Quadtree.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\QuadtreeNode.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\Terrain.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\TerrainChunk.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\TerrainObject.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\SceneTerrain.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Runtime\Data\omb.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Runtime\Data\Shaders\terrain_ground.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\terrain_ground.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

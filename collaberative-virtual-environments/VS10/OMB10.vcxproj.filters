@@ -55,6 +55,15 @@
     <Filter Include="Header Files\tasks">
       <UniqueIdentifier>{87a2b44e-0405-4244-8f81-3ba7f43e957b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scenes\terrain">
+      <UniqueIdentifier>{cdaf2aa0-3552-4d46-b4af-13642424221a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scenes\terrain">
+      <UniqueIdentifier>{cebb5944-b81a-48a9-8624-a1986c6defc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{d698cd89-8f58-4477-9819-eaf1ae1d3c1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\main.cpp">
@@ -143,6 +152,24 @@
     </ClCompile>
     <ClCompile Include="..\Source\graphics\Shader.cpp">
       <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\SceneTerrain.cpp">
+      <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\Terrain.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\TerrainChunk.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\TerrainObject.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\Quadtree.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\scenes\terrain\QuadtreeNode.cpp">
+      <Filter>Source Files\scenes\terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,10 +272,36 @@
     <ClInclude Include="..\Source\graphics\VertexBufferObject.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\scenes\SceneTerrain.h">
+      <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\Quadtree.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\QuadtreeNode.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\Terrain.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\TerrainChunk.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\scenes\terrain\TerrainObject.h">
+      <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Source\OMB.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Runtime\Data\Shaders\terrain_ground.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\terrain_ground.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

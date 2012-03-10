@@ -8,8 +8,13 @@
 #include <GL\glew.h>
 
 
-class CTexture2D;
+class Texture2D;
 
+
+/**
+ * SceneSimple
+ * Used as a test scene for testing stuff.
+ */ 
 class SceneSimple : public ISceneBase
 {
 public:
@@ -37,7 +42,7 @@ public:
 
 private:
 	// Here we put the data specific to the scene
-	CTexture2D*	m_pMyTex;
+	Texture2D*	m_pMyTex;
 	float		m_fAngle;
 };
 

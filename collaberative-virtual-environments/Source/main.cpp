@@ -3,6 +3,7 @@
 #include "tasks\VideoUpdate.h"
 #include "graphics\SingleCamera.h"
 #include "graphics\Frustum.h"
+#include "graphics\glInfo.h"
 #include "utilities\ResourceManager.h"
 #include "utilities\VarManager.h"
 #include "scenes\SceneManager.h"
@@ -47,6 +48,7 @@ void Game::createSingletons()
 	new Frustum();
 	new Camera();
 	new SceneManager();
+	new glInfo();
 }
 
 void Game::deleteSingletons()
@@ -58,6 +60,7 @@ void Game::deleteSingletons()
 	delete Frustum::GetSingletonPtr();
 	delete SceneManager::GetSingletonPtr();
 	delete Camera::GetSingletonPtr();
+	delete glInfo::GetSingletonPtr();
 
 }
 
@@ -79,6 +82,7 @@ void Game::initVars()
 	var.set("cam_fovy", 60.0f);
 
 	var.set("show_camera_splines", false);
+	var.set("water_height", 1.0f);
 	var.set("enable_underwater", false); // Ignore this for now, from old code.
 }
 

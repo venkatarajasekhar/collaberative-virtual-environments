@@ -26,12 +26,12 @@ void* ResourceManager::LoadResource(RES_TYPE type, const std::string& name)
 	void* ptr = NULL;
 	switch(type) {
 	case TEXTURE2D: {
-		ptr = new CTexture2D();
-		((CTexture2D*)ptr)->Load(name);
+		ptr = new Texture2D();
+		((Texture2D*)ptr)->Load(name);
 		break;}
 	case TEXTURECUBEMAP: {
-		ptr = new CTextureCubemap();
-		((CTextureCubemap*)ptr)->Load(name);
+		ptr = new TextureCubemap();
+		((TextureCubemap*)ptr)->Load(name);
 		break;}
 	case SHADER: {
 		ptr = new Shader();

@@ -14,7 +14,7 @@ void ScriptIdle(float fElapsedTime)
 	ISceneBase* pScene = manag.getCurrentScenePointer();
 	assert(pScene);
 
-	static std::string tSceneName[2] = {"simple", "terrain"};
+	static std::string tSceneName[2] = {"terrain", "simple"};
 
 	switch(current) 
 	{

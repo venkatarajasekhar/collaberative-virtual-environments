@@ -3,9 +3,9 @@
 
 #include "TextureCubemap.h"
 
-bool CTextureCubemap::Load(const std::string& name)
+bool TextureCubemap::Load(const std::string& name)
 {
-	if(!CTexture::Load(name))
+	if(!Texture::Load(name))
 		return false;
 
 	Bind();
@@ -13,7 +13,7 @@ bool CTextureCubemap::Load(const std::string& name)
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 	glPixelStorei(GL_PACK_ALIGNMENT,1);
 
-	if(!CTexture::s_bGenerateMipmaps) {
+	if(!Texture::s_bGenerateMipmaps) {
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}

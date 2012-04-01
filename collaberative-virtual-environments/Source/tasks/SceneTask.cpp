@@ -37,10 +37,11 @@ bool SceneTask::Start()
 
 
 	glInfo::GetSingleton().Init();
-	glInfo::GetSingleton().PrintInfo();
+	//glInfo::GetSingleton().PrintInfo();
 	Shader::Init();
-	SceneManager::GetSingleton().Init();
 	Camera::GetSingleton().setEye(vec3(2.0f, 20.0f, 0.0f));
+	SceneManager::GetSingleton().Init();
+	
 
 	if(!ResizeWindow())
 		return false;

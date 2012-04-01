@@ -241,10 +241,13 @@ public:
 
 
 // MATHLIB BY frustum.org
-const float INV_RAND_MAX = 1.0 / (RAND_MAX + 1);
+const float  INV_RAND_MAX = 1.0 / (RAND_MAX + 1);
+inline float randomFloat(float max=1.0) { return max * rand() * INV_RAND_MAX; }
+inline float randomFloat(float min, float max) { return min + (max - min) * INV_RAND_MAX * rand(); }
+inline int   randomInt(int max=RAND_MAX) { return rand()%(max+1); }
 inline float random(float max=1.0) { return max * rand() * INV_RAND_MAX; }
 inline float random(float min, float max) { return min + (max - min) * INV_RAND_MAX * rand(); }
-inline int random(int max=RAND_MAX) { return rand()%(max+1); }
+inline int   random(int max=RAND_MAX) { return rand()%(max+1); }
 
 class vec2;
 class vec3;

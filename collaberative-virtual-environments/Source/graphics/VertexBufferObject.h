@@ -17,6 +17,9 @@ public:
 	void		Enable();
 	void		Disable();
 
+	// Update any changes made to VBO Data buffers
+	bool	 Update(GLenum usage);		
+
 	// Data buffers
 	inline std::vector<vec3>&	getPosition()	{return m_tDataPosition;}
 	inline std::vector<vec3>&	getNormal()		{return m_tDataNormal;}
@@ -25,6 +28,7 @@ public:
 
 	VertexBufferObject();
 	~VertexBufferObject() {Destroy();}
+
 
 private:
 	void Enable_VA();	// Activate Vertex Array
@@ -40,6 +44,7 @@ private:
 	GLintptr	m_nVBO_OffsetTexcoord;
 	GLintptr	m_nVBO_OffsetTangent;
 
+public:
 	// Data
 	std::vector<vec3>	m_tDataPosition;
 	std::vector<vec3>	m_tDataNormal;

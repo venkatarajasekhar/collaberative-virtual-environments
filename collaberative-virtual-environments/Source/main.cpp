@@ -82,7 +82,7 @@ void Game::initVars()
 	var.set("cam_fovy", 60.0f);
 
 	var.set("show_camera_splines", false);
-	var.set("water_height", 1.0f);
+	var.set("water_height", 0.1f);
 	var.set("enable_underwater", false); // Ignore this for now, from old code.
 }
 

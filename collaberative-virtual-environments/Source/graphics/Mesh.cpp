@@ -34,11 +34,11 @@ bool Mesh::Load(const std::string& name)
 	tempName = szPath;
 
 	bool ret = false;
-	if(name.find(".obj") != std::string::npos) {
+	if( name.find(".3d") != std::string::npos ) {
 		ret = LoadOBJ(tempName);
 	}
 	else {
-		std::cerr << "Le mesh " << name << " n'est pas dans un format valide" << std::endl;
+		std::cerr << "The mesh " << name << " is not a valid file format." << std::endl;
 		return false;
 	}
 

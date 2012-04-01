@@ -5,7 +5,6 @@
 VertexBufferObject::VertexBufferObject()
 {
 	m_nVBOid = 0;
-
 }
 
 void VertexBufferObject::Destroy()
@@ -34,28 +33,24 @@ bool VertexBufferObject::Create(GLenum usage)
 	GLsizeiptr	nSizeTangent = 0;
 
 
-	if(!m_tDataPosition.empty()) {
+	if(!m_tDataPosition.empty()) 
 		nSizePosition = m_tDataPosition.size()*sizeof(vec3);
-	}
-	else {
+	else 
+	{
 		std::cerr << "[ERROR] No position data!" << std::endl;
 		return false;
 	}
 
 	
-
-	if(!m_tDataNormal.empty()) {
+	if(!m_tDataNormal.empty()) 
 		nSizeNormal	= m_tDataNormal.size()*sizeof(vec3);
-	}
 
-	if(!m_tDataTexcoord.empty()) {
+	if(!m_tDataTexcoord.empty()) 
 		nSizeTexcoord = m_tDataTexcoord.size()*sizeof(vec2);
-	}
-
-	if(!m_tDataTangent.empty()) {
+	
+	if(!m_tDataTangent.empty()) 
 		nSizeTangent = m_tDataTangent.size()*sizeof(vec3);
-	}
-
+	
 
 	m_nVBO_OffsetPosition	= 0;
 	m_nVBO_OffsetNormal		= m_nVBO_OffsetPosition + nSizePosition;
@@ -63,10 +58,10 @@ bool VertexBufferObject::Create(GLenum usage)
 	m_nVBO_OffsetTangent	= m_nVBO_OffsetTexcoord + nSizeTexcoord;
 
 	glGenBuffersARB(1, &m_nVBOid);
-	if(m_nVBOid == 0) {
+	if(m_nVBOid == 0) 
 		std::cerr << "[ERROR] Init VBO failed!" << std::endl;
-	}
-	else {
+	else 
+	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_nVBOid);
 		glBufferData(GL_ARRAY_BUFFER, nSizePosition+nSizeNormal+nSizeTexcoord+nSizeTangent, 0, usage);
 
@@ -83,6 +78,58 @@ bool VertexBufferObject::Create(GLenum usage)
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
+
+	return true;
+}
+
+bool VertexBufferObject::Update(GLenum usage)
+{
+	GLsizeiptr	nSizePosition = 0;
+	GLsizeiptr	nSizeNormal = 0;
+	GLsizeiptr	nSizeTexcoord = 0;
+	GLsizeiptr	nSizeTangent = 0;
+
+
+	if(!m_tDataPosition.empty()) 
+		nSizePosition = m_tDataPosition.size()*sizeof(vec3);
+	else 
+	{
+		std::cerr << "[ERROR] No position data!" << std::endl;
+		return false;
+	}
+
+	
+	if(!m_tDataNormal.empty()) 
+		nSizeNormal	= m_tDataNormal.size()*sizeof(vec3);
+
+	if(!m_tDataTexcoord.empty()) 
+		nSizeTexcoord = m_tDataTexcoord.size()*sizeof(vec2);
+	
+	if(!m_tDataTangent.empty()) 
+		nSizeTangent = m_tDataTangent.size()*sizeof(vec3);
+	
+
+	m_nVBO_OffsetPosition	= 0;
+	m_nVBO_OffsetNormal		= m_nVBO_OffsetPosition + nSizePosition;
+	m_nVBO_OffsetTexcoord	= m_nVBO_OffsetNormal + nSizeNormal;
+	m_nVBO_OffsetTangent	= m_nVBO_OffsetTexcoord + nSizeTexcoord;
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_nVBOid);
+	glBufferData(GL_ARRAY_BUFFER, nSizePosition+nSizeNormal+nSizeTexcoord+nSizeTangent, 0, usage);
+
+	glBufferSubData(GL_ARRAY_BUFFER_ARB, m_nVBO_OffsetPosition,	nSizePosition,	(const GLvoid*)(&m_tDataPosition[0]));
+
+	if(m_tDataNormal.size())
+		glBufferSubData(GL_ARRAY_BUFFER_ARB, m_nVBO_OffsetNormal,	nSizeNormal,	(const GLvoid*)(&m_tDataNormal[0]));
+
+	if(m_tDataTexcoord.size())
+		glBufferSubData(GL_ARRAY_BUFFER_ARB, m_nVBO_OffsetTexcoord,	nSizeTexcoord,	(const GLvoid*)(&m_tDataTexcoord[0]));
+
+	if(m_tDataTangent.size())
+		glBufferSubData(GL_ARRAY_BUFFER_ARB, m_nVBO_OffsetTangent,	nSizeTangent,	(const GLvoid*)(&m_tDataTangent[0]));
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true;
 }

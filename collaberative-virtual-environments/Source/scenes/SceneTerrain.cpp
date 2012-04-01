@@ -7,6 +7,9 @@
 #include "../utilities/VarManager.h"
 #include "../tasks/InputTask.h"
 #include "../tasks/GlobalTimer.h"
+#include "../tasks/InputTask.h"
+
+#include "../player/player.h"
 
 void SceneTerrain::Init()
 {
@@ -25,11 +28,12 @@ void SceneTerrain::Init()
 
 	m_pTerrain = new Terrain();
 	assert(m_pTerrain != NULL);
-	BoundingBox bbox( vec3(-300.0f, 0.0f, -300.0f), vec3(300.0f, 40.0f, 300.0f) );
-	m_pTerrain->Load("heightmap_1024.jpg", bbox, 16);
+	BoundingBox bbox( vec3(.0f, .0f, .0f), vec3(1025.0f, 255.0f, 1025.0f) );	// TODO : Calculate this so can be modified in game.
+	m_pTerrain->Load("heightmap_1024.jpg", bbox, 32);
 
 	ImageTools::ImageData img;
 	ImageTools::OpenImage("heightmap_1024.jpg", img);
+	std::cout << "   HeightMap D: " << img.d << " Size: " << img.w << "x" << img.h << std::endl;
 	m_pTerrain->ComputeBoundingBox();
 	img.Destroy();
 
@@ -39,6 +43,12 @@ void SceneTerrain::Init()
 		m_pShaderTerrain->Uniform("bbox_max", m_pTerrain->getBoundingBox().max);
 		m_pShaderTerrain->Uniform("fog_color", fogColor);
 	m_pShaderTerrain->Deactivate();
+
+	Camera::GetSingleton().setEye( ( m_pTerrain->getBoundingBox().min + (m_pTerrain->getBoundingBox().max * 0.5) ) );
+
+	// Player set up. TODO : Need to add multiple players and networking.
+	Mark.m_szName = "Mark";
+	res.LoadResource(ResourceManager::MESH, "pointy.3d");
 }
 
 void SceneTerrain::Destroy()
@@ -52,18 +62,55 @@ void SceneTerrain::Destroy()
 
 void SceneTerrain::Idle(float fElapsedTime)
 {
+	SINGLETON_GET( Camera, cam )
+	// Get texture space positions.
+	vec3 tEye     = m_pTerrain->getPosition( (float)(cam.getEye().x / m_pTerrain->getHMWidth()),
+											 (float)(cam.getEye().z / m_pTerrain->getHMHeight()) );
+	vec3 tPointer = m_pTerrain->getPosition( (float)(Mark.m_pointer.m_vPosition.x / m_pTerrain->getHMWidth()),
+											 (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
 
+	// Set eye and pointer values above terrain.
+	Mark.m_pointer.m_vPosition.y = tPointer.y + 1.0f;
+	if( cam.getEye().y < tEye.y + 1.0f )
+		cam.vEye.y = tEye.y + 1.0f;
+
+
+	// Update players
+	Mark.Update();
+
+	Keyboard(fElapsedTime);
 }
 
-void SceneTerrain::Keyboard()
+void SceneTerrain::Keyboard(float fElapsedTime)
 {
 	ISceneBase::Keyboard();
+
+	if( InputTask::keyStillDown( SDLK_UP    ) )			Mark.m_pointer.m_vPosition.x += 50.0f * fElapsedTime;
+	if( InputTask::keyStillDown( SDLK_DOWN  ) )			Mark.m_pointer.m_vPosition.x -= 50.0f * fElapsedTime;
+	if( InputTask::keyStillDown( SDLK_RIGHT ) )			Mark.m_pointer.m_vPosition.z += 50.0f * fElapsedTime;
+	if( InputTask::keyStillDown( SDLK_LEFT  ) )			Mark.m_pointer.m_vPosition.z -= 50.0f * fElapsedTime;
+
+
+	if( InputTask::keyDown( SDLK_z ) )				  { Mark.EditAoi( 1); printf("%i\n", Mark.m_pointer.m_areaOfInfluence); }
+	if( InputTask::keyDown( SDLK_x ) )				  { Mark.EditAoi(-1); printf("%i\n", Mark.m_pointer.m_areaOfInfluence); }
+
+
+	if( InputTask::keyStillDown( SDLK_EQUALS  ) )
+	{
+		vec3 tPointer = m_pTerrain->getPosition( (float)(Mark.m_pointer.m_vPosition.x / m_pTerrain->getHMWidth()),
+											     (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
+		m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z),  5.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence);
+	}
+	if( InputTask::keyStillDown( SDLK_MINUS  ) )			
+	{
+		vec3 tPointer = m_pTerrain->getPosition( (float)(Mark.m_pointer.m_vPosition.x / m_pTerrain->getHMWidth()),
+				    							 (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
+		m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z), -5.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence);
+	}
 }
 
 void SceneTerrain::Reset()
 {
-	Camera::GetSingleton().setEye(vec3(0.0f, 0.0f, 0.0f));
-
 	ISceneBase::Reset();
 }
 
@@ -77,6 +124,9 @@ void SceneTerrain::Render()
 
 	// Render stage as normal
 	RenderEnvironment();
+
+	// Render pointer(s)
+	Mark.m_pointer.Draw();
 
 }
 
@@ -118,12 +168,11 @@ void SceneTerrain::RenderEnvironment()
 		m_tTextures[i]->Bind(idx++);
 	m_pTerrainDiffuseMap->Bind(idx++);
 
-
 	// Render terrain
 	m_pShaderTerrain->Activate();
 	{
 		m_pShaderTerrain->Uniform("detail_scale", 120.0f);
-		m_pShaderTerrain->Uniform("diffuse_scale", 70.0f);
+		m_pShaderTerrain->Uniform("diffuse_scale", 350.0f);
 
 		m_pShaderTerrain->Uniform("water_height", var.getf("water_height"));
 
@@ -141,7 +190,6 @@ void SceneTerrain::RenderEnvironment()
 		m_pTerrain->DrawInfinitePlane(Camera::GetSingleton().getEye(), 2.0f*var.getf("cam_zfar"));
 	}
 	m_pShaderTerrain->Deactivate();
-
 
 	// Unbind the textures.
 	m_pTerrainDiffuseMap->Unbind(--idx);

@@ -104,7 +104,7 @@ GLubyte* OpenImageDevIL(const std::string& filename, unsigned int& w, unsigned i
 
 	GLubyte* img = new GLubyte[(size_t)(w) * (size_t)(h) * (size_t)(d)];
 	memcpy(img, Pixels, (size_t)(w) * (size_t)(h) * (size_t)(d));
-
+	
     // Remove the texture
     ilBindImage(0);
     ilDeleteImages(1, &ilTexture);
@@ -122,12 +122,11 @@ GLubyte* OpenImage(const std::string& filename, unsigned int& w, unsigned int& h
 	strcat_s(szPath, "\\Data\\Textures\\");				// Append "\\Data\\Textures\\" After The Working Directory
 	strcat_s(szPath, filename.c_str());					// Append The PathName
 
-	if(filename.find(".ppm") != std::string::npos){
+	if(filename.find(".ppm") != std::string::npos)
 		return ImageTools::OpenImagePPM(szPath, w, h, d);
-	}
-	else {
-		return ImageTools::OpenImageDevIL(szPath, w, h, d);
-	}
+	else 
+		return  ImageTools::OpenImageDevIL(szPath, w, h, d);
+
 	std::cout << "Image error loading file: " << filename << std::endl;
 	return NULL;
 }

@@ -155,6 +155,6 @@ void VideoUpdate::Update()
 
 void VideoUpdate::Stop()
 {
-	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	SDL_QuitSubSystem(SDL_INIT_VIDEO); //TODO: FIX ON EXIT ERROR
 	TTF_Quit();
 }

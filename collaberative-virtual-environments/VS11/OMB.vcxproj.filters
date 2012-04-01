@@ -64,6 +64,12 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{342edd37-1952-4e7a-bb98-69ef2871b0d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\player">
+      <UniqueIdentifier>{1caa2410-b564-4cf5-ac31-765ca0733c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\player">
+      <UniqueIdentifier>{f18ff47b-6902-4df0-ba5e-4b54f52f6cb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Source\OMB.rc">
@@ -175,6 +181,12 @@
     </ClCompile>
     <ClCompile Include="..\Source\scenes\SceneTerrain.cpp">
       <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\player\player.cpp">
+      <Filter>Source Files\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\player\pointer.cpp">
+      <Filter>Source Files\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +306,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\scenes\SceneTerrain.h">
       <Filter>Header Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\player\player.h">
+      <Filter>Header Files\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\player\pointer.h">
+      <Filter>Header Files\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

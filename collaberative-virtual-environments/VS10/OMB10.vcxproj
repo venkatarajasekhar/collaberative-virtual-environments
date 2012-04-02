@@ -24,6 +24,8 @@
     <ClCompile Include="..\Source\graphics\VertexBufferObject.cpp" />
     <ClCompile Include="..\Source\kernel\Kernel.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
+    <ClCompile Include="..\Source\player\player.cpp" />
+    <ClCompile Include="..\Source\player\pointer.cpp" />
     <ClCompile Include="..\Source\scenes\SceneBase.cpp" />
     <ClCompile Include="..\Source\scenes\SceneManager.cpp" />
     <ClCompile Include="..\Source\scenes\SceneSimple.cpp" />
@@ -62,6 +64,8 @@
     <ClInclude Include="..\Source\graphics\texture\TextureCubemap.h" />
     <ClInclude Include="..\Source\graphics\VertexBufferObject.h" />
     <ClInclude Include="..\Source\kernel\Kernel.h" />
+    <ClInclude Include="..\Source\player\player.h" />
+    <ClInclude Include="..\Source\player\pointer.h" />
     <ClInclude Include="..\Source\scenes\SceneBase.h" />
     <ClInclude Include="..\Source\scenes\SceneManager.h" />
     <ClInclude Include="..\Source\scenes\SceneSimple.h" />

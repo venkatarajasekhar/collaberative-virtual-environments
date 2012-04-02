@@ -64,6 +64,12 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{d698cd89-8f58-4477-9819-eaf1ae1d3c1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\player">
+      <UniqueIdentifier>{97146129-e773-4120-921a-d319bacce2ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\player">
+      <UniqueIdentifier>{66b47df4-4541-40d6-87f0-cc1e643ffa11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\main.cpp">
@@ -170,6 +176,12 @@
     </ClCompile>
     <ClCompile Include="..\Source\scenes\terrain\QuadtreeNode.cpp">
       <Filter>Source Files\scenes\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\player\player.cpp">
+      <Filter>Source Files\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\player\pointer.cpp">
+      <Filter>Source Files\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +301,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\scenes\terrain\TerrainObject.h">
       <Filter>Header Files\scenes\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\player\pointer.h">
+      <Filter>Header Files\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\player\player.h">
+      <Filter>Header Files\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

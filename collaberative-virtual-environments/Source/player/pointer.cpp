@@ -22,9 +22,7 @@ void CPointer::Draw()
 }
 
 void CPointer::Update()
-{
-}
-
+{}
 
 void CPointer::EditAoi(int delta)
 {

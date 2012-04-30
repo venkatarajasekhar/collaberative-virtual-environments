@@ -30,6 +30,7 @@ public:
 	inline const vec3& getEye()			const	{return vEye;}
 	inline const vec3& getCenter()		const	{return vCenter;}
 	inline const vec3& getViewDir()		const	{return vViewDir;}
+	inline const vec3& getLeftDir()		const	{return vLeftDir;}
 	inline float getAngleX()			const	{return fAngleX;}
 	inline float getAngleY()			const	{return fAngleY;}
 

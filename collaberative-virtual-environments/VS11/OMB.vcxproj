@@ -20,12 +20,14 @@
     <ClCompile Include="..\Source\graphics\Mesh.cpp" />
     <ClCompile Include="..\Source\graphics\Shader.cpp" />
     <ClCompile Include="..\Source\graphics\SingleCamera.cpp" />
+    <ClCompile Include="..\Source\graphics\Sky.cpp" />
     <ClCompile Include="..\Source\graphics\texture\ImageTools.cpp" />
     <ClCompile Include="..\Source\graphics\texture\texture.cpp" />
     <ClCompile Include="..\Source\graphics\texture\texture2d.cpp" />
     <ClCompile Include="..\Source\graphics\texture\TextureCubemap.cpp" />
     <ClCompile Include="..\Source\graphics\VertexBufferObject.cpp" />
     <ClCompile Include="..\Source\kernel\Kernel.cpp" />
+    <ClCompile Include="..\Source\kinect\KinectCode.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\player\player.cpp" />
     <ClCompile Include="..\Source\player\pointer.cpp" />
@@ -61,12 +63,14 @@
     <ClInclude Include="..\Source\graphics\Mesh.h" />
     <ClInclude Include="..\Source\graphics\Shader.h" />
     <ClInclude Include="..\Source\graphics\SingleCamera.h" />
+    <ClInclude Include="..\Source\graphics\Sky.h" />
     <ClInclude Include="..\Source\graphics\texture\ImageTools.h" />
     <ClInclude Include="..\Source\graphics\texture\texture.h" />
     <ClInclude Include="..\Source\graphics\texture\texture2d.h" />
     <ClInclude Include="..\Source\graphics\texture\TextureCubemap.h" />
     <ClInclude Include="..\Source\graphics\VertexBufferObject.h" />
     <ClInclude Include="..\Source\kernel\Kernel.h" />
+    <ClInclude Include="..\Source\kinect\KinectCode.h" />
     <ClInclude Include="..\Source\player\player.h" />
     <ClInclude Include="..\Source\player\pointer.h" />
     <ClInclude Include="..\Source\scenes\SceneBase.h" />
@@ -155,7 +159,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <ProjectReference>

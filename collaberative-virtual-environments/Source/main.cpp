@@ -7,6 +7,19 @@
 #include "utilities\ResourceManager.h"
 #include "utilities\VarManager.h"
 #include "scenes\SceneManager.h"
+#include "kinect\KinectCode.h"
+#include "graphics\Sky.h"
+
+
+/**
+ *	TODO
+ *
+ *  Add networking
+ *
+ *  Set boundary limits for pointer and camera eye on map
+ *  Add pretty shaders
+ */
+
 
 void Game::Run(int argc, char *argv[])
 {
@@ -49,6 +62,8 @@ void Game::createSingletons()
 	new Camera();
 	new SceneManager();
 	new glInfo();
+	new Kinect();
+	new Sky();
 }
 
 void Game::deleteSingletons()
@@ -61,6 +76,8 @@ void Game::deleteSingletons()
 	delete SceneManager::GetSingletonPtr();
 	delete Camera::GetSingletonPtr();
 	delete glInfo::GetSingletonPtr();
+	delete Kinect::GetSingletonPtr();
+	delete Sky::GetSingletonPtr();
 
 }
 
@@ -84,6 +101,10 @@ void Game::initVars()
 	var.set("show_camera_splines", false);
 	var.set("water_height", 0.1f);
 	var.set("enable_underwater", false); // Ignore this for now, from old code.
+
+	var.set("cloud_width",	3200.0f);
+	var.set("cloud_height", 400.0f);
+	var.set("cloud_ray_tracing", true);
 }
 
 

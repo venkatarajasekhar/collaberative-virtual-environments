@@ -14,7 +14,10 @@
 #include "../graphics/SingleCamera.h"
 #include "../graphics/Shader.h"
 #include "../graphics/glInfo.h"
+#include "../graphics/Sky.h"
+#include "../graphics/Effects.h"
 #include "../scenes/SceneManager.h"
+
 #include "videoupdate.h"
 #include "inputtask.h"
 #include "GlobalTimer.h"
@@ -41,6 +44,8 @@ bool SceneTask::Start()
 	Shader::Init();
 	Camera::GetSingleton().setEye(vec3(2.0f, 20.0f, 0.0f));
 	SceneManager::GetSingleton().Init();
+	Sky::GetSingleton().Init();
+	Effects::GetSingleton().init();
 	
 
 	if(!ResizeWindow())
@@ -93,6 +98,8 @@ void SceneTask::Idle()
 
 void SceneTask::Update()
 {
+	SINGLETON_GET( VarManager, var )
+
 	// Check if screen has been resized, if so update.
 	if(VideoUpdate::scrResized)
 		ResizeWindow();
@@ -105,11 +112,20 @@ void SceneTask::Update()
 	glLoadIdentity();
 	Camera::GetSingleton().RenderLookAt();
 
+	// Poloygon mode
+	if(var.getb("enable_wireframe"))
+		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	else
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
 	// First pass rendering
 	scenes.PreRender();
 
 	// Second pass rendering
 	scenes.Render();
+
+	// Second pass rendering
+	Effects::GetSingleton().Render();
 
 	Idle();
 };
@@ -145,6 +161,9 @@ bool SceneTask::ResizeWindow(int newWidth, int newHeight)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+	// Recreate the FBO
+	Effects::GetSingleton().reshapeFBO(newWidth, newHeight);
 
 	// Don't forget to reset the resize flag.
 	VideoUpdate::scrResized = false;
@@ -185,6 +204,59 @@ void SceneTask::Keyboard()
 		var.set("time_speed", speed);
 	}
 
+	// z : Dynamic sun toggle
+	if( InputTask::keyDown(SDLK_z) ){		
+		var.set("dynamic_sun",		!var.getb("dynamic_sun"));
+		std::cerr << "\r dynamic_sun : " << var.getb("dynamic_sun") << "        "; 
+	}
+
+	// Effects
+	if( InputTask::keyDown(SDLK_j) ){		
+		var.set("enable_anaglyph",		!var.getb("enable_anaglyph"));
+		std::cerr << "\r enable_anaglyph : " << var.getb("enable_anaglyph") << "        "; 
+	}
+	if( InputTask::keyDown(SDLK_r) ){		
+		var.set("enable_effects",		!var.getb("enable_effects"));
+		std::cerr << "\r enable_effects : " << var.getb("enable_effects") << "        ";
+	}
+	if( InputTask::keyDown(SDLK_b) ){		
+		var.set("enable_bloom",			!var.getb("enable_bloom"));
+		std::cerr << "\r enable_bloom : " << var.getb("enable_bloom") << "        "; 
+	}
+	if( InputTask::keyDown(SDLK_v) ){		
+		var.set("enable_vignette",		!var.getb("enable_vignette"));		
+		std::cerr << "\r enable_vignette : " << var.getb("enable_vignette") << "        "; 
+	}
+	if( InputTask::keyDown(SDLK_n) ){		
+		var.set("enable_noise",			!var.getb("enable_noise"));			
+		std::cerr << "\r enable_noise : " << var.getb("enable_noise") << "        "; 
+	}
+	if( InputTask::keyDown(SDLK_p) ){	// TODO Fix DoF	
+		var.set("enable_pdc",			!var.getb("enable_pdc"));			
+		std::cerr << "\r enable_pdc BROKEN: " << var.getb("enable_pdc") << "        "; 
+	}
+	if( InputTask::keyDown(SDLK_k) ){		
+		var.set("enable_blur",			!var.getb("enable_blur"));			
+		std::cerr << "\r enable_blur : NOT IMPLEMENTED" << var.getb("enable_blur") << "        "; 
+	}
+
+	// Debugging
+	if( InputTask::keyDown(SDLK_KP1) ){		
+		var.set("enable_wireframe",			!var.getb("enable_wireframe"));			
+		std::cerr << "\r enable_wireframe : " << var.getb("enable_wireframe") << "        "; 
+	}
+	
+	// Weather controls
+	//  Clouds
+	if( InputTask::keyDown(SDLK_c) ){		
+		var.set("draw_clouds",			!var.getb("draw_clouds"));			
+		std::cerr << "\r draw_clouds : " << var.getb("draw_clouds") << "        "; 
+	}
+	if( InputTask::keyDown(SDLK_l) ){		
+		var.set("cloud_ray_tracing",			( !var.getb("cloud_ray_tracing") ) );			
+		std::cerr << "\r cloud_ray_tracing : " << var.getb("cloud_ray_tracing") << "        "; 
+	}
+
 	// Scene controller
 	if(cam.getType() == Camera::FREE) {
 		if( InputTask::keyDown(SDLK_1) )
@@ -194,5 +266,5 @@ void SceneTask::Keyboard()
 	
 	if(InputTask::mouseDown(SDL_BUTTON_RIGHT) || InputTask::keyDown(SDLK_ESCAPE))Kernel::GetSingleton().KillAllTasks();	// Right Mouse or Esc : Quit
 	if( InputTask::keyDown(SDLK_m) )	var.set("mouseEnabled", !var.getb("mouseEnabled"));								// M : Show/Hide Mouse
-	if( InputTask::keyDown(SDLK_p) )	var.set("show_camera_splines", !var.getb("show_camera_splines"));				// P : Show/Hide splines
+	if( InputTask::keyDown(SDLK_t) )	var.set("show_camera_splines", !var.getb("show_camera_splines"));				// P : Show/Hide splines
 }

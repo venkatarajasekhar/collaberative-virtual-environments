@@ -14,6 +14,7 @@
     <ResourceCompile Include="..\Source\OMB.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\graphics\Effects.cpp" />
     <ClCompile Include="..\Source\graphics\FrameBufferObject.cpp" />
     <ClCompile Include="..\Source\graphics\Frustum.cpp" />
     <ClCompile Include="..\Source\graphics\glInfo.cpp" />
@@ -57,6 +58,7 @@
   <ItemGroup>
     <ClInclude Include="..\Source\game.h" />
     <ClInclude Include="..\Source\graphics\BoundingBox.h" />
+    <ClInclude Include="..\Source\graphics\Effects.h" />
     <ClInclude Include="..\Source\graphics\FrameBufferObject.h" />
     <ClInclude Include="..\Source\graphics\Frustum.h" />
     <ClInclude Include="..\Source\graphics\glInfo.h" />

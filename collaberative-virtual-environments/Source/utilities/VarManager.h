@@ -17,11 +17,11 @@ public:
 	inline void set(const std::string& name, float val)		{m_VarDB[name].type = 'f'; m_VarDB[name].fval = val;}
 	inline void set(const std::string& name, int val)		{m_VarDB[name].type = 'i'; m_VarDB[name].ival = val;}
 	inline void set(const std::string& name, bool val)		{m_VarDB[name].type = 'b'; m_VarDB[name].bval = val;}
-
-	inline float getf(const std::string& name)				{assert(m_VarDB.find(name)!=m_VarDB.end()); return m_VarDB[name].fval;}
-	inline int   geti(const std::string& name)				{assert(m_VarDB.find(name)!=m_VarDB.end()); return m_VarDB[name].ival;}
-	inline bool  getb(const std::string& name)				{assert(m_VarDB.find(name)!=m_VarDB.end()); return m_VarDB[name].bval;}
-
+																												
+	inline float getf(const std::string& name)				{/*printf("Var: %s\n", name.c_str());*/ assert(m_VarDB.find(name)!=m_VarDB.end()); return m_VarDB[name].fval;}
+	inline int   geti(const std::string& name)				{/*printf("Var: %s\n", name.c_str());*/ assert(m_VarDB.find(name)!=m_VarDB.end()); return m_VarDB[name].ival;}
+	inline bool  getb(const std::string& name)				{/*printf("Var: %s\n", name.c_str());*/ assert(m_VarDB.find(name)!=m_VarDB.end()); return m_VarDB[name].bval;}
+																												
 	void Destroy();
 	~VarManager() {Destroy();}
 

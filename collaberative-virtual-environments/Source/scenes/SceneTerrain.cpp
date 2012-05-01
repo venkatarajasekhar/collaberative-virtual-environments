@@ -16,32 +16,50 @@
 
 void SceneTerrain::Init()
 {
-	SINGLETON_GET( VarManager, var )
 	SINGLETON_GET( ResourceManager, res )
+	SINGLETON_GET( VarManager, var )
 
 	m_vSunAngle = vec2(0.0f, RADIANS(45.0f));
 
 	m_pSkybox   = (TextureCubemap*)res.LoadResource(ResourceManager::TEXTURECUBEMAP, "xposD.jpg xnegD.jpg yposD.jpg ynegD.jpg zposD.jpg znegD.jpg");
 	m_pNightbox = (TextureCubemap*)res.LoadResource(ResourceManager::TEXTURECUBEMAP, "xposN.jpg xnegN.jpg yposN.jpg ynegN.jpg zposN.jpg znegN.jpg");
 
+
+	m_pShaderLighting	= (Shader*)res.LoadResource(ResourceManager::SHADER, "lighting");
 	m_pShaderTerrain	= (Shader*)res.LoadResource(ResourceManager::SHADER, "terrain_ground");
+	m_pShaderWater		= (Shader*)res.LoadResource(ResourceManager::SHADER, "terrain_water");
+	m_pShaderGrass		= (Shader*)res.LoadResource(ResourceManager::SHADER, "terrain_grass");
+	m_pShaderTree		= (Shader*)res.LoadResource(ResourceManager::SHADER, "terrain_tree");
+
+	res.LoadResource(ResourceManager::MESH, "terrain_house.3d");
+
+	res.LoadResource(ResourceManager::TEXTURE2D, "wall_diffuse.jpg");
+	res.LoadResource(ResourceManager::TEXTURE2D, "wall_NM_height.tga");
 
 	// These are textures used to render the final terrain
 	m_tTextures.push_back( (Texture2D*)res.LoadResource( ResourceManager::TEXTURE2D, "terrain_detail_NM.tga") );
 	m_tTextures.push_back( (Texture2D*)res.LoadResource( ResourceManager::TEXTURE2D, "terrain_sand_512.jpg") );
 	m_tTextures.push_back( (Texture2D*)res.LoadResource( ResourceManager::TEXTURE2D, "terrain_rocky_1024.png") );
 	m_tTextures.push_back( (Texture2D*)res.LoadResource( ResourceManager::TEXTURE2D, "terrain_grass_1024.png") );
+	m_tTextures.push_back( (Texture2D*)res.LoadResource( ResourceManager::TEXTURE2D, "terrain_water_caustics.jpg") );	
 	
-	m_pTerrainDiffuseMap = (Texture2D*)res.LoadResource( ResourceManager::TEXTURE2D, "heightmap_1024_diffusemap.jpg");
+	
+	res.LoadResource(ResourceManager::TEXTURE2D, "grass_billboards.tga");
+	res.LoadResource(ResourceManager::TEXTURE2D, "palm_texture.tga");
+
+	m_pTexWaterNoiseNM = (Texture2D*)res.LoadResource(ResourceManager::TEXTURE2D, "terrain_water_NM.jpg");
+	m_pTerrainDiffuseMap = (Texture2D*)res.LoadResource(ResourceManager::TEXTURE2D, "heightmap_1024_diffusemap.jpg");
 
 	m_pTerrain = new Terrain();
 	assert(m_pTerrain != NULL);
 	BoundingBox bbox( vec3(.0f, .0f, .0f), vec3(1025.0f, 255.0f, 1025.0f) );	// TODO : Calculate this so can be modified in game.
-	m_pTerrain->Load("heightmap_1024.jpg", bbox, 32);
+	m_pTerrain->Load("heightmap_1024.jpg", bbox, 32);	// 16
 
 	ImageTools::ImageData img;
 	ImageTools::OpenImage("heightmap_1024.jpg", img);
 	std::cout << "   HeightMap D: " << img.d << " Size: " << img.w << "x" << img.h << std::endl;
+	m_pTerrain->GenerateGrass(img, 200);				// 200000 GRASS AMOUNT
+	m_pTerrain->GenerateVegetation(img, 25);
 	m_pTerrain->ComputeBoundingBox();
 	img.Destroy();
 
@@ -52,14 +70,22 @@ void SceneTerrain::Init()
 		m_pShaderTerrain->Uniform("fog_color", fogColor);
 	m_pShaderTerrain->Deactivate();
 
-	Sky::GetSingleton().Init();
+	m_pShaderWater->Activate();
+		m_pShaderWater->Uniform("bbox_min", m_pTerrain->getBoundingBox().min);
+		m_pShaderWater->Uniform("bbox_max", m_pTerrain->getBoundingBox().max);
+		m_pShaderWater->Uniform("fog_color", fogColor);
+	m_pShaderWater->Deactivate();
+
+
+	m_fboWaterReflection.Create(FrameBufferObject::FBO_2D_COLOR, 512, 512);
+	m_fboDepthMapFromLight[0].Create(FrameBufferObject::FBO_2D_DEPTH, 2048, 2048);
+	m_fboDepthMapFromLight[1].Create(FrameBufferObject::FBO_2D_DEPTH, 2048, 2048);
 
 	Camera::GetSingleton().setEye( ( m_pTerrain->getBoundingBox().min + (m_pTerrain->getBoundingBox().max * 0.5) ) );
 
 	// Player set up. TODO : Need to add multiple players and networking.
 	Mark.m_szName = "Mark";
 	res.LoadResource(ResourceManager::MESH, "pointy.3d");
-
 }
 
 void SceneTerrain::Destroy()
@@ -75,7 +101,16 @@ void SceneTerrain::Idle(float fElapsedTime)
 {
 	SINGLETON_GET( Camera, cam )
 	SINGLETON_GET( Kinect, kin )
+	SINGLETON_GET( VarManager, var )
 
+	if( var.getb("dynamic_sun") )
+		m_vSunAngle.y += fElapsedTime * 0.01f;
+
+	m_vSunVector = vec4(	-cosf(m_vSunAngle.x) * sinf(m_vSunAngle.y),
+							-cosf(m_vSunAngle.y),
+							-sinf(m_vSunAngle.x) * sinf(m_vSunAngle.y),
+							0.0f );
+	
 	// Get texture space positions.
 	vec3 tEye     = m_pTerrain->getPosition( (float)(cam.getEye().x / m_pTerrain->getHMWidth()),
 											 (float)(cam.getEye().z / m_pTerrain->getHMHeight()) );
@@ -87,30 +122,55 @@ void SceneTerrain::Idle(float fElapsedTime)
 	if( cam.getEye().y < tEye.y + 1.0f )
 		cam.vEye.y = tEye.y + 1.0f;
 
-	// Kinect Camera Movement
-	kin.Update();
-	//if(!((kin.getRightArm().x < 0.005) && (kin.getRightArm().x > -0.005)))
-		cam.RotateX(kin.getRightArm().x * 0.015);
-	//if(!((kin.getRightArm().y < 0.005) && (kin.getRightArm().y > -0.005)))
-		cam.RotateY(kin.getRightArm().y * -0.015);
-
-	float tmp = kin.getRightShoulder().z - kin.getRightArm().z;
-	printf("X: %f2.2 Y: %f2.2 S: %f2.2 A: %f2.2 Tmp: %f2.2\n", kin.getRightArm().x , kin.getRightArm().y, kin.getRightShoulder().z, kin.getRightArm().z, tmp);
-	if(!((tmp < 0.05) && (tmp > -0.05)))
+	if(var.getb("using_kinect"))
 	{
-		//cam.PlayerMoveForward( ((1.0 - kin.getRightArm().z) ) * 0.3 );
-		cam.PlayerMoveForward( (tmp - 0.2) * 3 );
+		// Kinect Camera Movement
+		kin.Update();
+
+		//if(!((kin.getRightArm().x < 0.005) && (kin.getRightArm().x > -0.005)))
+			cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
+		//if(!((kin.getRightArm().y < 0.005) && (kin.getRightArm().y > -0.005)))
+			cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
+
+		//float tmp = kin.getRightShoulder().z - kin.getRightArm().z;
+		//float tmp = kin.getRightShoulder().distance(kin.getRightArm() * GlobalTimer::dT);
+		float tmp = kin.getRightArm().distance( kin.getRightShoulder() );
+		printf("X: %f2.2 Y: %f2.2 S: %f2.2 H: %f2.2 Tmp: %f2.2\n", kin.getRightArm().x , kin.getRightArm().y, kin.getRightShoulder().z, kin.getRightArm().z, tmp);
+		cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT );
+		
+		//cam.PlayerMoveForward( (tmp - 0.2) * 2 );
+		/*if( !((tmp < 0.25) && (tmp > -0.25)))
+		{
+			//if(!((kin.getRightArm().x < 0.005) && (kin.getRightArm().x > -0.005)))
+				cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
+			//if(!((kin.getRightArm().y < 0.005) && (kin.getRightArm().y > -0.005)))
+				cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
+
+			//cam.PlayerMoveForward( ((1.0 - kin.getRightArm().z) ) * 0.3 );
+			//cam.PlayerMoveForward( (tmp - 0.2) * 2 );
+			cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT );
+		}*/
+		/*
+		if ( ( ( tmp < 0.7 ) && ( tmp > 0.5 ) ) )
+		{
+			cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
+			cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
+
+			cam.PlayerMoveForward( (tmp * 65) * GlobalTimer::dT );
+		}
+		if ( ( ( tmp < 0.3 ) && ( tmp > 0.0 ) ) )
+		{
+			
+			cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
+			cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
+
+			cam.PlayerMoveForward( -(tmp * 65) * GlobalTimer::dT );
+		}
+		*/
 	}
 
 	// Update players
 	Mark.Update();
-
-
-	// Update Sun
-	m_vSunVector = vec4(	-cosf(m_vSunAngle.x) * sinf(m_vSunAngle.y),
-							-cosf(m_vSunAngle.y),
-							-sinf(m_vSunAngle.x) * sinf(m_vSunAngle.y),
-							0.0f );
 
 	Keyboard(fElapsedTime);
 }
@@ -118,8 +178,15 @@ void SceneTerrain::Idle(float fElapsedTime)
 void SceneTerrain::Keyboard(float fElapsedTime)
 {
 	ISceneBase::Keyboard();
-	SINGLETON_GET( Camera, cam )
 
+	SINGLETON_GET( Camera, cam )
+	SINGLETON_GET( VarManager, var )
+
+	if( InputTask::keyStillDown( SDLK_KP8 ) ){	m_vSunAngle.y += 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
+	if( InputTask::keyStillDown( SDLK_KP5 ) ){	m_vSunAngle.y -= 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
+	if( InputTask::keyStillDown( SDLK_KP6 ) ){	m_vSunAngle.x += 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
+	if( InputTask::keyStillDown( SDLK_KP4 ) ){	m_vSunAngle.x -= 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
+	
 	// Pointer Movement
 	if( InputTask::keyStillDown( SDLK_UP    ) )			Mark.m_pointer.MoveForward( cam.getViewDir());
 	if( InputTask::keyStillDown( SDLK_DOWN  ) )			Mark.m_pointer.MoveForward(-cam.getViewDir());
@@ -144,10 +211,21 @@ void SceneTerrain::Keyboard(float fElapsedTime)
 				    							 (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
 		m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z), -5.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence);
 	}
+
+	// K : Kinect Toggle
+	if( InputTask::keyDown(SDLK_k) )
+	{		
+		var.set("using_kinect",		!var.getb("using_kinect"));
+		std::cerr << "\r using_kinect : " << var.getb("using_kinect") << "        "; 
+	}
 }
 
 void SceneTerrain::Reset()
 {
+	VarManager& var = VarManager::GetSingleton();
+
+	Camera::GetSingleton().setEye(vec3(0.0f, 0.0f, 0.0f));
+
 	ISceneBase::Reset();
 }
 
@@ -197,7 +275,7 @@ void SceneTerrain::PreRender()
 		
 		m_fboDepthMapFromLight[i].Begin();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			RenderEnvironment(true);
+			RenderEnvironment(false, true);
 		m_fboDepthMapFromLight[i].End();
 	}
 
@@ -217,26 +295,100 @@ void SceneTerrain::PreRender()
 	RestoreLightCameraMatrices();
 	Frustum::GetSingleton().Extract(eye_pos);
 
+
+	// Display scene reflected in a FBO
+	m_fboWaterReflection.Begin();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		RenderEnvironment(true, false);
+	m_fboWaterReflection.End();
 }
 
 void SceneTerrain::Render()
 {
-	SINGLETON_GET( VarManager, var )
+	VarManager& var = VarManager::GetSingleton();
 
-	// Render stage as normal
-	RenderEnvironment(false);
+	// Render scene as normal
+	RenderEnvironment(false, false);
 
-	// Render pointer(s)
-	Mark.m_pointer.Draw();
+	// Render the water surface
+	RenderWaterSurface();
 
+	// Draw Pointers TODO : Make this a vector of players from server
+	Mark.Draw();
+}
+
+// Render the water surface
+void SceneTerrain::RenderWaterSurface()
+{
+	VarManager& var = VarManager::GetSingleton();
+	float h = var.getf("water_height");
+
+
+	glPushAttrib(GL_ENABLE_BIT);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+
+	glMatrixMode(GL_TEXTURE);
+	glActiveTexture(GL_TEXTURE0);
+	glLoadMatrixf( m_matSunModelviewProj );
+	glMatrixMode(GL_MODELVIEW);
+
+
+	m_pShaderWater->Activate();
+	{
+		m_fboWaterReflection.Bind(0);
+		m_pShaderWater->UniformTexture("texWaterReflection", 0);
+
+		m_pTexWaterNoiseNM->Bind(1);
+		m_pShaderWater->UniformTexture("texWaterNoiseNM", 1);
+
+		m_pShaderWater->Uniform("win_width", var.geti("win_width"));
+		m_pShaderWater->Uniform("win_height", var.geti("win_height"));
+		m_pShaderWater->Uniform("noise_tile", 100.0f);	//10
+		m_pShaderWater->Uniform("noise_factor", 0.1f);
+		m_pShaderWater->Uniform("time", GlobalTimer::totalTime);
+		m_pShaderWater->Uniform("water_shininess", 50.0f);
+
+		for(GLuint i=0; i<TERRAIN_SHADOWMAPS_COUNT; i++)
+			m_fboDepthMapFromLight[i].Bind(2 + i);
+
+		m_pShaderWater->UniformTexture("texDepthMapFromLight0", 2);
+		m_pShaderWater->UniformTexture("texDepthMapFromLight1", 3);
+		m_pShaderWater->Uniform("depth_map_size", 512);
+
+
+		vec3 e = Camera::GetSingleton().getEye();
+		float d = 2.0f * var.getf("cam_zfar");
+
+		glBegin(GL_QUADS);
+			glVertex3f(e.x - d, h, e.z - d);
+			glVertex3f(e.x - d, h, e.z + d);
+			glVertex3f(e.x + d, h, e.z + d);
+			glVertex3f(e.x + d, h, e.z - d);
+		glEnd();
+
+		for(GLint i=TERRAIN_SHADOWMAPS_COUNT-1; i>=0; i--)
+			m_fboDepthMapFromLight[i].Unbind(2 + i);
+
+		m_pTexWaterNoiseNM->Unbind(1);
+		m_fboWaterReflection.Unbind(0);
+	}
+	m_pShaderWater->Deactivate();
+
+	glMatrixMode(GL_TEXTURE);
+	glActiveTexture(GL_TEXTURE0);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+
+	glPopAttrib();
 }
 
 // Rendering of the Environment (for the reflection the water or not)
-void SceneTerrain::RenderEnvironment(bool bDepthMap)
+void SceneTerrain::RenderEnvironment(bool bWaterReflection, bool bDepthMap)
 {
-	SINGLETON_GET( ResourceManager, res )
-	SINGLETON_GET( VarManager, var )
-	SINGLETON_GET( Camera, cam )
+	ResourceManager& res = ResourceManager::GetSingleton();
+	VarManager& var = VarManager::GetSingleton();
+	Camera& cam = Camera::GetSingleton();
 
 	vec4 white(1.0f, 1.0f, 1.0f, 1.0f);
 	vec4 black(0.0f, 0.0f, 0.0f, 1.0f);
@@ -244,77 +396,233 @@ void SceneTerrain::RenderEnvironment(bool bDepthMap)
 	vec4 yellow(1.0f, 1.0f, 0.8f, 1.0f);
 	float sun_cosy = cosf(m_vSunAngle.y);
 
-	glPushAttrib(GL_ENABLE_BIT);			// Save state
+	glPushAttrib(GL_ENABLE_BIT);
 
 	if(!bDepthMap)
 	{
+		vec4 vSunColor = white.lerp(orange, yellow, 0.25f + sun_cosy * 0.75f);
+
+
+		// Check if underwater.
+		if(cam.getEye().y < var.getf("water_height"))
+		{
+			bWaterReflection = false;
+			var.set("enable_underwater", true);
+			var.set("enable_rain", false);
+			//fx->enableEchoSoundEffect();
+		}
+		else
+		{	
+			var.set("enable_underwater", false);
+			if( var.getb("raining") )
+			{
+				var.set("enable_rain", true);
+				//fx->disableEchoSoundEffect();
+			}
+		}
+
 		// Draw the sky and sun
-		Sky::GetSingleton().DrawSkyAndSun( Camera::GetSingleton().getEye(), vec3(m_vSunVector), m_pSkybox->getHandle(), m_pNightbox->getHandle(), false/*bWaterReflection*/ );
-		Sky::GetSingleton().DrawClouds( cam.getEye(), vec3(m_vSunVector), false);
+		Sky::GetSingleton().DrawSkyAndSun( Camera::GetSingleton().getEye(), vec3(m_vSunVector), m_pSkybox->getHandle(), m_pNightbox->getHandle(), bWaterReflection );
+
+		// Draw Clouds
+		if( var.getb("draw_clouds") )
+			Sky::GetSingleton().DrawClouds( Camera::GetSingleton().getEye(), vec3(m_vSunVector), bWaterReflection );
+
+		// If reflection is enabled, we draw the scene upside down.
+		if(bWaterReflection) {
+			glDisable(GL_CULL_FACE);
+			glLoadIdentity();
+			
+			glScalef(-1.0f, 1.0f, 1.0f);
+			cam.RenderLookAt(true, var.getf("water_height"));
+		}
+
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
+		vec3 zeros(0.0f, 0.0f, 0.0f);
+		glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, zeros);
+		glLightfv(GL_LIGHT0, GL_POSITION, m_vSunVector);
+		glLightfv(GL_LIGHT0, GL_AMBIENT, white);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, vSunColor);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, vSunColor);
+
 	}
 
-	vec4 vSunColor = white.lerp(orange, yellow, 0.25f + sun_cosy * 0.75f);
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	vec3 zeros(0.0f, 0.0f, 0.0f);
-	vec3 position( 50.0f, 50.0f, 50.0f );
-	vec3 other( 0.7f, 0.7f, 0.7f );
-	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,	zeros);
-	glLightfv(GL_LIGHT0, GL_POSITION,		position);
-	glLightfv(GL_LIGHT0, GL_AMBIENT,		white);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE,		other);
-	glLightfv(GL_LIGHT0, GL_SPECULAR,		other);
-
-	vec4 vGroundAmbient = other;
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,		vGroundAmbient);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,		white);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,	white);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS,	50.0f);
-
-	glMatrixMode(GL_TEXTURE);
-	glActiveTexture(GL_TEXTURE0);
-	glMatrixMode(GL_MODELVIEW);
-
-	// Bind the textures
-	GLuint idx=0;
-	for(GLuint i=0; i<m_tTextures.size(); i++)
-		m_tTextures[i]->Bind(idx++);
-	m_pTerrainDiffuseMap->Bind(idx++);
-	
-	// Render terrain
-	m_pShaderTerrain->Activate();
+	/*/ Draw houses on scene
+	m_pShaderLighting->Activate();
 	{
-		m_pShaderTerrain->Uniform("detail_scale", 120.0f);
-		m_pShaderTerrain->Uniform("diffuse_scale", 350.0f);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, white/6);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, white);
 
-		m_pShaderTerrain->Uniform("water_height", var.getf("water_height"));
+		res.getTexture2D("wall_diffuse.jpg")->Bind(0);
+		res.getTexture2D("wall_NM_height.tga")->Bind(1);
 
-		m_pShaderTerrain->Uniform("time", GlobalTimer::totalTime);
+		//m_pShaderLighting->UniformTexture("texDiffuse", 0);
+		m_pShaderLighting->UniformTexture("texNormalHeightMap", 1);
+		m_pShaderLighting->Uniform("mode", 1);
+		m_pShaderLighting->Uniform("enable_shadow_mapping", 0);
+		m_pShaderLighting->Uniform("tile_factor", 2.0f);
 
-		m_pShaderTerrain->UniformTexture("texNormalHeightMap", 0);
-		m_pShaderTerrain->UniformTexture("texDiffuse0", 1);
-		m_pShaderTerrain->UniformTexture("texDiffuse1", 2);
-		m_pShaderTerrain->UniformTexture("texDiffuse2", 3);
-		m_pShaderTerrain->UniformTexture("texDiffuseMap", 4);
+		glPushMatrix();
+		glTranslatef(172.0f, 5.18f, 175.2f);
+		res.getMesh("terrain_house.obj")->Draw();
+		glPopMatrix();
 
-		int ret = m_pTerrain->DrawGround(false);
-		var.set("terrain_chunks_drawn", ret);
+		glPushMatrix();
+		glTranslatef(19.0f, 35.8f, -123.1f);
+		res.getMesh("terrain_house.obj")->Draw();
+		glPopMatrix();
 
-		m_pTerrain->DrawInfinitePlane(Camera::GetSingleton().getEye(), 2.0f*var.getf("cam_zfar"));
+		glPushMatrix();
+		glTranslatef(1.338f, 18.02f, 259.0f);
+		res.getMesh("terrain_house.obj")->Draw();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(178.6f, 32.42f, 26.31f);
+		res.getMesh("terrain_house.obj")->Draw();
+		glPopMatrix();
+
+		res.getTexture2D("wall_NM_height.tga")->Unbind(1);
+		res.getTexture2D("wall_diffuse.jpg")->Unbind(0);
 	}
-	m_pShaderTerrain->Deactivate();
+	m_pShaderLighting->Deactivate();*/
 
-	// Unbind the textures.
-	m_pTerrainDiffuseMap->Unbind(--idx);
-	for(GLint i=(GLint)m_tTextures.size()-1; i>=0; i--)
-		m_tTextures[i]->Unbind(--idx);
+
+	if(!bDepthMap)
+	{
+		vec4 vGroundAmbient = white.lerp(white*0.2f, black, sun_cosy);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, vGroundAmbient);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, white);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, white);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50.0f);
+
+		glMatrixMode(GL_TEXTURE);
+		glActiveTexture(GL_TEXTURE0);
+		glLoadMatrixf( m_matSunModelviewProj );
+		glMatrixMode(GL_MODELVIEW);
+
+		// Bind the textures
+		GLuint idx=0;
+		for(GLuint i=0; i<m_tTextures.size(); i++)
+			m_tTextures[i]->Bind(idx++);
+		m_pTerrainDiffuseMap->Bind(idx++);
+		if(!bDepthMap) {
+			for(GLuint i=0; i<TERRAIN_SHADOWMAPS_COUNT; i++)
+				m_fboDepthMapFromLight[i].Bind(idx++);
+		}
+
+		// Render terrain
+		m_pShaderTerrain->Activate();
+		{
+			m_pShaderTerrain->Uniform("detail_scale", 1200.0f);
+			m_pShaderTerrain->Uniform("diffuse_scale", 700.0f);
+
+			m_pShaderTerrain->Uniform("water_height", var.getf("water_height"));
+			m_pShaderTerrain->Uniform("water_reflection_rendering", bWaterReflection);
+
+			m_pShaderTerrain->Uniform("time", GlobalTimer::totalTime);
+
+			m_pShaderTerrain->UniformTexture("texNormalHeightMap", 0);
+			m_pShaderTerrain->UniformTexture("texDiffuse0", 1);
+			m_pShaderTerrain->UniformTexture("texDiffuse1", 2);
+			m_pShaderTerrain->UniformTexture("texDiffuse2", 3);
+			m_pShaderTerrain->UniformTexture("texWaterCaustics", 4);
+			m_pShaderTerrain->UniformTexture("texDiffuseMap", 5);
+			m_pShaderTerrain->UniformTexture("texDepthMapFromLight0", 6);
+			m_pShaderTerrain->UniformTexture("texDepthMapFromLight1", 7);
+
+			m_pShaderTerrain->Uniform("depth_map_size", 512);
+
+			int ret = m_pTerrain->DrawGround(bWaterReflection);
+			var.set(bWaterReflection? "terrain_chunks_reflected_drawn" : "terrain_chunks_drawn", ret);
+
+			m_pTerrain->DrawInfinitePlane(Camera::GetSingleton().getEye(), 2.0f*var.getf("cam_zfar"));
+		}
+		m_pShaderTerrain->Deactivate();
+
+
+		// Unbind the textures.
+		if(!bDepthMap) {
+			for(GLint i=TERRAIN_SHADOWMAPS_COUNT-1; i>=0; i--)
+				m_fboDepthMapFromLight[i].Unbind(--idx);
+		}
+		m_pTerrainDiffuseMap->Unbind(--idx);
+		for(GLint i=(GLint)m_tTextures.size()-1; i>=0; i--)
+			m_tTextures[i]->Unbind(--idx);
 		
 
-	glMatrixMode(GL_TEXTURE);
-	glActiveTexture(GL_TEXTURE0);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
+		// Render grass
+		if(!bWaterReflection)
+		{
+			glEnable(GL_BLEND);
+			m_pShaderGrass->Activate();
+			{
+				res.getTexture2D("grass_billboards.tga")->Bind(0);
+				for(GLuint i=0; i<TERRAIN_SHADOWMAPS_COUNT; i++)
+					m_fboDepthMapFromLight[i].Bind(1+i);
+
+				m_pShaderGrass->UniformTexture("texDiffuse", 0);
+				m_pShaderGrass->UniformTexture("texDepthMapFromLight0", 1);
+				m_pShaderGrass->UniformTexture("texDepthMapFromLight1", 2);
+				m_pShaderGrass->Uniform("depth_map_size", 512);
+
+				m_pShaderGrass->Uniform("time", GlobalTimer::totalTime);
+				m_pShaderGrass->Uniform("lod_metric", TERRAIN_GRASS_MAX_DISTANCE);
+
+					m_pTerrain->DrawGrass(bWaterReflection);
+
+				for(GLint i=TERRAIN_SHADOWMAPS_COUNT-1; i>=0; i--)
+					m_fboDepthMapFromLight[i].Unbind(1+i);
+				res.getTexture2D("grass_billboards.tga")->Unbind(0);
+			}
+			m_pShaderGrass->Deactivate();
+			glDisable(GL_BLEND);
+		}
+
+		glMatrixMode(GL_TEXTURE);
+		glActiveTexture(GL_TEXTURE0);
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+	}
+
+
+	// Render tree's
+	m_pShaderTree->Activate();
+	{
+		glMatrixMode(GL_TEXTURE);
+		glActiveTexture(GL_TEXTURE0);
+		glLoadMatrixf( Frustum::GetSingleton().getModelviewInvMatrix() );
+		glMatrixMode(GL_MODELVIEW);
+
+		GLuint idx=0;
+		res.getTexture2D("palm_texture.tga")->Bind(idx++);
+		if(!bDepthMap) {
+			for(GLuint i=0; i<TERRAIN_SHADOWMAPS_COUNT; i++)
+				m_fboDepthMapFromLight[i].Bind(idx++);
+		}
+
+
+		m_pShaderTree->UniformTexture("texDiffuse", 0);
+		m_pShaderTree->UniformTexture("texDepthMapFromLight0", 1);
+		m_pShaderTree->UniformTexture("texDepthMapFromLight1", 2);
+
+		m_pShaderTree->Uniform("time", GlobalTimer::totalTime);
+
+			m_pTerrain->DrawObjects(bWaterReflection);
+
+		res.getTexture2D("palm_texture.tga")->Unbind(--idx);
+		if(!bDepthMap) {
+			for(GLint i=TERRAIN_SHADOWMAPS_COUNT-1; i>=0; i--)
+				m_fboDepthMapFromLight[i].Unbind(--idx);
+		}
+
+		glMatrixMode(GL_TEXTURE);
+		glActiveTexture(GL_TEXTURE0);
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+	}
+	m_pShaderTree->Deactivate();
 
 	glPopAttrib();
 }

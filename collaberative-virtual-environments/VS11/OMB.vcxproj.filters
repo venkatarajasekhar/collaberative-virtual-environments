@@ -200,6 +200,9 @@
     <ClCompile Include="..\Source\graphics\Sky.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\graphics\Effects.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\game.h">
@@ -329,6 +332,9 @@
       <Filter>Header Files\kinect</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\graphics\Sky.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\Effects.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
   </ItemGroup>

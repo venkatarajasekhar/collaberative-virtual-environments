@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "KinectCode.h"
+#include "../utilities/VarManager.h"
 
 
 //Kinect delcaration
@@ -10,7 +11,8 @@ NUI_SKELETON_FRAME SkeletonFrame;
 
 Kinect::Kinect():rightArm( vec3(1.0,1.0,1.0)), leftArm( vec3(1.0,1.0,1.0))
 {
-	kinectInit();
+	if(!kinectInit())
+		VarManager::GetSingleton().set("using_kinect", false);
 }
 
 
@@ -32,7 +34,7 @@ bool Kinect::kinectInit(){
 	{
 		NUI_SKELETON_FRAME SkeletonFrame;
 		NuiSkeletonTrackingEnable;
-		NuiCameraElevationSetAngle(15);
+		NuiCameraElevationSetAngle(8);
 
 		printf("Kinect Initialised OK!\n");
 		return true;

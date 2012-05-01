@@ -9,6 +9,7 @@
 #include "scenes\SceneManager.h"
 #include "kinect\KinectCode.h"
 #include "graphics\Sky.h"
+#include "graphics\Effects.h"
 
 
 /**
@@ -63,6 +64,7 @@ void Game::createSingletons()
 	new SceneManager();
 	new glInfo();
 	new Kinect();
+	new Effects();
 	new Sky();
 }
 
@@ -77,6 +79,7 @@ void Game::deleteSingletons()
 	delete Camera::GetSingletonPtr();
 	delete glInfo::GetSingletonPtr();
 	delete Kinect::GetSingletonPtr();
+	delete Effects::GetSingletonPtr();
 	delete Sky::GetSingletonPtr();
 
 }
@@ -86,25 +89,54 @@ void Game::initVars()
 {
 	SINGLETON_GET(VarManager, var)
 
-	var.set("time_speed", 1.0f);
-
 	var.set("hasFocus", true);
 
 	var.set("mouse_sensivity", 0.005f);
 	var.set("mouseEnabled", true);
-	var.set("enable_move_control", true);
 
 	var.set("cam_znear", 0.1f);
 	var.set("cam_zfar", 6400.0f);
 	var.set("cam_fovy", 60.0f);
 
-	var.set("show_camera_splines", false);
-	var.set("water_height", 0.1f);
-	var.set("enable_underwater", false); // Ignore this for now, from old code.
+	var.set("cam_anaglyph_offset", 0.16f);
 
+	var.set("enable_anaglyph", false);
+	var.set("enable_move_control", true);
+	var.set("enable_effects", true);
+	var.set("enable_vignette", false);
+	var.set("enable_bloom", true);
+	var.set("enable_noise", false);
+	var.set("enable_pdc", false);
+	var.set("enable_underwater", false);
+	var.set("enable_blur", false);
+
+	var.set("terrain_chunks_drawn", 0);
+	var.set("terrain_chunks_reflected_drawn", 0);
+
+	var.set("show_camera_splines", false);
+
+	var.set("time_speed", 1.0f);
+
+	var.set("dynamic_sun", true);
+
+	var.set("water_height", 4.2f);
+
+	var.set("enable_wireframe", false);
+
+
+	var.set("draw_clouds", true);
+	var.set("clouds_software", false);
 	var.set("cloud_width",	3200.0f);
 	var.set("cloud_height", 400.0f);
 	var.set("cloud_ray_tracing", true);
+
+	var.set("enable_rain", false);
+	var.set("raining", false);
+	var.set("enable_camera_cone", true);
+	
+	var.set("enable_wind", true);
+
+	var.set("using_kinect", false);
 }
 
 

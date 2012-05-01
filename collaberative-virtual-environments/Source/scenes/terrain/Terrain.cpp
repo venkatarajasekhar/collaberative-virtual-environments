@@ -421,25 +421,25 @@ void Terrain::EditMap(TYPE type, vec2 texCoord, float value, int aoi)
 {
 	int d = 3;	// TODO, depth check.
 
+	static vec2		currentPixel(0.0, 0.0);
+	static float	distance = 0;
+
 	// Check what coords to edit.
 	for( int i = texCoord.x - aoi; i < texCoord.x + aoi; i++ )							// Between X limits
 		for( int j = texCoord.y - aoi; j < texCoord.y + aoi; j++ )						// Between Y limits
 		{
-			if( (i > i+aoi) || (i < i-aoi) )											// Skip if its outside our box
+			if( !((i > i+aoi) || (i < i-aoi)) )											// Skip if its outside our box
 			{
-				// Do anything with unedited pixels here. As in, nothing!
-			}
-			else
-			{
-				vec2 currentPixel(i, j);
-				float distance = ((currentPixel.s - texCoord.s) * (currentPixel.s - texCoord.s)) +	
-					             ((currentPixel.t - texCoord.t) * (currentPixel.t - texCoord.t));
+				currentPixel.x = i;
+				currentPixel.y = j;
+				distance = ((currentPixel.s - texCoord.s) * (currentPixel.s - texCoord.s)) +	
+				           ((currentPixel.t - texCoord.t) * (currentPixel.t - texCoord.t));
 
 
 				if( (distance <= (aoi * aoi)) && ( m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y <=			// Check its in circle and Y <
 												   m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,	   (int)texCoord.y,       getHMWidth()) ].y + 5.0f ))	// the selected pixel Y + 5 (for padding).
 				{
-					float deltaVal = ( 1.0 - ( distance / (aoi * aoi) ) ) * value;		// Calculate how much to change hieght depending on distance from pointer.
+					float deltaVal = ( 1.0 - ( distance / (aoi * aoi) ) ) * value;		// Calculate how much to change height depending on distance from pointer.
 																						// TODO: Change this to a smoothing function, quadratic interpolation?
 					
 					// DO EDITING
@@ -467,7 +467,6 @@ void Terrain::EditMap(TYPE type, vec2 texCoord, float value, int aoi)
 							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y+1, getHMWidth()) ].y += deltaVal;
 							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y+1, getHMWidth()) ].y += deltaVal;
 						}
-
 
 
 
@@ -525,9 +524,6 @@ void Terrain::EditMap(TYPE type, vec2 texCoord, float value, int aoi)
 							}
 						}
 						*/
-
-
-
 
 
 						// UPDATE TEXTURE DATA

@@ -389,6 +389,10 @@ public:
 	void set(float _x,float _y,float _z) { this->x = _x; this->y = _y; this->z = _z; }
 	void reset(void) { this->x = this->y = this->z = 0; }
 	float length(void) const { return sqrtf(this->x * this->x + this->y * this->y + this->z * this->z); }
+	float distance(vec3 right) {
+		vec3 dist( x - right.x, y - right.y, z - right.z );
+		return dist.length(  );
+	}
 	float normalize(void) {
 		float inv,l = this->length();
 		if(l < EPSILON) return 0.0f;

@@ -11,6 +11,18 @@
 #include "graphics\Sky.h"
 #include "graphics\Effects.h"
 
+#include "Log.h"
+#include "network\network.h"
+#include "network\network_core\address.h"
+#include "console.h"
+#include "network\clients.h"
+#include <time.h>
+
+
+bool _network_available;		///< Can we use the network?
+bool _is_network_server;		///< Is the Client running server?
+bool _network_dedicated;		///< Are we running a dedicated server?
+
 
 /**
  *	TODO
@@ -117,7 +129,7 @@ void Game::initVars()
 
 	var.set("time_speed", 1.0f);
 
-	var.set("dynamic_sun", true);
+	var.set("dynamic_sun", false);
 
 	var.set("water_height", 4.2f);
 
@@ -136,16 +148,36 @@ void Game::initVars()
 	
 	var.set("enable_wind", true);
 
-	var.set("using_kinect", false);
+	var.set("using_kinect", true);
+
+	var.set("game_paused", false);
+	
+	// MICHAEL THE GUI OPTION IS HERE, ENABLE IT ONCE U STUCK THE TEXTURE IN
+	var.set("enable_gui", false);
 }
 
 
 
 int main(int argc, char *argv[])
 {
+	new CLog();
+	CLog::Get().Init();
+	new CConsole();
+
+	srand( time( NULL ) );
+
+	// Start the Network
+	NetworkInitialise();
+
 	new Game();
 	Game::GetSingleton().Run(argc, argv);
 	delete Game::GetSingletonPtr();
+
+	/* Stop the Network */
+	NetworkShutDown();
+
+	//delete CNetManager::GetSingletonPtr();
+	delete CConsole::GetSingletonPtr();
 
 	return 0;
 }

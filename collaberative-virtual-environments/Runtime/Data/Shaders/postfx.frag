@@ -1,8 +1,8 @@
-uniform sampler2D	texScreen, texBloom, texVignette, texWaterNoiseNM, texRain;
+uniform sampler2D	texScreen, texBloom, texVignette, texWaterNoiseNM, texRain, texGui;
 
 uniform sampler2D	texBruit, texBruit2;
 
-uniform bool		enable_pdc, enable_underwater, enable_rain;
+uniform bool		enable_pdc, enable_underwater, enable_rain, enable_motionblur, enable_gui;
 
 uniform float		screenWidth;
 uniform float		screnHeight;
@@ -21,32 +21,51 @@ uniform vec3		rain_offset;
 
 uniform float		randomCoeffNoise, randomCoeffFlash;
 
-#define MAX_DEPTH	2
-
 vec4 Bloom(vec4 color)
 {
 	return color + bloom_factor * texture2D(texBloom, gl_TexCoord[0].st);
 }
-
-vec4 Rain(vec4 color, float depth)
+/*
+vec4 motionBlur(vec4 colorIn)
 {
-	vec4 colorOut;
+	vec4 tmp1,tmp2; 
+	vec2 UV = gl_TexCoord[0].xy;
+	//Retrieve depth of pixel  
+	float z = texture2D(depthTexture, UV).z;  
 	
-	vec2 Texcoord = gl_TexCoord[0].st * ((rain_tile + 1) * (1.5*depth));
-	Texcoord.s += (rain_offset.s + (depth*0.1)) * (((MAX_DEPTH + 1) - depth) / MAX_DEPTH*2);
-	Texcoord.t += (rain_offset.t) * (((MAX_DEPTH + 1) - depth) / MAX_DEPTH*2);
+	//Simplified equation of GluUnproject
+	vec4 currentPos = vec4( 2.0* (gl_FragCoord.x/fWindowHeight)  - 1.0, 2.0* (gl_FragCoord.y/fWindowWidth) - 1.0, 2.0*z -1.0 , 1.0);
 
-	colorOut = color + texture2D( texRain,  gl_TexCoord[0].st + Texcoord.st );
+	//Back into the worldSpace 
+	tmp1 =  currentPos  * inverseModelProjection  ;  
+	
+	//Homogenous value 
+	vec4 posInWorldSpace = tmp1/tmp1.w;  
+	
+	//Using the world coordinate, we transform those into the previous frame
+	tmp2 =  previousModelProjection *posInWorldSpace ;  
+	vec4 previousPos = tmp2/tmp2.w;  
+	
+	//Compute the frame velocity using the difference 
+	vec2 velocity = ((currentPos - previousPos)/10.0).xy;
 
-	float fade = 1.0 - smoothstep(0.0, (depth / MAX_DEPTH) * 0.5, length(gl_TexCoord[0].t));
-
-	if( depth != 1 )
-		if( gl_TexCoord[0].t < fade )
-			return color;
-
-	return colorOut;
+	//Get the initial color at this pixel.  
+	vec4 originalColor = texture2D(texture, UV);
+	UV += velocity.xy;  
+	for(int i = 1; i < 20.0; ++i)  
+	{  
+		//Sample the color buffer along the velocity vector.  
+		vec4 currentColor = texture2D(texture, UV);  
+		//Add the current color to our color sum.  
+		originalColor += currentColor;  
+		UV.x += velocity.x;
+		UV.y += velocity.y;
+	}  
+	//Average all of the samples to get the final blur color.  
+	return originalColor / 20.0;  
+	
 }
-
+*/
 vec4 LevelOfGrey(vec4 colorIn)
 {
 	vec4 temp;
@@ -102,6 +121,16 @@ vec4 UnderWater()
 	return colorOut;
 }
 
+// MICHAEL, SHADER GUI DRAWING IS HERE!
+vec4 DrawGui(colorIn)
+{
+	vec4 colorOut;
+	
+	colorOut = colorIn +  texture2D(texGui, gl_TexCoord[0].st);	
+	
+	return colorOut;
+}
+
 
 void main(void)
 {
@@ -127,11 +156,12 @@ void main(void)
 	
 	if(enable_vignette)
 		gl_FragColor = VignetteEffect(gl_FragColor);
+		
+	if(enable_gui)
+		gl_FragColor = DrawGui(glFragColor);
 
-	if(enable_rain)
-	{
-		for(int x = 1; x < MAX_DEPTH; x++)
-			gl_FragColor = Rain(gl_FragColor, x);
-	}
+	//if(enable_motionblur)
+	//	gl_FragColor = motionBlur(gl_FragColor);
+
 		
 }

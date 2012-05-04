@@ -2,6 +2,7 @@
 #define CPOINTER_H
 
 //#include "player.h"
+#include "..\network\network.h"
 
 /**
  * The Pointer
@@ -17,9 +18,9 @@ public:
 	void	Update();
 	void	EditAoi(int delta);
 
-	void	MoveForward(vec3 camForwad){ m_vPosition += camForwad; }
-	void	MoveLeft(vec3 camLeft){ m_vPosition += camLeft; }
-	void	MoveTo(vec3 position){ m_vPosition = position; }
+	void	MoveForward(vec3 camForwad){ m_vPosition += camForwad; 	NetworkMoveClent( m_vPosition, 0 ); }
+	void	MoveLeft(vec3 camLeft){ m_vPosition += camLeft; NetworkMoveClent( m_vPosition, 0 ); }
+	void	MoveTo(vec3 position){ m_vPosition = position; NetworkMoveClent( m_vPosition, 0 ); }
 
 	std::string		m_owner;
 	vec3			m_vColor;

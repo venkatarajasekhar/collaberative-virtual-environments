@@ -27,6 +27,9 @@ public:
 	// Vignette
 	Texture2D*			m_pVignette;
 	
+	// MICHAEL GUI TEXTURE HERE
+	Texture2D*			m_pGui;
+	
 	// Noise film
 	Texture2D*	m_pBruit;
 	float randomCoeffNoise;

@@ -1,5 +1,3 @@
-#include <Windows.h>
-#include <NuiApi.h>
 #include <iostream>
 
 #include "KinectCode.h"
@@ -23,7 +21,7 @@ Kinect::~Kinect(){
 
 bool Kinect::kinectInit(){
 	printf("Initialising Kinect...\n");
-
+	
 	HRESULT hr = NuiInitialize(NUI_INITIALIZE_FLAG_USES_SKELETON);
 	if(FAILED(hr))
 	{
@@ -34,7 +32,7 @@ bool Kinect::kinectInit(){
 	{
 		NUI_SKELETON_FRAME SkeletonFrame;
 		NuiSkeletonTrackingEnable;
-		NuiCameraElevationSetAngle(8);
+		NuiCameraElevationSetAngle(12);
 
 		printf("Kinect Initialised OK!\n");
 		return true;
@@ -64,9 +62,14 @@ void Kinect::getKinectData(){ //Player position
 			leftShoulder.y = SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_SHOULDER_LEFT].y;
 			leftShoulder.z = SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_SHOULDER_LEFT].z;
 
-			yFR = int(SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_FOOT_RIGHT].y*100);
-			yFL = int(SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_FOOT_LEFT].y*100);
+			leftFoot.x = SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_FOOT_LEFT].x;
+			leftFoot.y = SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_FOOT_LEFT].y;
+			leftFoot.z = SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_FOOT_LEFT].z;
 
+			rightFoot.x = SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_FOOT_RIGHT].x;
+			rightFoot.y = SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_FOOT_RIGHT].y;
+			rightFoot.z = SkeletonFrame.SkeletonData[i].SkeletonPositions[NUI_SKELETON_POSITION_FOOT_RIGHT].z;
+			
 			if (leftArm.x == 0 && leftArm.y == 0 && rightArm.x == 0 && rightArm.y == 0 && yFL == 0 && yFR == 0)
 				NuiSkeletonGetNextFrame(0, &SkeletonFrame);
 		}
@@ -77,7 +80,5 @@ void Kinect::getKinectData(){ //Player position
 
 void Kinect::Update()
 {
-		 
 	getKinectData();
-
 }

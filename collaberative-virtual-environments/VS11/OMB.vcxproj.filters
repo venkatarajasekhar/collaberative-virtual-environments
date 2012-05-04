@@ -76,6 +76,21 @@
     <Filter Include="Header Files\kinect">
       <UniqueIdentifier>{ccd468e6-9a52-4c00-9111-835b5f6a0abb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\network">
+      <UniqueIdentifier>{80dfeb1f-1c04-46c8-bed7-3926400cd004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\network\network_core">
+      <UniqueIdentifier>{015bd6f1-3af0-4120-9bdd-d103c9e01a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pool">
+      <UniqueIdentifier>{c2eef2a9-fb8e-434b-9c66-148bc235a7db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\network">
+      <UniqueIdentifier>{02e24144-cdf8-49fb-a8c3-bdd004fd01b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\network\network_core">
+      <UniqueIdentifier>{7c044989-1e3a-4886-a9a7-989d6cacd29b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Source\OMB.rc">
@@ -202,6 +217,51 @@
     </ClCompile>
     <ClCompile Include="..\Source\graphics\Effects.cpp">
       <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\server.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\client.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\clients.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\gamecommand.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\gamelist.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\master.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\network.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\network_core\udp.cpp">
+      <Filter>Source Files\network\network_core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\network_core\address.cpp">
+      <Filter>Source Files\network\network_core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\network_core\core.cpp">
+      <Filter>Source Files\network\network_core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\network_core\packet.cpp">
+      <Filter>Source Files\network\network_core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\strings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\md5.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +397,72 @@
     <ClInclude Include="..\Source\graphics\Effects.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\network\server.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\base.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\client.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\clients.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\gamecommand.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\gamelist.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\master.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\network.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\network_core\udp.h">
+      <Filter>Header Files\network\network_core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\network_core\address.h">
+      <Filter>Header Files\network\network_core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\network_core\config.h">
+      <Filter>Header Files\network\network_core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\network_core\core.h">
+      <Filter>Header Files\network\network_core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\network_core\packet.h">
+      <Filter>Header Files\network\network_core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\pool\pool.h">
+      <Filter>Header Files\pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\pool\pool_alloc.h">
+      <Filter>Header Files\pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\pool\pool_function.h">
+      <Filter>Header Files\pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\pool\pool_mem.h">
+      <Filter>Header Files\pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\pool\math.h">
+      <Filter>Header Files\pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\strings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\md5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Runtime\Data\omb.ico">
@@ -348,6 +474,78 @@
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="..\Runtime\Data\Shaders\terrain_ground.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\sky.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\sky.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\terrain_grass.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\terrain_grass.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\terrain_tree.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\terrain_tree.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\terrain_water.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\terrain_water.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\anaglyph.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\anaglyph.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\blur.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\blur.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\bright.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\bright.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\clouds.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\clouds.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\depthblur.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\depthblur.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\lighting.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\lighting.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\postfx.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\postfx.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\rain.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="..\Runtime\Data\Shaders\rain.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>

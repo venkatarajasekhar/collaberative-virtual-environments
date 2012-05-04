@@ -4,6 +4,7 @@
 #include "../../graphics/texture/ImageTools.h"
 #include "../../graphics/VertexBufferObject.h"
 #include "Quadtree.h"
+#include "..\..\network\network.h"
 
 class Quadtree;
 class VertexBufferObject;
@@ -40,7 +41,7 @@ public:
 
 	enum TYPE{ HEIGHT, GRASS, SAND, ROCK };
 
-	void	EditMap(TYPE type, vec2 texCoord, float value, int aoi);
+	void	EditMap(TYPE type, vec2 texCoord, float value, int aoi, bool network=false);
 
 	Terrain();
 	~Terrain() {Destroy();}

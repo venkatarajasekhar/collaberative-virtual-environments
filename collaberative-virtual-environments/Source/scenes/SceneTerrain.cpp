@@ -82,9 +82,11 @@ void SceneTerrain::Init()
 	m_fboDepthMapFromLight[1].Create(FrameBufferObject::FBO_2D_DEPTH, 2048, 2048);
 
 	Camera::GetSingleton().setEye( ( m_pTerrain->getBoundingBox().min + (m_pTerrain->getBoundingBox().max * 0.5) ) );
+	//Camera::GetSingleton().setAngle( 45.0f, 45.0f );
 
 	// Player set up. TODO : Need to add multiple players and networking.
 	Mark.m_szName = "Mark";
+	Mark.m_pointer.MoveTo( ( m_pTerrain->getBoundingBox().min + (m_pTerrain->getBoundingBox().max * 0.5) ));
 	res.LoadResource(ResourceManager::MESH, "pointy.3d");
 }
 
@@ -117,57 +119,70 @@ void SceneTerrain::Idle(float fElapsedTime)
 	vec3 tPointer = m_pTerrain->getPosition( (float)(Mark.m_pointer.m_vPosition.x / m_pTerrain->getHMWidth()),
 											 (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
 
-	// Set eye and pointer values above terrain.
+	// Set eye and pointer values above terrain. 
 	Mark.m_pointer.m_vPosition.y = tPointer.y + 1.0f;
 	if( cam.getEye().y < tEye.y + 1.0f )
 		cam.vEye.y = tEye.y + 1.0f;
 
-	if(var.getb("using_kinect"))
+		if(var.getb("using_kinect"))
 	{
 		// Kinect Camera Movement
 		kin.Update();
 
-		//if(!((kin.getRightArm().x < 0.005) && (kin.getRightArm().x > -0.005)))
-			cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
-		//if(!((kin.getRightArm().y < 0.005) && (kin.getRightArm().y > -0.005)))
-			cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
-
-		//float tmp = kin.getRightShoulder().z - kin.getRightArm().z;
-		//float tmp = kin.getRightShoulder().distance(kin.getRightArm() * GlobalTimer::dT);
-		float tmp = kin.getRightArm().distance( kin.getRightShoulder() );
-		printf("X: %f2.2 Y: %f2.2 S: %f2.2 H: %f2.2 Tmp: %f2.2\n", kin.getRightArm().x , kin.getRightArm().y, kin.getRightShoulder().z, kin.getRightArm().z, tmp);
-		cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT );
-		
-		//cam.PlayerMoveForward( (tmp - 0.2) * 2 );
-		/*if( !((tmp < 0.25) && (tmp > -0.25)))
+		if(kin.getRightFoot().y <= (kin.getLeftFoot().y-0.2))
 		{
-			//if(!((kin.getRightArm().x < 0.005) && (kin.getRightArm().x > -0.005)))
-				cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
-			//if(!((kin.getRightArm().y < 0.005) && (kin.getRightArm().y > -0.005)))
-				cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
-
-			//cam.PlayerMoveForward( ((1.0 - kin.getRightArm().z) ) * 0.3 );
-			//cam.PlayerMoveForward( (tmp - 0.2) * 2 );
-			cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT );
-		}*/
-		/*
-		if ( ( ( tmp < 0.7 ) && ( tmp > 0.5 ) ) )
-		{
-			cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
-			cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
-
-			cam.PlayerMoveForward( (tmp * 65) * GlobalTimer::dT );
+			Mark.m_pointer.MoveTo( cam.getEye() + (2 * cam.getViewDir()) );
 		}
-		if ( ( ( tmp < 0.3 ) && ( tmp > 0.0 ) ) )
+
+		if(kin.getLeftArm().y <= -0.3)
 		{
+			cam.RotateX( kin.getRightArm().x * GlobalTimer::dT * 2 );
+			cam.RotateY( kin.getRightArm().y * -GlobalTimer::dT * 2 );
+
+			float tmp = kin.getRightArm().distance( kin.getRightShoulder() );
+
+			//printf("X: %f2.2 Y: %f2.2 S: %f2.2 H: %f2.2 Tmp: %f2.2\n", kin.getRightArm().x , kin.getRightArm().y, kin.getRightShoulder().z, kin.getRightArm().z, tmp);
 			
-			cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
-			cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
-
-			cam.PlayerMoveForward( -(tmp * 65) * GlobalTimer::dT );
+			//printf("pied right = %f2.2 \n pied gauche = %f2.2 \n", kin.getRightFoot(), kin. getLeftFoot());
+			if(tmp <=0.3)			
+			{
+				tmp*=-1;
+				cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT * 1.5 );
+			}
+			else //if(tmp >=0.35)
+			{
+		
+				cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT * 1.5 );
+			}
+		
 		}
-		*/
+		else if(kin.getLeftArm().y >= 0.5)
+		{
+			//cam.RotateX(kin.getRightArm().x * GlobalTimer::dT);
+			//cam.RotateY(kin.getRightArm().y * -GlobalTimer::dT);
+
+			Mark.setAoi(20);
+
+			vec3 tPointer = m_pTerrain->getPosition( (float)(Mark.m_pointer.m_vPosition.x / m_pTerrain->getHMWidth()),
+													 (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
+			m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z),  kin.getRightArm().y * 10.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence);
+
+		}
+		else if (kin.getLeftArm().y >= -0.05 && kin.getLeftArm().y <= 0.15)
+		{
+			Mark.m_pointer.MoveForward(kin.getRightArm().y * cam.getViewDir() * GlobalTimer::dT * 125);
+			Mark.m_pointer.MoveForward(kin.getRightArm().x * cam.getLeftDir() * GlobalTimer::dT * -125);
+			
+			Mark.setAoi(20);
+
+		}
+		
 	}
+
+//	if( ( Mark.m_pointer.m_vPosition.x + Mark.m_pointer.m_areaOfInfluence + 1 ) > m_pTerrain->getBoundingBox().max.x ) Mark.m_pointer.m_vPosition.x = m_pTerrain->getBoundingBox().max.x - (Mark.m_pointer.m_areaOfInfluence + 2);
+//	if( ( Mark.m_pointer.m_vPosition.x - Mark.m_pointer.m_areaOfInfluence - 1 ) < m_pTerrain->getBoundingBox().min.x ) Mark.m_pointer.m_vPosition.x = m_pTerrain->getBoundingBox().min.x + (Mark.m_pointer.m_areaOfInfluence - 2);
+//	if( ( Mark.m_pointer.m_vPosition.z + Mark.m_pointer.m_areaOfInfluence + 1 ) > m_pTerrain->getBoundingBox().max.z ) Mark.m_pointer.m_vPosition.z = m_pTerrain->getBoundingBox().max.z - (Mark.m_pointer.m_areaOfInfluence + 2);
+//	if( ( Mark.m_pointer.m_vPosition.z - Mark.m_pointer.m_areaOfInfluence - 1 ) < m_pTerrain->getBoundingBox().min.z ) Mark.m_pointer.m_vPosition.z = m_pTerrain->getBoundingBox().min.z + (Mark.m_pointer.m_areaOfInfluence - 2);
 
 	// Update players
 	Mark.Update();
@@ -181,22 +196,26 @@ void SceneTerrain::Keyboard(float fElapsedTime)
 
 	SINGLETON_GET( Camera, cam )
 	SINGLETON_GET( VarManager, var )
+	SINGLETON_GET( Kinect, kin )
 
-	if( InputTask::keyStillDown( SDLK_KP8 ) ){	m_vSunAngle.y += 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
-	if( InputTask::keyStillDown( SDLK_KP5 ) ){	m_vSunAngle.y -= 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
+	if( InputTask::keyStillDown( SDLK_KP5 ) ){	m_vSunAngle.y += 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
+	if( InputTask::keyStillDown( SDLK_KP8 ) ){	m_vSunAngle.y -= 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
 	if( InputTask::keyStillDown( SDLK_KP6 ) ){	m_vSunAngle.x += 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
 	if( InputTask::keyStillDown( SDLK_KP4 ) ){	m_vSunAngle.x -= 0.01f; printf("Angle(%3.3f, %3.3f) Vector(%3.3f, %3.3f, %3.3f)\n", m_vSunAngle.x, m_vSunAngle.y, m_vSunVector.x, m_vSunVector.y, m_vSunVector.z); }
 	
 	// Pointer Movement
-	if( InputTask::keyStillDown( SDLK_UP    ) )			Mark.m_pointer.MoveForward( cam.getViewDir());
-	if( InputTask::keyStillDown( SDLK_DOWN  ) )			Mark.m_pointer.MoveForward(-cam.getViewDir());
-	if( InputTask::keyStillDown( SDLK_RIGHT ) )			Mark.m_pointer.MoveForward(-cam.getLeftDir());
-	if( InputTask::keyStillDown( SDLK_LEFT  ) )			Mark.m_pointer.MoveForward( cam.getLeftDir());
-	if( InputTask::keyStillDown( SDLK_KP0   ) )			Mark.m_pointer.MoveTo( cam.getEye() );	
+	if( InputTask::keyStillDown( SDLK_UP    ) )		Mark.m_pointer.MoveForward( cam.getViewDir());
+	if( InputTask::keyStillDown( SDLK_DOWN  ) )		Mark.m_pointer.MoveForward(-cam.getViewDir());
+	if( InputTask::keyStillDown( SDLK_RIGHT ) )		Mark.m_pointer.MoveForward(-cam.getLeftDir());
+	if( InputTask::keyStillDown( SDLK_LEFT  ) )		Mark.m_pointer.MoveForward( cam.getLeftDir());
+	if( InputTask::keyStillDown( SDLK_KP0   ) )		Mark.m_pointer.MoveTo( cam.getEye() );	
+
+	if( InputTask::keyDown( SDLK_KP3 ) )			{ kin.setAngle( kin.getAngle() + 1 ); }
+	if( InputTask::keyDown( SDLK_KP2  ) )			{ kin.setAngle( kin.getAngle() - 1 ); }
 
 	// AoI Size
-	if( InputTask::keyDown( SDLK_z ) )				  { Mark.EditAoi( 1); printf("%i\n", Mark.m_pointer.m_areaOfInfluence); }
-	if( InputTask::keyDown( SDLK_x ) )				  { Mark.EditAoi(-1); printf("%i\n", Mark.m_pointer.m_areaOfInfluence); }
+	if( InputTask::keyDown( SDLK_z ) )				{ Mark.EditAoi( 1); printf("%i\n", Mark.m_pointer.m_areaOfInfluence); }
+	if( InputTask::keyDown( SDLK_x ) )				{ Mark.EditAoi(-1); printf("%i\n", Mark.m_pointer.m_areaOfInfluence); }
 
 	// Terrain Editing
 	if( InputTask::keyStillDown( SDLK_EQUALS  ) )

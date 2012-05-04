@@ -5,5 +5,6 @@
     <LocalDebuggerEnvironment>PATH=%PATH%;$(ProjectDir)..\DLL
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerDebuggerType>NativeOnly</LocalDebuggerDebuggerType>
   </PropertyGroup>
 </Project>

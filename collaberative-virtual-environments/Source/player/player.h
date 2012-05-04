@@ -21,6 +21,7 @@ public:
 	void	Draw();
 	void	Update();
 	void	EditAoi(int delta);
+	void	setAoi(int aoi){ m_pointer.m_areaOfInfluence = aoi;}
 
 	std::string		m_szName;
 	vec3			m_vPosition;

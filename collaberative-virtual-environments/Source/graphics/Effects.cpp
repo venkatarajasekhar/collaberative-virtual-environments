@@ -182,7 +182,8 @@ void Effects::displaySceneWithoutAnaglyph(void)
 			pShdFX->Uniform("enable_noise",var.getb("enable_noise"));
 			pShdFX->Uniform("enable_pdc",var.getb("enable_pdc"));
 			pShdFX->Uniform("enable_underwater",var.getb("enable_underwater"));	
-			pShdFX->Uniform("enable_rain",var.getb("enable_rain"));	
+			pShdFX->Uniform("enable_rain",var.getb("enable_rain"));
+			pShdFX->Uniform("enable_gui",var.getb("enable_gui"));	
 
 			if(var.getb("enable_underwater"))
 			{
@@ -218,10 +219,20 @@ void Effects::displaySceneWithoutAnaglyph(void)
 				pShdFX->UniformTexture("texVignette", id++);
 			}
 
+			// MICHAEL STICK YOUR UI DRAWING HERE BY BINDING IT AND PASSING IT TO THE SHADER!
+			// CHECK THE SHADER IT IS ALREADY SET UP IN THEIR.
+			if(var.getb("enable_gui"))
+			{
+				this->m_pGui->Bind(id);
+				pShdFX->UniformTexture("texGui", id++);
+			}
 
 			DrawQuadAtScreen();
 
-
+			if(var.getb("enable_gui"))
+			{
+				this->m_pGui->Unbind(--id);
+			}
 			if(var.getb("enable_vignette"))
 			{
 				this->m_pVignette->Unbind(--id);

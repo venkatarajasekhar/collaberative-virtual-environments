@@ -417,8 +417,10 @@ int Terrain::DrawGround(bool bReflection)
 	return ret;
 }
 
-void Terrain::EditMap(TYPE type, vec2 texCoord, float value, int aoi)
+void Terrain::EditMap(TYPE type, vec2 texCoord, float value, int aoi, bool network)
 {
+	if( !network ) NetworkEditMap( type, texCoord, value, aoi );
+
 	int d = 3;	// TODO, depth check.
 
 	static vec2		currentPixel(0.0, 0.0);

@@ -4,6 +4,7 @@
 #include "../utilities/types.h"
 
 #include "Kernel.h"
+#include "..\network\network.h"
 
 Kernel::Kernel()
 {
@@ -17,7 +18,6 @@ Kernel::~Kernel()
 
 int Kernel::Execute()
 {
-
 	while(!taskList.empty())
 	{
 		{
@@ -40,6 +40,8 @@ int Kernel::Execute()
 					t=0;
 				}
 			}
+			/* Receive data on the network. */
+			NetworkUDPGameLoop();
 		}
 	}
 

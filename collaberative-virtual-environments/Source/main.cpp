@@ -114,9 +114,9 @@ void Game::initVars()
 
 	var.set("enable_anaglyph", false);
 	var.set("enable_move_control", true);
-	var.set("enable_effects", true);
+	var.set("enable_effects", false);
 	var.set("enable_vignette", false);
-	var.set("enable_bloom", true);
+	var.set("enable_bloom", false);
 	var.set("enable_noise", false);
 	var.set("enable_pdc", false);
 	var.set("enable_underwater", false);
@@ -136,24 +136,24 @@ void Game::initVars()
 	var.set("enable_wireframe", false);
 
 
-	var.set("draw_clouds", true);
+	var.set("draw_clouds", false);
 	var.set("clouds_software", false);
 	var.set("cloud_width",	3200.0f);
 	var.set("cloud_height", 400.0f);
-	var.set("cloud_ray_tracing", true);
+	var.set("cloud_ray_tracing", false);
 
 	var.set("enable_rain", false);
 	var.set("raining", false);
 	var.set("enable_camera_cone", true);
 	
-	var.set("enable_wind", true);
+	var.set("enable_wind", false);
 
 	var.set("using_kinect", true);
 
 	var.set("game_paused", false);
 	
 	// MICHAEL THE GUI OPTION IS HERE, ENABLE IT ONCE U STUCK THE TEXTURE IN
-	var.set("enable_gui", false);
+	//var.set("enable_gui", false);
 }
 
 

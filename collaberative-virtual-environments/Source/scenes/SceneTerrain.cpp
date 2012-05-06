@@ -327,7 +327,7 @@ void SceneTerrain::Render()
 	VarManager& var = VarManager::GetSingleton();
 
 	// Render scene as normal
-	RenderEnvironment(false, false);
+	RenderEnvironment(true, true);
 
 	// Render the water surface
 	RenderWaterSurface();

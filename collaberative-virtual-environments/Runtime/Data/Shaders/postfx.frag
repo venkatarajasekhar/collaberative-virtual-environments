@@ -1,8 +1,8 @@
-uniform sampler2D	texScreen, texBloom, texVignette, texWaterNoiseNM, texRain, texGui;
+uniform sampler2D	texScreen, texBloom, texVignette, texWaterNoiseNM, texRain;//, texGui;
 
 uniform sampler2D	texBruit, texBruit2;
 
-uniform bool		enable_pdc, enable_underwater, enable_rain, enable_motionblur, enable_gui;
+uniform bool		enable_pdc, enable_underwater, enable_rain, enable_motionblur;//, enable_gui;
 
 uniform float		screenWidth;
 uniform float		screnHeight;
@@ -122,14 +122,14 @@ vec4 UnderWater()
 }
 
 // MICHAEL, SHADER GUI DRAWING IS HERE!
-vec4 DrawGui(colorIn)
+/*vec4 DrawGui(colorIn)
 {
 	vec4 colorOut;
 	
 	colorOut = colorIn +  texture2D(texGui, gl_TexCoord[0].st);	
 	
 	return colorOut;
-}
+}//*/
 
 
 void main(void)
@@ -157,8 +157,8 @@ void main(void)
 	if(enable_vignette)
 		gl_FragColor = VignetteEffect(gl_FragColor);
 		
-	if(enable_gui)
-		gl_FragColor = DrawGui(glFragColor);
+	//if(enable_gui)
+	//	gl_FragColor = DrawGui(glFragColor);
 
 	//if(enable_motionblur)
 	//	gl_FragColor = motionBlur(gl_FragColor);

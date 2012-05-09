@@ -4,7 +4,6 @@
 #include "../../graphics/texture/ImageTools.h"
 #include "../../graphics/VertexBufferObject.h"
 #include "Quadtree.h"
-#include "..\..\network\network.h"
 
 class Quadtree;
 class VertexBufferObject;

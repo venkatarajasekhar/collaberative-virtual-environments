@@ -76,20 +76,14 @@
     <Filter Include="Header Files\kinect">
       <UniqueIdentifier>{ccd468e6-9a52-4c00-9111-835b5f6a0abb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\network">
-      <UniqueIdentifier>{80dfeb1f-1c04-46c8-bed7-3926400cd004}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\network\network_core">
-      <UniqueIdentifier>{015bd6f1-3af0-4120-9bdd-d103c9e01a99}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\pool">
       <UniqueIdentifier>{c2eef2a9-fb8e-434b-9c66-148bc235a7db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\network">
-      <UniqueIdentifier>{02e24144-cdf8-49fb-a8c3-bdd004fd01b0}</UniqueIdentifier>
+    <Filter Include="Header Files\network">
+      <UniqueIdentifier>{0cfd88bc-798e-4129-9a27-3ec216f8d7a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\network\network_core">
-      <UniqueIdentifier>{7c044989-1e3a-4886-a9a7-989d6cacd29b}</UniqueIdentifier>
+    <Filter Include="Source Files\network">
+      <UniqueIdentifier>{6593b4ab-021d-4522-82d0-2365e59b59c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -218,56 +212,20 @@
     <ClCompile Include="..\Source\graphics\Effects.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\network\server.cpp">
+    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Packet.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\network\client.cpp">
+    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Client.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\network\clients.cpp">
+    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\WLUSock.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\network\gamecommand.cpp">
+    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Server.cpp">
       <Filter>Source Files\network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\network\gamelist.cpp">
-      <Filter>Source Files\network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\network\master.cpp">
-      <Filter>Source Files\network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\network\network.cpp">
-      <Filter>Source Files\network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\network\network_core\udp.cpp">
-      <Filter>Source Files\network\network_core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\network\network_core\address.cpp">
-      <Filter>Source Files\network\network_core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\network\network_core\core.cpp">
-      <Filter>Source Files\network\network_core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\network\network_core\packet.cpp">
-      <Filter>Source Files\network\network_core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\strings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\md5.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\utilities\xml.h">
       <Filter>Header Files\utilities</Filter>
     </ClInclude>
@@ -397,45 +355,6 @@
     <ClInclude Include="..\Source\graphics\Effects.h">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\network\server.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\base.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\client.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\clients.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\gamecommand.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\gamelist.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\master.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\network.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\network_core\udp.h">
-      <Filter>Header Files\network\network_core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\network_core\address.h">
-      <Filter>Header Files\network\network_core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\network_core\config.h">
-      <Filter>Header Files\network\network_core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\network_core\core.h">
-      <Filter>Header Files\network\network_core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\network\network_core\packet.h">
-      <Filter>Header Files\network\network_core</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\pool\pool.h">
       <Filter>Header Files\pool</Filter>
     </ClInclude>
@@ -451,16 +370,19 @@
     <ClInclude Include="..\Source\pool\math.h">
       <Filter>Header Files\pool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\strings.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\WLUSock.h">
+      <Filter>Header Files\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\console.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Server.h">
+      <Filter>Header Files\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Log.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Packet.h">
+      <Filter>Header Files\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\md5.h">
+    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Client.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

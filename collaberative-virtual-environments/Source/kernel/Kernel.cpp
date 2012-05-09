@@ -4,7 +4,6 @@
 #include "../utilities/types.h"
 
 #include "Kernel.h"
-#include "..\network\network.h"
 
 Kernel::Kernel()
 {
@@ -40,8 +39,13 @@ int Kernel::Execute()
 					t=0;
 				}
 			}
+
 			/* Receive data on the network. */
-			NetworkUDPGameLoop();
+
+			// ###########
+			// # NETWORK #
+			// ###########
+			//NetworkUDPGameLoop();
 		}
 	}
 

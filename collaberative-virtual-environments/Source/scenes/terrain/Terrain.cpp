@@ -419,7 +419,10 @@ int Terrain::DrawGround(bool bReflection)
 
 void Terrain::EditMap(TYPE type, vec2 texCoord, float value, int aoi, bool network)
 {
-	if( !network ) NetworkEditMap( type, texCoord, value, aoi );
+	// ###########
+	// # NETWORK #
+	// ###########
+	//if( !network ) NetworkEditMap( type, texCoord, value, aoi );
 
 	int d = 3;	// TODO, depth check.
 

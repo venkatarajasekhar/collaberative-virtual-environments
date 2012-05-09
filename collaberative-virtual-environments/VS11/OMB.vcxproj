@@ -14,7 +14,10 @@
     <ResourceCompile Include="..\Source\OMB.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\console.cpp" />
+    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Client.cpp" />
+    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Packet.cpp" />
+    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Server.cpp" />
+    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\WLUSock.cpp" />
     <ClCompile Include="..\Source\graphics\Effects.cpp" />
     <ClCompile Include="..\Source\graphics\FrameBufferObject.cpp" />
     <ClCompile Include="..\Source\graphics\Frustum.cpp" />
@@ -30,20 +33,7 @@
     <ClCompile Include="..\Source\graphics\VertexBufferObject.cpp" />
     <ClCompile Include="..\Source\kernel\Kernel.cpp" />
     <ClCompile Include="..\Source\kinect\KinectCode.cpp" />
-    <ClCompile Include="..\Source\Log.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
-    <ClCompile Include="..\Source\md5.cpp" />
-    <ClCompile Include="..\Source\network\client.cpp" />
-    <ClCompile Include="..\Source\network\clients.cpp" />
-    <ClCompile Include="..\Source\network\gamecommand.cpp" />
-    <ClCompile Include="..\Source\network\gamelist.cpp" />
-    <ClCompile Include="..\Source\network\master.cpp" />
-    <ClCompile Include="..\Source\network\network.cpp" />
-    <ClCompile Include="..\Source\network\network_core\address.cpp" />
-    <ClCompile Include="..\Source\network\network_core\core.cpp" />
-    <ClCompile Include="..\Source\network\network_core\packet.cpp" />
-    <ClCompile Include="..\Source\network\network_core\udp.cpp" />
-    <ClCompile Include="..\Source\network\server.cpp" />
     <ClCompile Include="..\Source\player\player.cpp" />
     <ClCompile Include="..\Source\player\pointer.cpp" />
     <ClCompile Include="..\Source\scenes\SceneBase.cpp" />
@@ -61,7 +51,6 @@
     <ClCompile Include="..\Source\scenes\terrain\Terrain.cpp" />
     <ClCompile Include="..\Source\scenes\terrain\TerrainChunk.cpp" />
     <ClCompile Include="..\Source\scenes\terrain\TerrainObject.cpp" />
-    <ClCompile Include="..\Source\strings.cpp" />
     <ClCompile Include="..\Source\tasks\GlobalTimer.cpp" />
     <ClCompile Include="..\Source\tasks\InputTask.cpp" />
     <ClCompile Include="..\Source\tasks\SceneTask.cpp" />
@@ -71,7 +60,10 @@
     <ClCompile Include="..\Source\utilities\xml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\console.h" />
+    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Client.h" />
+    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Packet.h" />
+    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Server.h" />
+    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\WLUSock.h" />
     <ClInclude Include="..\Source\game.h" />
     <ClInclude Include="..\Source\graphics\BoundingBox.h" />
     <ClInclude Include="..\Source\graphics\Effects.h" />
@@ -89,21 +81,6 @@
     <ClInclude Include="..\Source\graphics\VertexBufferObject.h" />
     <ClInclude Include="..\Source\kernel\Kernel.h" />
     <ClInclude Include="..\Source\kinect\KinectCode.h" />
-    <ClInclude Include="..\Source\Log.h" />
-    <ClInclude Include="..\Source\md5.h" />
-    <ClInclude Include="..\Source\network\base.h" />
-    <ClInclude Include="..\Source\network\client.h" />
-    <ClInclude Include="..\Source\network\clients.h" />
-    <ClInclude Include="..\Source\network\gamecommand.h" />
-    <ClInclude Include="..\Source\network\gamelist.h" />
-    <ClInclude Include="..\Source\network\master.h" />
-    <ClInclude Include="..\Source\network\network.h" />
-    <ClInclude Include="..\Source\network\network_core\address.h" />
-    <ClInclude Include="..\Source\network\network_core\config.h" />
-    <ClInclude Include="..\Source\network\network_core\core.h" />
-    <ClInclude Include="..\Source\network\network_core\packet.h" />
-    <ClInclude Include="..\Source\network\network_core\udp.h" />
-    <ClInclude Include="..\Source\network\server.h" />
     <ClInclude Include="..\Source\player\player.h" />
     <ClInclude Include="..\Source\player\pointer.h" />
     <ClInclude Include="..\Source\pool\math.h" />
@@ -126,7 +103,6 @@
     <ClInclude Include="..\Source\scenes\terrain\Terrain.h" />
     <ClInclude Include="..\Source\scenes\terrain\TerrainChunk.h" />
     <ClInclude Include="..\Source\scenes\terrain\TerrainObject.h" />
-    <ClInclude Include="..\Source\strings.h" />
     <ClInclude Include="..\Source\tasks\GlobalTimer.h" />
     <ClInclude Include="..\Source\tasks\InputTask.h" />
     <ClInclude Include="..\Source\tasks\SceneTask.h" />
@@ -222,7 +198,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <ProjectReference>

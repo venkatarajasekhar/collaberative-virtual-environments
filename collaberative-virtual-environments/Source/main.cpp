@@ -11,11 +11,6 @@
 #include "graphics\Sky.h"
 #include "graphics\Effects.h"
 
-#include "Log.h"
-#include "network\network.h"
-#include "network\network_core\address.h"
-#include "console.h"
-#include "network\clients.h"
 #include <time.h>
 
 
@@ -160,24 +155,20 @@ void Game::initVars()
 
 int main(int argc, char *argv[])
 {
-	new CLog();
-	CLog::Get().Init();
-	new CConsole();
-
 	srand( time( NULL ) );
 
 	// Start the Network
-	NetworkInitialise();
+	//NetworkInitialise();
 
 	new Game();
 	Game::GetSingleton().Run(argc, argv);
 	delete Game::GetSingletonPtr();
 
 	/* Stop the Network */
-	NetworkShutDown();
+	//NetworkShutDown();
 
 	//delete CNetManager::GetSingletonPtr();
-	delete CConsole::GetSingletonPtr();
+	//delete CConsole::GetSingletonPtr();
 
 	return 0;
 }

@@ -253,7 +253,7 @@ void Network::sendCoordPacket( vec3 position )
 		p->write( position.z );
 		server->send( p );
 	}
-	else if ( isServer )
+	else if ( isClient )
 	{
 		Packet* p = new Packet(  );
 		p->write( (char)PLAYER_COORD );

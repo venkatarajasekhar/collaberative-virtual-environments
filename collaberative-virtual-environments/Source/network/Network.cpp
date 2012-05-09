@@ -45,7 +45,7 @@ Network::Network( int argc, char **argv ):
 	{
 		printf( "Server listening on port: %s\n", port );
 
-		Server* server = new Server( WLU_TCP, NULL, port );
+		server = new Server( WLU_TCP, NULL, port );
 		server->listen(  );
 
 		// Launch thread for accepting connections
@@ -61,7 +61,7 @@ Network::Network( int argc, char **argv ):
 	{
 		printf( "Client connecting to: %s:%s\n", ip, port );
 
-		Client* client = new Client( WLU_TCP, ip, port );
+		client = new Client( WLU_TCP, ip, port );
 
 		// Launch thread for handling messages to client
 		HANDLE handleMessageThread;

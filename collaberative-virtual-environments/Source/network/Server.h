@@ -5,11 +5,9 @@
 #include <ctime>
 #include <string>
 
+#include "Network.h"
 #include "WLUSock.h"
 #include "Client.h"
-
-#define PING_TIMEOUT 60
-#define MAX_CLIENTS 255
 
 class Server
 {

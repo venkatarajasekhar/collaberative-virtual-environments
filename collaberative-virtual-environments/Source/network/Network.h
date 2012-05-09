@@ -11,6 +11,12 @@
 #include "Server.h"
 #include "Client.h"
 
+class Server;
+class Client;
+
+#define PING_TIMEOUT 20
+#define MAX_CLIENTS 255
+
 struct CLIENT_SERVER
 {
 	Server* server;
@@ -50,6 +56,7 @@ public:
 	static unsigned __stdcall receiveServerMessages( void *arg );
 
 	void sendCoordPacket( vec3 position );
+	void sendTerrainEditPacket( vec2 position, float amount, int aoi );
 };
 
 #endif

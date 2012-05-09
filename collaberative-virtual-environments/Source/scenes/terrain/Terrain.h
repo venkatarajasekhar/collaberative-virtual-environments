@@ -5,6 +5,8 @@
 #include "../../graphics/VertexBufferObject.h"
 #include "Quadtree.h"
 
+#include "../../network/Network.h"
+
 class Quadtree;
 class VertexBufferObject;
 class TerrainObject;

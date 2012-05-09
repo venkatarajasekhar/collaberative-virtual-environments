@@ -165,28 +165,40 @@ unsigned __stdcall Network::receiveClientMessages( void *arg )
 		
 		switch( p->getPacketType(  ) )
 		{
-		case PING:
-			break;
 		case PONG:
 			client->setLastPong(  );
 			break;
-		case SERVER_FULL:
-			break;
-		case NETWORK_ERROR:
-			break;
 		case REQUEST_TERRAIN_DATA:
 			newp->write( (char)TERRAIN_DATA );
+			
+			// Terrain data written to packet here
+
 			server->send( newp );
 			break;
-		case TERRAIN_DATA:
-			break;
 		case TERRAIN_EDIT:
+			{
+				// Send packet out to all clients
+				server->send( p );
+
+				float x = p->readFloat(  );
+				float y = p->readFloat(  );
+				float val = p->readFloat(  );
+				int aoi = p->readInt(  );
+
+				printf( "IN EDIT: %f, %f - %f - %i\n", x, y, val, aoi );
+			}
+			break;
 		case PLAYER_COORD:
-			server->send( p );
-			//p->print(  );
-			float x = p->readFloat(  );
-			float y = p->readFloat(  );
-			printf( "IN POS: %f, %f\n", x, y );
+			{
+				// Send packet out to all clients
+				server->send( p );
+
+				float x = p->readFloat(  );
+				float y = p->readFloat(  );
+				float z = p->readFloat(  );
+
+				printf( "IN POS: %f, %f, %f\n", x, y, z );
+			}
 			break;
 		};
 
@@ -212,25 +224,32 @@ unsigned __stdcall Network::receiveServerMessages( void *arg )
 		case PING:
 			newp->write( (char)PONG );
 			client->send( newp );
-			break;
-		case PONG:
+			printf( "PONG\n" );
 			break;
 		case SERVER_FULL:
 			printf( "Server Full\n" );
-			break;
-		case REQUEST_TERRAIN_DATA:
 			break;
 		case TERRAIN_DATA:
 			printf( "Received terrain data\n" );
 			break;
 		case TERRAIN_EDIT:
-			printf( "Received terrain edit\n" );
+			{
+				float x = p->readFloat(  );
+				float y = p->readFloat(  );
+				float val = p->readFloat(  );
+				int aoi = p->readInt(  );
+
+				printf( "IN EDIT: %f, %f - %f - %i\n", x, y, val, aoi );
+			}
 			break;
 		case PLAYER_COORD:
-			//p->print(  );
-			float x = p->readFloat(  );
-			float y = p->readFloat(  );
-			printf( "IN POS: %f, %f\n", x, y );
+			{
+				float x = p->readFloat(  );
+				float y = p->readFloat(  );
+				float z = p->readFloat(  );
+
+				printf( "IN POS: %f, %f, %f\n", x, y, z );
+			}
 			break;
 		};
 
@@ -244,22 +263,35 @@ unsigned __stdcall Network::receiveServerMessages( void *arg )
 
 void Network::sendCoordPacket( vec3 position )
 {
+	Packet* p = new Packet(  );
+
+	p->write( (char)PLAYER_COORD );
+	p->write( position.x );
+	p->write( position.y );
+	p->write( position.z );
+
 	if ( isServer )
-	{
-		Packet* p = new Packet(  );
-		p->write( (char)PLAYER_COORD );
-		p->write( position.x );
-		p->write( position.y );
-		p->write( position.z );
 		server->send( p );
-	}
-	else if ( isClient )
-	{
-		Packet* p = new Packet(  );
-		p->write( (char)PLAYER_COORD );
-		p->write( position.x );
-		p->write( position.y );
-		p->write( position.z );
+	else
 		client->send( p );
-	}
+	
+	delete p;
+}
+
+void Network::sendTerrainEditPacket( vec2 position, float amount, int aoi )
+{
+	Packet* p = new Packet(  );
+
+	p->write( (char)TERRAIN_EDIT );
+	p->write( position.x );
+	p->write( position.y );
+	p->write( amount );
+	p->write( aoi );
+
+	if ( isServer )
+		server->send( p );
+	else
+		client->send( p );
+
+	delete p;
 }

@@ -7,4 +7,20 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerDebuggerType>NativeOnly</LocalDebuggerDebuggerType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Client|Win32'">
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)..\Runtime</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerEnvironment>PATH=%PATH%;$(ProjectDir)..\DLL
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerDebuggerType>NativeOnly</LocalDebuggerDebuggerType>
+    <LocalDebuggerCommandArguments>-c -ip 127.0.0.1</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Server|Win32'">
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)..\Runtime</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerEnvironment>PATH=%PATH%;$(ProjectDir)..\DLL
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerDebuggerType>NativeOnly</LocalDebuggerDebuggerType>
+    <LocalDebuggerCommandArguments>-s</LocalDebuggerCommandArguments>
+  </PropertyGroup>
 </Project>

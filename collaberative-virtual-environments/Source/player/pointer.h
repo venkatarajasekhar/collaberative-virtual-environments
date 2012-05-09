@@ -2,6 +2,7 @@
 #define CPOINTER_H
 
 //#include "player.h"
+#include "..\network\Network.h"
 
 /**
  * The Pointer
@@ -23,7 +24,7 @@ public:
 		// ###########
 		// # NETWORK #
 		// ###########
-		//NetworkMoveClent( m_vPosition, 0 );
+		Network::GetSingletonPtr(  )->sendCoordPacket( m_vPosition );
 	}
 	void	MoveLeft(vec3 camLeft){
 		m_vPosition += camLeft;
@@ -31,15 +32,15 @@ public:
 		// ###########
 		// # NETWORK #
 		// ###########
-		//NetworkMoveClent( m_vPosition, 0 );
+		Network::GetSingletonPtr(  )->sendCoordPacket( m_vPosition );
 	}
 	void	MoveTo(vec3 position){
 		m_vPosition = position;
-
+		
 		// ###########
 		// # NETWORK #
 		// ###########
-		//NetworkMoveClent( m_vPosition, 0 );
+		Network::GetSingletonPtr(  )->sendCoordPacket( m_vPosition );
 	}
 
 	std::string		m_owner;

@@ -9,11 +9,19 @@
 
 #include "../player/player.h"
 
+#include <vector>
+
 #define TERRAIN_SHADOWMAPS_COUNT 2
 
 class Texture2D;
 class Shader;
 class Terrain;
+
+struct PLAYER
+{
+	int id;
+	Player* player;
+};
 
 class SceneTerrain : public ISceneBase
 {
@@ -64,6 +72,20 @@ private:
 	FrameBufferObject		m_fboDepthMapFromLight[TERRAIN_SHADOWMAPS_COUNT];
 
 public:
+	typedef std::vector< Player* > PLAYER_LIST;
+	PLAYER_LIST players;
+
+	/*void addPlayer( int id )
+	{
+		Player* newPlayer = new Player(  );
+
+		if ( players.size(  ) == 0 ) 
+			Mark = newPlayer;
+
+		newPlayer->id = id;
+		players.push_back( newPlayer );
+	}*/
+
 	Player		Mark;		// TODO : Create a player manager when networking is in.
 };
 

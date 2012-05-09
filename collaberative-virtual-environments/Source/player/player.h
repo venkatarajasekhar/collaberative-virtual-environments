@@ -29,6 +29,7 @@ public:
 	vec3			m_vColor;
 	STATE			m_state;
 	CPointer		m_pointer;
+	int id;
 };
 
 #endif	// PLAYER_H

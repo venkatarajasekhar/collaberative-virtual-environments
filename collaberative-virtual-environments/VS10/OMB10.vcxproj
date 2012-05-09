@@ -28,6 +28,7 @@
     <ClCompile Include="..\Source\kinect\KinectCode.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\network\Client.cpp" />
+    <ClCompile Include="..\Source\network\Network.cpp" />
     <ClCompile Include="..\Source\network\Packet.cpp" />
     <ClCompile Include="..\Source\network\Server.cpp" />
     <ClCompile Include="..\Source\network\WLUSock.cpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="..\Source\kernel\Kernel.h" />
     <ClInclude Include="..\Source\kinect\KinectCode.h" />
     <ClInclude Include="..\Source\network\Client.h" />
+    <ClInclude Include="..\Source\network\Network.h" />
     <ClInclude Include="..\Source\network\Packet.h" />
     <ClInclude Include="..\Source\network\Server.h" />
     <ClInclude Include="..\Source\network\WLUSock.h" />

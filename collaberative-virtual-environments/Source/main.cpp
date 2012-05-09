@@ -1,3 +1,5 @@
+#define _WINSOCKAPI_
+
 #include "game.h"
 
 #include "tasks\VideoUpdate.h"
@@ -7,30 +9,36 @@
 #include "utilities\ResourceManager.h"
 #include "utilities\VarManager.h"
 #include "scenes\SceneManager.h"
+#include "scenes\SceneTerrain.h"
 #include "kinect\KinectCode.h"
 #include "graphics\Sky.h"
 #include "graphics\Effects.h"
 
 #include <time.h>
+#include <Windows.h>
+#include <process.h>
 
+#include "network\Network.h"
 
-bool _network_available;		///< Can we use the network?
-bool _is_network_server;		///< Is the Client running server?
-bool _network_dedicated;		///< Are we running a dedicated server?
+/*// Used only on server application
+unsigned __stdcall acceptConnections( void *servPtr );
+unsigned __stdcall pingConnections( void *servPtr );
+unsigned __stdcall receiveClientMessages( void *servPtr );
 
+// Users only on client application
+unsigned __stdcall receiveServerMessages( void *clientPtr );*/
 
 /**
  *	TODO
- *
- *  Add networking
  *
  *  Set boundary limits for pointer and camera eye on map
  *  Add pretty shaders
  */
 
-
 void Game::Run(int argc, char *argv[])
 {
+	Network network( argc, argv );
+
 	// Create singletons and init variables
 	createSingletons();
 	initVars();
@@ -52,9 +60,59 @@ void Game::Run(int argc, char *argv[])
 	sceneTask = new SceneTask();
 	sceneTask->priority = 100;
 	kernel.AddTask((ITask*)(sceneTask));
+
+	/*if ( isServer )
+	{
+		printf( "Server listening on port: %s\n", port );
+
+		Server* server = new Server( WLU_TCP, NULL, port );
+		server->listen(  );
+
+		// Launch thread for accepting connections
+		HANDLE acceptThread;
+		unsigned acceptThreadID;
+		acceptThread = ( HANDLE )_beginthreadex( NULL, 0, acceptConnections, server, NULL, &acceptThreadID );
+
+		// Launch thread for pinging connections
+		HANDLE pingThread;
+		unsigned pingThreadID;
+		pingThread = ( HANDLE )_beginthreadex( NULL, 0, pingConnections, server, NULL, &pingThreadID );
+
+		while ( 1 )
+		{
+			server->doPingCheck(  );
+
+		}
+
+		_endthreadex( pingThreadID );
+		_endthreadex( acceptThreadID );
+	}
+	else if ( isClient )
+	{
+		printf( "Client connecting to: %s:%s\n", ip, port );
+
+		Client* client = new Client( WLU_TCP, ip, port );
+
+		// Launch thread for handling messages to client
+		HANDLE handleMessageThread;
+		unsigned handleMessageThreadID;
+		handleMessageThread = ( HANDLE )_beginthreadex( NULL, 0, receiveServerMessages, &client, NULL, &handleMessageThreadID );
+
+		srand( ( unsigned )time( NULL ) );
+
+		while( 1 )
+		{
+
+		}
+
+		_endthreadex( handleMessageThreadID );
+	}*/
 	
 	// Main game loop
 	Kernel::GetSingleton().Execute();
+
+	printf( "Press any key to continue...\n" );
+	std::cin.get(  );
 
 	// Clean up
 	deleteSingletons();
@@ -143,15 +201,13 @@ void Game::initVars()
 	
 	var.set("enable_wind", false);
 
-	var.set("using_kinect", true);
+	var.set("using_kinect", false);
 
 	var.set("game_paused", false);
 	
 	// MICHAEL THE GUI OPTION IS HERE, ENABLE IT ONCE U STUCK THE TEXTURE IN
 	//var.set("enable_gui", false);
 }
-
-
 
 int main(int argc, char *argv[])
 {
@@ -172,3 +228,149 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+/*
+struct CLIENT_SERVER
+{
+	Server* server;
+	Client* client;
+};
+
+unsigned __stdcall acceptConnections( void *servPtr )
+{
+	CLIENT_SERVER* cs = new CLIENT_SERVER;
+	cs->server = ( ( Server* )servPtr );
+		
+	std::vector< unsigned > clientThreadIDS;
+	unsigned tempThreadID;
+
+	SceneTerrain* scene = ( SceneTerrain* )SceneManager::GetSingletonPtr(  )->getScenePointer( "terrain" );
+
+	while ( 1 )
+	{
+		cs->client = cs->server->accept(  );
+
+		if ( cs->client != nullptr )
+		{
+			_beginthreadex( NULL, 0, receiveClientMessages, cs, NULL, &tempThreadID );
+			
+			clientThreadIDS.push_back( tempThreadID );
+		}
+	}
+
+	for ( unsigned int i = 0; i < clientThreadIDS.size(  ); ++i )
+	{
+		_endthreadex( clientThreadIDS[ i ] );
+	}
+	
+	delete cs;
+	_endthreadex( 0 );
+	return 0;
+}
+
+unsigned __stdcall pingConnections( void *servPtr )
+{
+	time_t currentTime = time( NULL );
+
+	while ( 1 )
+	{
+		currentTime = time( NULL );
+
+		Packet* p = new Packet(  );
+		p->write( (char)PING );
+		( ( Server* )servPtr )->send( p );
+		delete p;
+
+		Sleep( ( PING_TIMEOUT / 5 ) * 1000 );
+	}
+	
+	_endthreadex( 0 );
+	return 0;
+}
+
+unsigned __stdcall receiveClientMessages( void *clientPtr )
+{
+	CLIENT_SERVER* cs = ( ( CLIENT_SERVER* )clientPtr );
+	
+	Client* client = cs->client;
+	Server* server = cs->server;
+
+	while ( client->isConnected(  ) )
+	{
+		Packet* p = client->recv(  );
+		Packet* newp = new Packet(  );
+		
+		switch( p->getPacketType(  ) )
+		{
+		case PING:
+			break;
+		case PONG:
+			client->setLastPong(  );
+			break;
+		case SERVER_FULL:
+			break;
+		case NETWORK_ERROR:
+			break;
+		case REQUEST_TERRAIN_DATA:
+			newp->write( (char)TERRAIN_DATA );
+			server->send( newp );
+			break;
+		case TERRAIN_DATA:
+			break;
+		case TERRAIN_EDIT:
+		case PLAYER_COORD:
+			server->send( p );
+			break;
+		};
+
+		delete newp;
+		delete p;
+	}
+
+	_endthreadex( 0 );
+	return 0;
+}
+
+unsigned __stdcall receiveServerMessages( void *clientPtr )
+{
+	Client* client = ( ( Client* )clientPtr );
+
+	while ( client->isConnected(  ) )
+	{
+		Packet* p = client->recv(  );
+		Packet* newp = new Packet(  );
+
+		switch( p->getPacketType(  ) )
+		{
+		case PING:
+			newp->write( (char)PONG );
+			client->send( newp );
+			break;
+		case PONG:
+			break;
+		case SERVER_FULL:
+			printf( "Server Full\n" );
+			break;
+		case REQUEST_TERRAIN_DATA:
+			break;
+		case TERRAIN_DATA:
+			printf( "Received terrain data\n" );
+			break;
+		case TERRAIN_EDIT:
+			printf( "Received terrain edit\n" );
+			break;
+		case PLAYER_COORD:
+			//p->print(  );
+			float x = p->readFloat(  );
+			float y = p->readFloat(  );
+			printf( "IN POS: %f, %f\n", x, y );
+			break;
+		};
+
+		delete newp;
+		delete p;
+	}
+	
+	_endthreadex( 0 );
+	return 0;
+}*/

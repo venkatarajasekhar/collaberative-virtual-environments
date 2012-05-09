@@ -216,6 +216,9 @@
     <ClCompile Include="..\Source\network\Packet.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\network\Network.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\game.h">
@@ -360,6 +363,9 @@
       <Filter>Header Files\network</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\network\Packet.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\Network.h">
       <Filter>Header Files\network</Filter>
     </ClInclude>
   </ItemGroup>

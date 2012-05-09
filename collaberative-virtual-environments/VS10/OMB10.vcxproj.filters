@@ -70,6 +70,18 @@
     <Filter Include="Source Files\player">
       <UniqueIdentifier>{66b47df4-4541-40d6-87f0-cc1e643ffa11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\kinect">
+      <UniqueIdentifier>{ba07fba1-ef7e-49ba-a658-7696f6e0cc5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\kinect">
+      <UniqueIdentifier>{480a6b54-3be8-4bea-a76e-ec95b85c2047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\network">
+      <UniqueIdentifier>{78cf8bd5-ca98-4754-9d9e-edea645c82fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\network">
+      <UniqueIdentifier>{9c7f533e-7931-4e2a-a281-ae4d9ee6b972}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\main.cpp">
@@ -182,6 +194,27 @@
     </ClCompile>
     <ClCompile Include="..\Source\player\pointer.cpp">
       <Filter>Source Files\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\Sky.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\graphics\Effects.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\kinect\KinectCode.cpp">
+      <Filter>Source Files\kinect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\Server.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\WLUSock.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\Client.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\network\Packet.cpp">
+      <Filter>Source Files\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +340,27 @@
     </ClInclude>
     <ClInclude Include="..\Source\player\player.h">
       <Filter>Header Files\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\Effects.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\Sky.h">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\kinect\KinectCode.h">
+      <Filter>Header Files\kinect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\Server.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\WLUSock.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\Client.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\Packet.h">
+      <Filter>Header Files\network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

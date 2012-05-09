@@ -14,10 +14,6 @@
     <ResourceCompile Include="..\Source\OMB.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Client.cpp" />
-    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Packet.cpp" />
-    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Server.cpp" />
-    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\WLUSock.cpp" />
     <ClCompile Include="..\Source\graphics\Effects.cpp" />
     <ClCompile Include="..\Source\graphics\FrameBufferObject.cpp" />
     <ClCompile Include="..\Source\graphics\Frustum.cpp" />
@@ -34,6 +30,10 @@
     <ClCompile Include="..\Source\kernel\Kernel.cpp" />
     <ClCompile Include="..\Source\kinect\KinectCode.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
+    <ClCompile Include="..\Source\network\Client.cpp" />
+    <ClCompile Include="..\Source\network\Packet.cpp" />
+    <ClCompile Include="..\Source\network\Server.cpp" />
+    <ClCompile Include="..\Source\network\WLUSock.cpp" />
     <ClCompile Include="..\Source\player\player.cpp" />
     <ClCompile Include="..\Source\player\pointer.cpp" />
     <ClCompile Include="..\Source\scenes\SceneBase.cpp" />
@@ -60,10 +60,6 @@
     <ClCompile Include="..\Source\utilities\xml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Client.h" />
-    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Packet.h" />
-    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Server.h" />
-    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\WLUSock.h" />
     <ClInclude Include="..\Source\game.h" />
     <ClInclude Include="..\Source\graphics\BoundingBox.h" />
     <ClInclude Include="..\Source\graphics\Effects.h" />
@@ -81,6 +77,10 @@
     <ClInclude Include="..\Source\graphics\VertexBufferObject.h" />
     <ClInclude Include="..\Source\kernel\Kernel.h" />
     <ClInclude Include="..\Source\kinect\KinectCode.h" />
+    <ClInclude Include="..\Source\network\Client.h" />
+    <ClInclude Include="..\Source\network\Packet.h" />
+    <ClInclude Include="..\Source\network\Server.h" />
+    <ClInclude Include="..\Source\network\WLUSock.h" />
     <ClInclude Include="..\Source\player\player.h" />
     <ClInclude Include="..\Source\player\pointer.h" />
     <ClInclude Include="..\Source\pool\math.h" />

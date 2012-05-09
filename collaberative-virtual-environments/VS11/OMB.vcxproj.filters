@@ -212,16 +212,16 @@
     <ClCompile Include="..\Source\graphics\Effects.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Packet.cpp">
+    <ClCompile Include="..\Source\network\Client.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Client.cpp">
+    <ClCompile Include="..\Source\network\Packet.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\WLUSock.cpp">
+    <ClCompile Include="..\Source\network\Server.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Server.cpp">
+    <ClCompile Include="..\Source\network\WLUSock.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
   </ItemGroup>
@@ -370,20 +370,20 @@
     <ClInclude Include="..\Source\pool\math.h">
       <Filter>Header Files\pool</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\WLUSock.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Server.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Packet.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Documents\University\Year 4\CVE\Networking\trunk\Networking\Networking\Client.h">
-      <Filter>Header Files\network</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\game.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\Server.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\WLUSock.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\Client.h">
+      <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\network\Packet.h">
+      <Filter>Header Files\network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

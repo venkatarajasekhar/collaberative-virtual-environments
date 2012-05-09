@@ -147,12 +147,12 @@ void SceneTerrain::Idle(float fElapsedTime)
 			if(tmp <=0.3)			
 			{
 				tmp*=-1;
-				cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT * 1.5 );
+				cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT * 1.5f );
 			}
 			else //if(tmp >=0.35)
 			{
 		
-				cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT * 1.5 );
+				cam.PlayerMoveForward( (tmp * 50) * GlobalTimer::dT * 1.5f );
 			}
 		
 		}

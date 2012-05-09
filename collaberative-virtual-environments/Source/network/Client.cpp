@@ -38,25 +38,28 @@ Packet* Client::recv(  )
 	switch ( pType )
 	{
 	case NETWORK_ERROR:
-		switch ( ( int )p->readInt(  ) )
 		{
-		case 10054:
-			printf( "Connection reset by peer\n" );
-			disconnect(  );
-			break;
-		case 10058:
-			printf( "Socket Shutdown\n" );
-			disconnect(  );
-			break;
-		case 10057:
-			printf( "Socket Not Connected\n" );
-			disconnect(  );
-			break;
-		default:
-			printf( "Unknown error occured: %i\n", p->getBuffer(  ) );
-			disconnect(  );
-			break;
-		};
+			int error = ( int )p->readInt(  );
+			switch ( error )
+			{
+			case 10054:
+				printf( "Connection reset by peer\n" );
+				disconnect(  );
+				break;
+			case 10058:
+				printf( "Socket Shutdown\n" );
+				disconnect(  );
+				break;
+			case 10057:
+				printf( "Socket Not Connected\n" );
+				disconnect(  );
+				break;
+			default:
+				printf( "Unknown error occured: %i\n", error );
+				disconnect(  );
+				break;
+			};
+		}
 		break;
 	default:
 		break;

@@ -66,7 +66,7 @@ Network::Network( int argc, char **argv ):
 		// Launch thread for handling messages to client
 		HANDLE handleMessageThread;
 		unsigned handleMessageThreadID;
-		handleMessageThread = ( HANDLE )_beginthreadex( NULL, 0, receiveServerMessages, &client, NULL, &handleMessageThreadID );
+		handleMessageThread = ( HANDLE )_beginthreadex( NULL, 0, receiveServerMessages, client, NULL, &handleMessageThreadID );
 	}
 }
 
@@ -100,7 +100,7 @@ unsigned __stdcall Network::acceptConnections( void *arg )
 			_beginthreadex( NULL, 0, receiveClientMessages, cs, NULL, &tempThreadID );
 				
 			clientThreadIDS.push_back( tempThreadID );
-			printf( "Client connected from %s\n", cs->client->getIp(  ) );
+			printf( "Client connected from %s\n", cs->client->getIp(  ).c_str(  ) );
 		}
 	}
 

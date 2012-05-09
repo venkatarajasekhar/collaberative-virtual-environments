@@ -122,27 +122,27 @@ SOCKET WLUSock::acceptSock(  )
 
 void WLUSock::sendPacket( Packet *const p )
 {
-		int sent = 0;
+	int sent = 0;
 
-		const unsigned char* packetData = p->getBuffer(  );
-		const unsigned short packetSize = p->getBufferSize(  );
+	const unsigned char* packetData = p->getBuffer(  );
+	const unsigned short packetSize = p->getBufferSize(  );
 	
-		//std::cout << "BUFFER SIZE: " << p->getBufferSize(  ) << std::endl;
-		//p->print(  );
+	//std::cout << "BUFFER SIZE: " << p->getBufferSize(  ) << std::endl;
+	//p->print(  );
 
-		if ( sock_type == WLU_UDP )
-			sent = sendto( sockfd, ( char* )packetData, packetSize, 0, addr_res->ai_addr, addr_res->ai_addrlen );
-		else if ( sock_type == WLU_TCP )
-			sent = send( sockfd, ( char* )packetData, packetSize, 0 );
+	if ( sock_type == WLU_UDP )
+		sent = sendto( sockfd, ( char* )packetData, packetSize, 0, addr_res->ai_addr, addr_res->ai_addrlen );
+	else if ( sock_type == WLU_TCP )
+		sent = send( sockfd, ( char* )packetData, packetSize, 0 );
 
-		if ( sent == -1 )
-		{
-			printf_s( "Error sending data\n" );
-		}
-		else
-		{
-			//printf( "SENT: %i\n", sent );
-		};
+	if ( sent == -1 )
+	{
+		printf_s( "Error sending data\n" );
+	}
+	else
+	{
+		//printf( "SENT: %i\n", sent );
+	};
 }
 
 Packet* WLUSock::recvData(  )

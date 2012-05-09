@@ -165,7 +165,7 @@ void SceneTerrain::Idle(float fElapsedTime)
 
 			vec3 tPointer = m_pTerrain->getPosition( (float)(Mark.m_pointer.m_vPosition.x / m_pTerrain->getHMWidth()),
 													 (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
-			m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z),  kin.getRightArm().y * 10.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence);
+			m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z),  kin.getRightArm().y * 10.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence, true);
 
 		}
 		else if (kin.getLeftArm().y >= -0.05 && kin.getLeftArm().y <= 0.15)
@@ -222,13 +222,13 @@ void SceneTerrain::Keyboard(float fElapsedTime)
 	{
 		vec3 tPointer = m_pTerrain->getPosition( (float)(Mark.m_pointer.m_vPosition.x / m_pTerrain->getHMWidth()),
 											     (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
-		m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z),  5.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence);
+		m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z),  5.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence, true);
 	}
 	if( InputTask::keyStillDown( SDLK_MINUS  ) )			
 	{
 		vec3 tPointer = m_pTerrain->getPosition( (float)(Mark.m_pointer.m_vPosition.x / m_pTerrain->getHMWidth()),
 				    							 (float)(Mark.m_pointer.m_vPosition.z / m_pTerrain->getHMHeight()) );
-		m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z), -5.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence);
+		m_pTerrain->EditMap( Terrain::HEIGHT, vec2(tPointer.x, tPointer.z), -5.0f * fElapsedTime, Mark.m_pointer.m_areaOfInfluence, true);
 	}
 
 	// K : Kinect Toggle

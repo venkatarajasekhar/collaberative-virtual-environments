@@ -6,7 +6,7 @@
 #include "../graphics/texture/ImageTools.h"
 #include "../graphics/texture/TextureCubemap.h"
 #include "../graphics/FrameBufferObject.h"
-
+#include "../utilities/singleton.h"
 #include "../player/player.h"
 
 #include <vector>
@@ -23,7 +23,7 @@ struct PLAYER
 	Player* player;
 };
 
-class SceneTerrain : public ISceneBase
+class SceneTerrain : public ISceneBase, public Singleton< SceneTerrain >
 {
 public:
 	virtual void Init();
@@ -50,7 +50,6 @@ public:
 
 
 private:
-	Terrain*				m_pTerrain;
 	vec2					m_vSunAngle;
 	vec4					m_vSunVector;
 	mat4					m_matSunModelviewProj;
@@ -72,8 +71,11 @@ private:
 	FrameBufferObject		m_fboDepthMapFromLight[TERRAIN_SHADOWMAPS_COUNT];
 
 public:
-	typedef std::vector< Player* > PLAYER_LIST;
-	PLAYER_LIST players;
+	Terrain*	m_pTerrain;
+	Player		Mark;		// TODO : Create a player manager when networking is in.
+
+	//typedef std::vector< Player* > PLAYER_LIST;
+	//PLAYER_LIST players;
 
 	/*void addPlayer( int id )
 	{
@@ -85,8 +87,6 @@ public:
 		newPlayer->id = id;
 		players.push_back( newPlayer );
 	}*/
-
-	Player		Mark;		// TODO : Create a player manager when networking is in.
 };
 
 #endif

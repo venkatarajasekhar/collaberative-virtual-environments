@@ -12,7 +12,7 @@ Player::Player()
 	m_pointer.m_vColor	= m_vColor;
 	m_vPointerPosition	= m_pointer.m_vPosition;
 
-	m_pointer.m_areaOfInfluence = 1;
+	m_pointer.m_areaOfInfluence = 10;
 }
 
 Player::~Player()

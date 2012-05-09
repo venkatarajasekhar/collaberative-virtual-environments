@@ -422,227 +422,226 @@ void Terrain::EditMap(TYPE type, vec2 texCoord, float value, int aoi, bool netwo
 	// ###########
 	// # NETWORK #
 	// ###########
-	Network::GetSingletonPtr(  )->sendTerrainEditPacket( texCoord, value, aoi );
-	//if( !network ) NetworkEditMap( type, texCoord, value, aoi );
+	if( network ) Network::GetSingletonPtr(  )->sendTerrainEditPacket( texCoord, value, aoi );
+	else
+	{
+		int d = 3;	// TODO, depth check.
 
-	int d = 3;	// TODO, depth check.
+		static vec2		currentPixel(0.0, 0.0);
+		static float	distance = 0;
 
-	static vec2		currentPixel(0.0, 0.0);
-	static float	distance = 0;
-
-	// Check what coords to edit.
-	for( int i = texCoord.x - aoi; i < texCoord.x + aoi; i++ )							// Between X limits
-		for( int j = texCoord.y - aoi; j < texCoord.y + aoi; j++ )						// Between Y limits
-		{
-			if( !((i > i+aoi) || (i < i-aoi)) )											// Skip if its outside our box
+		// Check what coords to edit.
+		for( int i = texCoord.x - aoi; i < texCoord.x + aoi; i++ )							// Between X limits
+			for( int j = texCoord.y - aoi; j < texCoord.y + aoi; j++ )						// Between Y limits
 			{
-				currentPixel.x = i;
-				currentPixel.y = j;
-				distance = ((currentPixel.s - texCoord.s) * (currentPixel.s - texCoord.s)) +	
-				           ((currentPixel.t - texCoord.t) * (currentPixel.t - texCoord.t));
-
-
-				if( (distance <= (aoi * aoi)) && ( m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y <=			// Check its in circle and Y <
-												   m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,	   (int)texCoord.y,       getHMWidth()) ].y + 5.0f ))	// the selected pixel Y + 5 (for padding).
+				if( !((i > i+aoi) || (i < i-aoi)) )											// Skip if its outside our box
 				{
-					float deltaVal = ( 1.0 - ( distance / (aoi * aoi) ) ) * value;		// Calculate how much to change height depending on distance from pointer.
-																						// TODO: Change this to a smoothing function, quadratic interpolation?
+					currentPixel.x = i;
+					currentPixel.y = j;
+					distance = ((currentPixel.s - texCoord.s) * (currentPixel.s - texCoord.s)) +	
+							   ((currentPixel.t - texCoord.t) * (currentPixel.t - texCoord.t));
+
+
+					if( (distance <= (aoi * aoi)) && ( m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y <=			// Check its in circle and Y <
+													   m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,	   (int)texCoord.y,       getHMWidth()) ].y + 5.0f ))	// the selected pixel Y + 5 (for padding).
+					{
+						float deltaVal = ( 1.0 - ( distance / (aoi * aoi) ) ) * value;		// Calculate how much to change height depending on distance from pointer.
+																							// TODO: Change this to a smoothing function, quadratic interpolation?
 					
-					// DO EDITING
-					if( type == HEIGHT )
-					{
-						// Increase Terrain Height
-						m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y += deltaVal;
-						if( m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y > m_BBox.max.y )		// Check upper bounds
+						// DO EDITING
+						if( type == HEIGHT )
 						{
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y = m_BBox.max.y - 1;
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y,   getHMWidth()) ].y = m_BBox.max.y - 1;
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y+1, getHMWidth()) ].y = m_BBox.max.y - 1;
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y+1, getHMWidth()) ].y = m_BBox.max.y - 1;
+							// Increase Terrain Height
+							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y += deltaVal;
+							if( m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y > m_BBox.max.y )		// Check upper bounds
+							{
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y = m_BBox.max.y - 1;
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y,   getHMWidth()) ].y = m_BBox.max.y - 1;
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y+1, getHMWidth()) ].y = m_BBox.max.y - 1;
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y+1, getHMWidth()) ].y = m_BBox.max.y - 1;
+							}
+							else if( m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y < m_BBox.min.y )	// Check lower bounds
+							{
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y = m_BBox.min.y;
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y,   getHMWidth()) ].y = m_BBox.min.y;
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y+1, getHMWidth()) ].y = m_BBox.min.y;
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y+1, getHMWidth()) ].y = m_BBox.min.y;
+							}
+							else																															// It's ok to update the rest.
+							{
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y,   getHMWidth()) ].y += deltaVal;
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y+1, getHMWidth()) ].y += deltaVal;
+								m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y+1, getHMWidth()) ].y += deltaVal;
+							}
+
+
+
+							/*
+							GLuint offset = 2;
+
+							// Fill normal and tangent arrays.
+							tNormal.resize(m_nHMWidth*m_nHMHeight);
+							tTangent.resize(m_nHMWidth*m_nHMHeight);
+							for(GLuint j=offset; j<m_nHMHeight-offset; j++) {
+								for(GLuint i=offset; i<m_nHMWidth-offset; i++) {
+									GLuint idx = COORD(i,j,m_nHMWidth);
+
+									vec3 vU = tPosition[COORD(i+offset, j+0, m_nHMWidth)] - tPosition[COORD(i-offset, j+0, m_nHMWidth)];
+									vec3 vV = tPosition[COORD(i+0, j+offset, m_nHMWidth)] - tPosition[COORD(i+0, j-offset, m_nHMWidth)];
+
+									tNormal[idx].cross(vV, vU);
+									tNormal[idx].normalize();
+									tTangent[idx] = -vU;
+									tTangent[idx].normalize();
+								}
+							}
+
+							// Copying Normals and tangents to the edge along the width
+							for(GLuint j=0; j<offset; j++) {
+								for(GLuint i=0; i<m_nHMWidth; i++) {
+									GLuint idx0 = COORD(i,	j,		m_nHMWidth);
+									GLuint idx1 = COORD(i,	offset,	m_nHMWidth);
+
+									tNormal[idx0] = tNormal[idx1];
+									tTangent[idx0] = tTangent[idx1];
+
+									idx0 = COORD(i,	m_nHMHeight-1-j,		m_nHMWidth);
+									idx1 = COORD(i,	m_nHMHeight-1-offset,	m_nHMWidth);
+
+									tNormal[idx0] = tNormal[idx1];
+									tTangent[idx0] = tTangent[idx1];
+								}
+							}
+
+							// Copying Normals and tangents to the edge along the length
+							for(GLuint i=0; i<offset; i++) {
+								for(GLuint j=0; j<m_nHMHeight; j++) {
+									GLuint idx0 = COORD(i,		j,	m_nHMWidth);
+									GLuint idx1 = COORD(offset,	j,	m_nHMWidth);
+
+									tNormal[idx0] = tNormal[idx1];
+									tTangent[idx0] = tTangent[idx1];
+
+									idx0 = COORD(m_nHMWidth-1-i,		j,	m_nHMWidth);
+									idx1 = COORD(m_nHMWidth-1-offset,	j,	m_nHMWidth);
+
+									tNormal[idx0] = tNormal[idx1];
+									tTangent[idx0] = tTangent[idx1];
+								}
+							}
+							*/
+
+
+							// UPDATE TEXTURE DATA
+							// Update texture rgb deltaVals accordingly.
+							for ( int x = 0; x < d; x++ )
+								m_pHeightData[((GLuint)currentPixel.x*m_nHMWidth + (GLuint)currentPixel.y)*d + x] = 
+										( (m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y /
+										m_BBox.max.y ) * 255.0f );
+
 						}
-						else if( m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y < m_BBox.min.y )	// Check lower bounds
+						else
 						{
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y = m_BBox.min.y;
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y,   getHMWidth()) ].y = m_BBox.min.y;
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y+1, getHMWidth()) ].y = m_BBox.min.y;
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y+1, getHMWidth()) ].y = m_BBox.min.y;
+							std::cerr << "Only HEIGHT editing currently implemented.\n";
 						}
-						else																															// It's ok to update the rest.
-						{
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y,   getHMWidth()) ].y += deltaVal;
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y+1, getHMWidth()) ].y += deltaVal;
-							m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x+1, (int)currentPixel.y+1, getHMWidth()) ].y += deltaVal;
-						}
-
-
-
-						/*
-						GLuint offset = 2;
-
-						// Fill normal and tangent arrays.
-						tNormal.resize(m_nHMWidth*m_nHMHeight);
-						tTangent.resize(m_nHMWidth*m_nHMHeight);
-						for(GLuint j=offset; j<m_nHMHeight-offset; j++) {
-							for(GLuint i=offset; i<m_nHMWidth-offset; i++) {
-								GLuint idx = COORD(i,j,m_nHMWidth);
-
-								vec3 vU = tPosition[COORD(i+offset, j+0, m_nHMWidth)] - tPosition[COORD(i-offset, j+0, m_nHMWidth)];
-								vec3 vV = tPosition[COORD(i+0, j+offset, m_nHMWidth)] - tPosition[COORD(i+0, j-offset, m_nHMWidth)];
-
-								tNormal[idx].cross(vV, vU);
-								tNormal[idx].normalize();
-								tTangent[idx] = -vU;
-								tTangent[idx].normalize();
-							}
-						}
-
-						// Copying Normals and tangents to the edge along the width
-						for(GLuint j=0; j<offset; j++) {
-							for(GLuint i=0; i<m_nHMWidth; i++) {
-								GLuint idx0 = COORD(i,	j,		m_nHMWidth);
-								GLuint idx1 = COORD(i,	offset,	m_nHMWidth);
-
-								tNormal[idx0] = tNormal[idx1];
-								tTangent[idx0] = tTangent[idx1];
-
-								idx0 = COORD(i,	m_nHMHeight-1-j,		m_nHMWidth);
-								idx1 = COORD(i,	m_nHMHeight-1-offset,	m_nHMWidth);
-
-								tNormal[idx0] = tNormal[idx1];
-								tTangent[idx0] = tTangent[idx1];
-							}
-						}
-
-						// Copying Normals and tangents to the edge along the length
-						for(GLuint i=0; i<offset; i++) {
-							for(GLuint j=0; j<m_nHMHeight; j++) {
-								GLuint idx0 = COORD(i,		j,	m_nHMWidth);
-								GLuint idx1 = COORD(offset,	j,	m_nHMWidth);
-
-								tNormal[idx0] = tNormal[idx1];
-								tTangent[idx0] = tTangent[idx1];
-
-								idx0 = COORD(m_nHMWidth-1-i,		j,	m_nHMWidth);
-								idx1 = COORD(m_nHMWidth-1-offset,	j,	m_nHMWidth);
-
-								tNormal[idx0] = tNormal[idx1];
-								tTangent[idx0] = tTangent[idx1];
-							}
-						}
-						*/
-
-
-						// UPDATE TEXTURE DATA
-						// Update texture rgb deltaVals accordingly.
-						for ( int x = 0; x < d; x++ )
-							m_pHeightData[((GLuint)currentPixel.x*m_nHMWidth + (GLuint)currentPixel.y)*d + x] = 
-									( (m_pGroundVBO->m_tDataPosition[ COORD((int)currentPixel.x,   (int)currentPixel.y,   getHMWidth()) ].y /
-									m_BBox.max.y ) * 255.0f );
-
-					}
-					else
-					{
-						std::cerr << "Only HEIGHT editing currently implemented.\n";
 					}
 				}
 			}
-		}
 
 
 
-
-		// Update terrain VBO
-		m_pGroundVBO->Update(GL_DYNAMIC_DRAW);
-
-		/*
-		// Generating a new texture
-		ILuint ilTexture;
-		ilGenImages(1, &ilTexture);
-		ilBindImage(ilTexture);
-
-		// Get the size of image
-		//const unsigned char* Pixels = m_pHeightData;
-
-		GLubyte* img = new GLubyte[(size_t)(m_nHMWidth) * (size_t)(m_nHMHeight) * (size_t)(d)];
-		memcpy(img, m_pHeightData, (size_t)(m_nHMWidth) * (size_t)(m_nHMHeight) * (size_t)(d));
-	
-		// Remove the texture
-		ilBindImage(0);
-		ilDeleteImages(1, &ilTexture);*/
-
-
-	/* THIS WORKS!
-		if( type == HEIGHT )
-		{
-			// Increase Terrain Height
-			m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y += value;
-			if( m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y > m_BBox.max.y )		// Check upper bounds
-			{
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y = m_BBox.max.y;
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y,   getHMWidth()) ].y = m_BBox.max.y;
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y+1, getHMWidth()) ].y = m_BBox.max.y;
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y+1, getHMWidth()) ].y = m_BBox.max.y;
-			}
-			else if( m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y < m_BBox.min.y )	// Check lower bounds
-			{
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y = m_BBox.min.y;
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y,   getHMWidth()) ].y = m_BBox.min.y;
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y+1, getHMWidth()) ].y = m_BBox.min.y;
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y+1, getHMWidth()) ].y = m_BBox.min.y;
-			}
-			else	// It's ok to update the rest.
-			{
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y,   getHMWidth()) ].y += value;
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y+1, getHMWidth()) ].y += value;
-				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y+1, getHMWidth()) ].y += value;
-			}
-
-			// Check it's increased
-			//vec3 test = m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,  (int)texCoord.y,  getHMWidth()) ];
-			//printf("\ntexcoord(%i,%i)\n     vbo(%i,%i,%i)\n", (int)texCoord.x, (int)texCoord.y, (int)test.x, (int)test.y, (int)test.z);
 
 			// Update terrain VBO
 			m_pGroundVBO->Update(GL_DYNAMIC_DRAW);
 
-
-			// UPDATE TEXTURE DATA
-			int d = 3;	// TODO, depth check.
-
-			// Update texture rgb values accordingly.
-			for ( int x = 0; x < d; x++ )
-				m_pHeightData[((GLuint)texCoord.x*m_nHMWidth + (GLuint)texCoord.y)*d + x] = ( (m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y /
-																							m_BBox.max.y ) * 255.0f );
 			/*
-			printf("Calculation: %f/%f = %f\n", m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y , 
-												m_BBox.max.y,
-												m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y / m_BBox.max.y );
+			// Generating a new texture
+			ILuint ilTexture;
+			ilGenImages(1, &ilTexture);
+			ilBindImage(ilTexture);
 
-			printf("R: %d\nG: %d\nB: %d\n", m_pHeightData[((GLuint)texCoord.x*m_nHMWidth + (GLuint)texCoord.y)*d + 0],
-											m_pHeightData[((GLuint)texCoord.x*m_nHMWidth + (GLuint)texCoord.y)*d + 1],
-											m_pHeightData[((GLuint)texCoord.x*m_nHMWidth + (GLuint)texCoord.y)*d + 2] );
-			*//*
-			return true;
-		}
-		else
-		{
-			std::cerr << "Only HEIGHT editing currently implemented.\n";
-			return false;
-		}
-	*/
+			// Get the size of image
+			//const unsigned char* Pixels = m_pHeightData;
+
+			GLubyte* img = new GLubyte[(size_t)(m_nHMWidth) * (size_t)(m_nHMHeight) * (size_t)(d)];
+			memcpy(img, m_pHeightData, (size_t)(m_nHMWidth) * (size_t)(m_nHMHeight) * (size_t)(d));
+	
+			// Remove the texture
+			ilBindImage(0);
+			ilDeleteImages(1, &ilTexture);*/
 
 
-	/*   	TEXTURE SAVING CODE
-	glActiveTexture( GL_TEXTURE0 );
-	GLuint ID;								// Generate an ID for texture binding
-	glGenTextures(1, &ID);					// Texture binding 
-	glBindTexture(GL_TEXTURE_2D, ID);		// Bind texture ID
+		/* THIS WORKS!
+			if( type == HEIGHT )
+			{
+				// Increase Terrain Height
+				m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y += value;
+				if( m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y > m_BBox.max.y )		// Check upper bounds
+				{
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y = m_BBox.max.y;
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y,   getHMWidth()) ].y = m_BBox.max.y;
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y+1, getHMWidth()) ].y = m_BBox.max.y;
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y+1, getHMWidth()) ].y = m_BBox.max.y;
+				}
+				else if( m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y < m_BBox.min.y )	// Check lower bounds
+				{
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y = m_BBox.min.y;
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y,   getHMWidth()) ].y = m_BBox.min.y;
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y+1, getHMWidth()) ].y = m_BBox.min.y;
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y+1, getHMWidth()) ].y = m_BBox.min.y;
+				}
+				else	// It's ok to update the rest.
+				{
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y,   getHMWidth()) ].y += value;
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y+1, getHMWidth()) ].y += value;
+					m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x+1, (int)texCoord.y+1, getHMWidth()) ].y += value;
+				}
 
-	gluBuild2DMipmaps(GL_TEXTURE_2D, d==3?GL_RGB:GL_RGBA, m_nHMWidth, m_nHMHeight, d==3?GL_RGB:GL_RGBA, GL_UNSIGNED_BYTE, m_pHeightData);
-	ilSaveImage("TESTOUT.png");
+				// Check it's increased
+				//vec3 test = m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,  (int)texCoord.y,  getHMWidth()) ];
+				//printf("\ntexcoord(%i,%i)\n     vbo(%i,%i,%i)\n", (int)texCoord.x, (int)texCoord.y, (int)test.x, (int)test.y, (int)test.z);
 
-	// Clean up
-	glDeleteTextures(1, &ID);
-	*/
+				// Update terrain VBO
+				m_pGroundVBO->Update(GL_DYNAMIC_DRAW);
 
 
+				// UPDATE TEXTURE DATA
+				int d = 3;	// TODO, depth check.
+
+				// Update texture rgb values accordingly.
+				for ( int x = 0; x < d; x++ )
+					m_pHeightData[((GLuint)texCoord.x*m_nHMWidth + (GLuint)texCoord.y)*d + x] = ( (m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y /
+																								m_BBox.max.y ) * 255.0f );
+				/*
+				printf("Calculation: %f/%f = %f\n", m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y , 
+													m_BBox.max.y,
+													m_pGroundVBO->m_tDataPosition[ COORD((int)texCoord.x,   (int)texCoord.y,   getHMWidth()) ].y / m_BBox.max.y );
+
+				printf("R: %d\nG: %d\nB: %d\n", m_pHeightData[((GLuint)texCoord.x*m_nHMWidth + (GLuint)texCoord.y)*d + 0],
+												m_pHeightData[((GLuint)texCoord.x*m_nHMWidth + (GLuint)texCoord.y)*d + 1],
+												m_pHeightData[((GLuint)texCoord.x*m_nHMWidth + (GLuint)texCoord.y)*d + 2] );
+				*//*
+				return true;
+			}
+			else
+			{
+				std::cerr << "Only HEIGHT editing currently implemented.\n";
+				return false;
+			}
+		*/
+
+
+		/*   	TEXTURE SAVING CODE
+		glActiveTexture( GL_TEXTURE0 );
+		GLuint ID;								// Generate an ID for texture binding
+		glGenTextures(1, &ID);					// Texture binding 
+		glBindTexture(GL_TEXTURE_2D, ID);		// Bind texture ID
+
+		gluBuild2DMipmaps(GL_TEXTURE_2D, d==3?GL_RGB:GL_RGBA, m_nHMWidth, m_nHMHeight, d==3?GL_RGB:GL_RGBA, GL_UNSIGNED_BYTE, m_pHeightData);
+		ilSaveImage("TESTOUT.png");
+
+		// Clean up
+		glDeleteTextures(1, &ID);
+		*/
+	}
 }

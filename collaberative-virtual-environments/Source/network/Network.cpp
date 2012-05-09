@@ -1,5 +1,8 @@
 #include "Network.h"
 
+#include "../scenes/SceneTerrain.h"
+#include "../scenes/terrain/Terrain.h"
+
 Network::Network( int argc, char **argv ):
 	isServer(false),
 	isClient(false),
@@ -56,6 +59,11 @@ Network::Network( int argc, char **argv ):
 
 		// Launch thread for handling pong replies
 		pongThread = ( HANDLE )_beginthreadex( NULL, 0, handlePong, server, NULL, &pongThreadID );
+
+		while ( 1 )
+		{ 
+			// Hack-ish way of making the server dedicated
+		}
 	}
 	else
 	{
@@ -158,6 +166,8 @@ unsigned __stdcall Network::receiveClientMessages( void *arg )
 	Client* client = cs->client;
 	Server* server = cs->server;
 
+	SceneTerrain* scene = SceneTerrain::GetSingletonPtr(  );
+
 	while ( client->isConnected(  ) )
 	{
 		Packet* p = client->recv(  );
@@ -214,6 +224,8 @@ unsigned __stdcall Network::receiveServerMessages( void *arg )
 {
 	Client* client = ( ( Client* )arg );
 
+	SceneTerrain* scene = SceneTerrain::GetSingletonPtr(  );
+
 	while ( client->isConnected(  ) )
 	{
 		Packet* p = client->recv(  );
@@ -235,11 +247,13 @@ unsigned __stdcall Network::receiveServerMessages( void *arg )
 		case TERRAIN_EDIT:
 			{
 				float x = p->readFloat(  );
-				float y = p->readFloat(  );
+				float z = p->readFloat(  );
 				float val = p->readFloat(  );
 				int aoi = p->readInt(  );
+				
+				scene->m_pTerrain->EditMap( Terrain::TYPE::HEIGHT, vec2( x, z ), val, aoi );
 
-				printf( "IN EDIT: %f, %f - %f - %i\n", x, y, val, aoi );
+				printf( "IN EDIT: %f, %f - %f - %i\n", x, z, val, aoi );
 			}
 			break;
 		case PLAYER_COORD:
@@ -247,6 +261,8 @@ unsigned __stdcall Network::receiveServerMessages( void *arg )
 				float x = p->readFloat(  );
 				float y = p->readFloat(  );
 				float z = p->readFloat(  );
+				
+				scene->Mark.m_pointer.NetMoveTo( vec3( x, y, z ) );
 
 				printf( "IN POS: %f, %f, %f\n", x, y, z );
 			}

@@ -18,28 +18,33 @@ public:
 	void	Update();
 	void	EditAoi(int delta);
 
-	void	MoveForward(vec3 camForwad){
+	void NetMoveForward( vec3 camForwad )
+	{
 		m_vPosition += camForwad; 
+	}
+	void NetMoveLeft( vec3 camLeft )
+	{
+		m_vPosition += camLeft; 
+	}
+	void NetMoveTo( vec3 position )
+	{
+		m_vPosition = position;
+	}
 
-		// ###########
-		// # NETWORK #
-		// ###########
+
+	void	MoveForward(vec3 camForwad)
+	{
+		m_vPosition += camForwad; 
 		Network::GetSingletonPtr(  )->sendCoordPacket( m_vPosition );
 	}
-	void	MoveLeft(vec3 camLeft){
-		m_vPosition += camLeft;
 
-		// ###########
-		// # NETWORK #
-		// ###########
+	void	MoveLeft(vec3 camLeft)
+	{
+		m_vPosition += camLeft;
 		Network::GetSingletonPtr(  )->sendCoordPacket( m_vPosition );
 	}
 	void	MoveTo(vec3 position){
 		m_vPosition = position;
-		
-		// ###########
-		// # NETWORK #
-		// ###########
 		Network::GetSingletonPtr(  )->sendCoordPacket( m_vPosition );
 	}
 

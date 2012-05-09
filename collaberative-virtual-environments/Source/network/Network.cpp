@@ -183,6 +183,10 @@ unsigned __stdcall Network::receiveClientMessages( void *arg )
 		case TERRAIN_EDIT:
 		case PLAYER_COORD:
 			server->send( p );
+			//p->print(  );
+			float x = p->readFloat(  );
+			float y = p->readFloat(  );
+			printf( "IN POS: %f, %f\n", x, y );
 			break;
 		};
 
@@ -247,5 +251,15 @@ void Network::sendCoordPacket( vec3 position )
 		p->write( position.x );
 		p->write( position.y );
 		p->write( position.z );
+		server->send( p );
+	}
+	else if ( isServer )
+	{
+		Packet* p = new Packet(  );
+		p->write( (char)PLAYER_COORD );
+		p->write( position.x );
+		p->write( position.y );
+		p->write( position.z );
+		client->send( p );
 	}
 }

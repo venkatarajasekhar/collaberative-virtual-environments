@@ -26,6 +26,7 @@
     <ClCompile Include="..\Source\graphics\FrameBufferObject.cpp" />
     <ClCompile Include="..\Source\graphics\Frustum.cpp" />
     <ClCompile Include="..\Source\graphics\glInfo.cpp" />
+    <ClCompile Include="..\Source\graphics\GUI.cpp" />
     <ClCompile Include="..\Source\graphics\Mesh.cpp" />
     <ClCompile Include="..\Source\graphics\Shader.cpp" />
     <ClCompile Include="..\Source\graphics\SingleCamera.cpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="..\Source\graphics\FrameBufferObject.h" />
     <ClInclude Include="..\Source\graphics\Frustum.h" />
     <ClInclude Include="..\Source\graphics\glInfo.h" />
+    <ClInclude Include="..\Source\graphics\GUI.h" />
     <ClInclude Include="..\Source\graphics\Mesh.h" />
     <ClInclude Include="..\Source\graphics\Shader.h" />
     <ClInclude Include="..\Source\graphics\SingleCamera.h" />
@@ -233,13 +235,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PeojectDir)..\include\CEGUI\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;CEGUIBase_d.lib;CEGUIOpenGLRenderer_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalLibraryDirectories>$(PeojectDir)..\lib\CEGUI\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -252,13 +255,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PeojectDir)..\include\CEGUI\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;CEGUIBase_d.lib;CEGUIOpenGLRenderer_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalLibraryDirectories>$(PeojectDir)..\lib\CEGUI\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -271,13 +275,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PeojectDir)..\include\CEGUI\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;sdl.lib;sdlmain.lib;sdl_ttf.lib;opengl32.lib;glu32.lib;DevIL.lib;glew32.lib;wsock32.lib;freetype.lib;tinyxml.lib;Kinect10.lib;CEGUIBase_d.lib;CEGUIOpenGLRenderer_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalLibraryDirectories>$(PeojectDir)..\lib\CEGUI\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -292,12 +297,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(PeojectDir)..\include\CEGUI\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>CEGUIBase.lib;CEGUIOpenGLRenderer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PeojectDir)..\lib\CEGUI\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

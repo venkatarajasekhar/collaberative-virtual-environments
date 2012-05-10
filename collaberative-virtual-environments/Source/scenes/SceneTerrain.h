@@ -8,7 +8,7 @@
 #include "../graphics/FrameBufferObject.h"
 #include "../utilities/singleton.h"
 #include "../player/player.h"
-
+#include "../graphics/GUI.h"
 #include <vector>
 
 #define TERRAIN_SHADOWMAPS_COUNT 2
@@ -64,7 +64,7 @@ private:
 	Shader*					m_pShaderTree;
 	Texture2D*				m_pTerrainDiffuseMap;
 	std::vector<Texture2D*>	m_tTextures;
-
+	GUI*					m_pGui;
 	Texture2D*				m_pTexWaterNoiseNM;
 	FrameBufferObject		m_fboWaterReflection;
 

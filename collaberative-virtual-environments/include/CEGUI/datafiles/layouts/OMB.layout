@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="root" >
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="OgreTray/FrameWindow" Name="root/OptionsWin" >
+            <Property Name="Text" Value="Options" />
+            <Property Name="CaptionFont" Value="DejaVuSans-10" />
+            <Property Name="SizingEnabled" Value="False" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.2,0},{0.35,0}}" />
+            <Property Name="DragMovingEnabled" Value="False" />
+            <Property Name="CloseButtonEnabled" Value="False" />
+            <Window Type="OgreTray/StaticText" Name="root/OptionsWin/TxtOpt1" >
+                <Property Name="Text" Value="Option 1" />
+                <Property Name="HorzExtent" Value="80" />
+                <Property Name="VertExtent" Value="22.7538" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="HorzFormatting" Value="WordWrapCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0.051375,0},{0,0},{0.528899,0},{0.243507,0}}" />
+                <Property Name="BackgroundEnabled" Value="False" />
+            </Window>
+            <Window Type="OgreTray/Button" Name="root/OptionsWin/ButtOpt1" >
+                <Property Name="UnifiedAreaRect" Value="{{0.533028,0},{0.0265155,0},{0.944496,0},{0.197511,0}}" />
+            </Window>
+            <Window Type="OgreTray/StaticText" Name="root/OptionsWin/TxtOpt2" >
+                <Property Name="Text" >Option 2
+</Property>
+                <Property Name="HorzExtent" Value="79" />
+                <Property Name="VertExtent" Value="22.7538" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="HorzFormatting" Value="WordWrapCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0.051375,0},{0.217316,0},{0.528899,0},{0.494373,0}}" />
+                <Property Name="BackgroundEnabled" Value="False" />
+            </Window>
+            <Window Type="OgreTray/Button" Name="root/OptionsWin/ButtOpt2" >
+                <Property Name="UnifiedAreaRect" Value="{{0.533028,0},{0.269481,0},{0.944496,0},{0.440476,0}}" />
+            </Window>
+            <Window Type="OgreTray/Button" Name="root/OptionsWin/ButtOpt3" >
+                <Property Name="UnifiedAreaRect" Value="{{0.533028,0},{0.512987,0},{0.944496,0},{0.683982,0}}" />
+            </Window>
+            <Window Type="OgreTray/StaticText" Name="root/OptionsWin/TxtOpt3" >
+                <Property Name="Text" >Option 3
+
+</Property>
+                <Property Name="HorzExtent" Value="79" />
+                <Property Name="VertExtent" Value="22.7538" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="HorzFormatting" Value="WordWrapCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0.051375,0},{0.451081,0},{0.528899,0},{0.728139,0}}" />
+                <Property Name="BackgroundEnabled" Value="False" />
+            </Window>
+            <Window Type="OgreTray/StaticText" Name="root/OptionsWin/TxtOpt4" >
+                <Property Name="Text" Value="Option 4" />
+                <Property Name="HorzExtent" Value="80" />
+                <Property Name="VertExtent" Value="22.7538" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="HorzFormatting" Value="WordWrapCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0.051375,0},{0.692208,0},{0.528899,0},{0.969265,0}}" />
+                <Property Name="BackgroundEnabled" Value="False" />
+            </Window>
+            <Window Type="OgreTray/Button" Name="root/OptionsWin/ButtOpt4" >
+                <Property Name="UnifiedAreaRect" Value="{{0.533028,0},{0.744048,0},{0.944496,0},{0.915045,0}}" />
+            </Window>
+        </Window>
+        <Window Type="OgreTray/FrameWindow" Name="root/Slider" >
+            <Property Name="Text" Value="Marker Size" />
+            <Property Name="CaptionFont" Value="DejaVuSans-10" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.00367,0},{0.85,0},{1.00367,0},{1,0}}" />
+            <Window Type="OgreTray/HorizontalScrollbar" Name="root/Slider/slidebar" >
+                <Property Name="PageSize" Value="0" />
+                <Property Name="StepSize" Value="1" />
+                <Property Name="OverlapSize" Value="0" />
+                <Property Name="DocumentSize" Value="1" />
+                <Property Name="ScrollPosition" Value="0" />
+                <Property Name="UnifiedAreaRect" Value="{{0.01,0},{0.01,0},{0.99,0},{0.6,0}}" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

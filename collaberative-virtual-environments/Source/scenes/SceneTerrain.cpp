@@ -12,7 +12,7 @@
 
 #include "../kinect/KinectCode.h"
 #include "../player/player.h"
-
+#include "../graphics/GUI.h"
 
 void SceneTerrain::Init()
 {
@@ -88,6 +88,8 @@ void SceneTerrain::Init()
 	Mark.m_szName = "Mark";
 	Mark.m_pointer.MoveTo( ( m_pTerrain->getBoundingBox().min + (m_pTerrain->getBoundingBox().max * 0.5) ));
 	res.LoadResource(ResourceManager::MESH, "pointy.3d");
+	m_pGui = new GUI();
+	m_pGui->init();
 }
 
 void SceneTerrain::Destroy()
@@ -95,7 +97,7 @@ void SceneTerrain::Destroy()
 	m_pTerrain->Destroy();
 	delete m_pTerrain;
 	m_tTextures.clear();
-
+	delete m_pGui;
 	ISceneBase::Destroy();
 }
 
@@ -328,7 +330,7 @@ void SceneTerrain::Render()
 
 	// Render scene as normal
 	RenderEnvironment(false, false);
-
+	m_pGui->render();
 	// Render the water surface
 	RenderWaterSurface();
 

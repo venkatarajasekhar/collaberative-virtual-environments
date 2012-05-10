@@ -219,6 +219,9 @@
     <ClCompile Include="..\Source\network\Network.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\graphics\GUI.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\game.h">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\network\Network.h">
       <Filter>Header Files\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\graphics\GUI.h">
+      <Filter>Header Files\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

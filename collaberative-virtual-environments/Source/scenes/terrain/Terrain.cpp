@@ -422,7 +422,8 @@ void Terrain::EditMap(TYPE type, vec2 texCoord, float value, int aoi, bool netwo
 	// ###########
 	// # NETWORK #
 	// ###########
-	if( network ) Network::GetSingletonPtr(  )->sendTerrainEditPacket( texCoord, value, aoi );
+	if ( network )
+		Network::GetSingletonPtr(  )->sendTerrainEditPacket( texCoord, value, aoi );
 	else
 	{
 		int d = 3;	// TODO, depth check.

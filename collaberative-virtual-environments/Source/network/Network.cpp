@@ -83,6 +83,7 @@ Network::~Network(  )
 	_endthreadex( handleMessageThreadID );
 	_endthreadex( acceptThreadID );
 	_endthreadex( pingThreadID );
+	_endthreadex( pongThreadID );
 
 	delete port;
 	delete ip;
@@ -251,7 +252,7 @@ unsigned __stdcall Network::receiveServerMessages( void *arg )
 				float val = p->readFloat(  );
 				int aoi = p->readInt(  );
 				
-				scene->m_pTerrain->EditMap( Terrain::TYPE::HEIGHT, vec2( x, z ), val, aoi );
+				scene->m_pTerrain->EditMap( Terrain::TYPE::HEIGHT, vec2( x, z ), val, aoi, false );
 
 				printf( "IN EDIT: %f, %f - %f - %i\n", x, z, val, aoi );
 			}

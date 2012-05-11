@@ -111,9 +111,6 @@ void Game::Run(int argc, char *argv[])
 	// Main game loop
 	Kernel::GetSingleton().Execute();
 
-	printf( "Press any key to continue...\n" );
-	std::cin.get(  );
-
 	// Clean up
 	deleteSingletons();
 }
@@ -219,6 +216,8 @@ int main(int argc, char *argv[])
 	new Game();
 	Game::GetSingleton().Run(argc, argv);
 	delete Game::GetSingletonPtr();
+
+	Network::Destroy(  );
 
 	/* Stop the Network */
 	//NetworkShutDown();
